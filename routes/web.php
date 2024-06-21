@@ -45,14 +45,19 @@ Route::controller(VeiculoController::class)->group(function () {
     Route::put('/veiculo/update/{id}', 'update');
 })->middleware('auth');
 
-// Clientes
+// Pessoas
 use App\Http\Controllers\PessoaController;
 Route::controller(PessoaController::class)->group(function (){
     Route::get('/pessoa/create', 'create');
     Route::post('/pessoa/store', 'store');
-    Route::get('/pessoa/{id}', 'show');
+    Route::get('/pessoa/show/{id}', 'show');
+    Route::get('/pessoa/dashboard', 'dashboard');
+    Route::delete('/pessoa/destroy/{id}', 'destroy');
+    Route::get('/pessoa/edit/{id}', 'edit');
+    Route::put('/pessoa/update/{id}', 'update');
 })->middleware('auth');
 
+//Venda
 use App\Http\Controllers\VendaController;
 Route::controller(VendaController::class)->group(function(){
     Route::get('/venda/create', 'create');

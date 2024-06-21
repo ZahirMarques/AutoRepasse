@@ -13,6 +13,8 @@
 
     <a href="{{url('/pessoa/create')}}">Cadastrar Pessoa</a> <br>
 
+    <a href="{{url('/pessoa/dashboard')}}">Pessoas Cadastradas</a> <br>
+
     <a href="{{url('/veiculo/dashboard')}}">Veículos Cadastrados</a> <br>
 
     <a href="{{url('/venda/create')}}">Cadastrar Vendas</a> <br>

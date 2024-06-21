@@ -47,6 +47,15 @@ class PessoaController extends Controller
         return redirect(url('/index'));
     }
 
+    public function dashboard() {
+
+        $pessoa = Pessoa::all(['id','nome','contato']);
+        return view('pessoa.dashboard', [
+            'pessoa' => $pessoa,
+        ]);
+        
+    }
+
     /**
      * Display the specified resource.
      *
@@ -54,7 +63,7 @@ class PessoaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    {  
         $pessoa = Pessoa::findOrFail($id);
 
         return view('pessoa.show', ['pessoa' => $pessoa]);
@@ -68,7 +77,9 @@ class PessoaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pessoa = Pessoa::findOrFail($id);
+
+        return view('pessoa.edit', ['pessoa' => $pessoa]);
     }
 
     /**
@@ -80,7 +91,9 @@ class PessoaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Pessoa::findOrFail($request->id)->update($request->all());
+
+        return redirect('/pessoa/dashboard')->with('msg','Pessoa editada com sucesso');
     }
 
     /**
@@ -93,6 +106,6 @@ class PessoaController extends Controller
     {
         Pessoa::findOrFail($id)->delete();
 
-        return redirect('/dashboard')->with('msg','Veiculo excluido com sucesso');
+        return redirect('/index')->with('msg','Cliente excluido com sucesso');
     }
 }
