@@ -1,0 +1,68 @@
+*{
+    font-family: 'Jost', sans-serif;
+}
+
+/* @font-face {
+    font-family: 'Jost';
+    src: url('"https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"');
+    font-weight: normal;
+    font-style: normal;
+} */
+
+body{
+    margin: 0;
+    background: linear-gradient(90deg, rgba(71,98,201,1) 0%, rgba(247,247,247,1) 28%);
+    height: 100vh; /* Faz com que o gradiente ocupe a altura total da página */
+    margin: 0;
+    font-family: Arial, sans-serif; /* Definição de fonte */
+    font-size: 25px;
+}
+
+.div-central {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh; /* Faz a altura das divs ocuparem toda a tela */
+    padding: 2%;
+}
+
+.div-left{
+    width: 60%; /* Ajusta o tamanho das divs para ocupar 45% da largura cada uma */
+    height: 75%;
+    background-color: purple;
+}
+
+.div-right{
+    width: 40%;
+    height: 60%;
+    background-color: red;
+}
+
+.div-img{
+    background-color: yellow;
+    height: 30vh;
+}
+
+.div-text{
+    background-color: green;
+    height: 15vh;
+}
+
+img {
+    height: 95%;
+}
+
+.div-botao{
+    background-color: aqua;
+}
+
+#botao {
+    background-color: white;
+    border-color: rgba(71,98,201,1);
+    border-width: 4px;
+    border-radius: 12px;
+    color: rgba(71,98,201,1);
+    width: 13vh;
+    height: 6vh;
+    font-size: 2vh;
+}
