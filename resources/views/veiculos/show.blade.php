@@ -20,6 +20,6 @@
     <p>Chassi: {{$veiculo->chassi}}</p>
     <p>Atpve: {{$veiculo->atpve}}</p>
     
-    <a href="{{url('/veiculo/dashboard')}}">Voltar</a>
+    <a href="{{url('/dashboard')}}">Voltar</a>
 </body>
 </html>

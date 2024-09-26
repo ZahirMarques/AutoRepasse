@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Veiculo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -50,7 +51,7 @@ class RegisteredUserController extends Controller
 
             Auth::login($user);
 
-            return redirect(url('index'));
+            return redirect(url('dashboard'));
     }
     /**
      * Display the specified resource.
@@ -96,6 +97,15 @@ class RegisteredUserController extends Controller
     {
         //
     }
+
+    public function dashboard() {
+
+        $veiculo = Veiculo::all(['id','veiculo', 'ano_modelo', 'placa','cor']);
+        return view('auth.dashboard', [
+            'veiculo' => $veiculo,
+        ]);
+    }
+    
 }
 
 

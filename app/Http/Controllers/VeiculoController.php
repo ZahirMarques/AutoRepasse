@@ -38,19 +38,31 @@ class VeiculoController extends Controller
         
         Veiculo::create($request->all());
 
-        return redirect(url('/index'));
+        return redirect(url('/dashboard'));
 
     }
 
-    public function dashboard() {
+    public function dashboard(Request $request)
+{
+    // Verifica se há um parâmetro de pesquisa
+    $search = $request->input('search');
 
-        $veiculo = Veiculo::all(['id','veiculo', 'ano_modelo', 'placa','cor']);
-        return view('veiculos.dashboard', [
-            'veiculo' => $veiculo,
-        ]);
-
-        
+    // Se houver busca, filtra os veículos com base nos campos especificados
+    if ($search) {
+        $veiculo = Veiculo::where('veiculo', 'like', "%{$search}%")
+                          ->orWhere('ano_modelo', 'like', "%{$search}%")
+                          ->orWhere('placa', 'like', "%{$search}%")
+                          ->orWhere('cor', 'like', "%{$search}%")
+                          ->get();
+    } else {
+        // Se não houver busca, retorna todos os veículos
+        $veiculo = Veiculo::all(['id', 'veiculo', 'ano_modelo', 'placa', 'cor']);
     }
+
+    return view('auth.dashboard', [
+        'veiculo' => $veiculo,
+    ]);
+}
     /**
      * Display the specified resource.
      *

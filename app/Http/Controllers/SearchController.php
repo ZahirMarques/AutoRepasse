@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Venda;
-use App\Models\Veiculo;
-use App\Models\Pessoa;
-
-class VendaController extends Controller
+class SearchController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,15 +23,7 @@ class VendaController extends Controller
      */
     public function create()
     {
-
-        $veiculos = Veiculo::all();
-        $pessoas = Pessoa::all();
-
-        return view('venda.create', [
-            'veiculos' => $veiculos,
-            'pessoas' => $pessoas,
-        ]);
-
+        //
     }
 
     /**
@@ -46,24 +34,7 @@ class VendaController extends Controller
      */
     public function store(Request $request)
     {
-
-        $venda = new Venda();
-        
-        $venda->tipo = $request->input('tipo');
-        
-        if ($request->input('financiamento') == '') {
-            $venda->financiamento = 'não';
-        } else{
-            $venda->financiamento = 'sim';
-        }
-        
-        $venda->veiculo_id = $request->veiculos;
-        $venda->pessoa_id = $request->pessoas;
-        
-        $venda->save();
-
-        return redirect(url('/dashboard'));
-       
+        //
     }
 
     /**
@@ -74,9 +45,7 @@ class VendaController extends Controller
      */
     public function show($id)
     {
-        $venda = Veiculo::findOrFail($id);
-
-        return view('venda.show', ['venda' => $venda]);
+        //
     }
 
     /**

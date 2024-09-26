@@ -57,6 +57,6 @@
 
     </form>
 
-    <a href="{{url('index')}}">Voltar</a>
+    <a href="{{url('dashboard')}}">Voltar</a>
 </body>
 </html>

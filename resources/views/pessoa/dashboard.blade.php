@@ -36,6 +36,6 @@
        <p>Você ainda não cadastrou nenhuma pessoa, <a href="{{url('/pessoa/create')}}">Cadastrar Pessoa</a></p>
         @endif
     
-    <p><a href="{{url('index')}}">Voltar</a></p> 
+    <p><a href="{{url('dashboard')}}">Voltar</a></p> 
 </body>
 </html>

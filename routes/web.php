@@ -27,7 +27,7 @@ Route::controller(RegisteredUserController::class)->group(function () {
 // Login
 Use App\Http\Controllers\LoginController;
 Route::controller(LoginController::class)->group(function () {
-    Route::get('/index', 'index');
+    Route::get('/dashboard', 'dashboard');
     Route::get('/login', 'create');
     Route::post('/login', 'store');
     Route::post('/logout', 'destroy')->middleware('auth');

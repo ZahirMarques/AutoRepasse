@@ -50,5 +50,7 @@
 
         <button>Enviar</button>
     </form>
+
+    <a href="{{url('/dashboard')}}">Voltar</a>
 </body>
 </html>

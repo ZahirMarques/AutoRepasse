@@ -13,7 +13,7 @@
             
             <div class="grid grid-rows-3 grid-flow-col place-items-center">
                 <div class="w-9/12 h-5/6 pt-14"> <img src="{{ asset('img/autorepasse.png') }}" alt="Imagem AutoRepasse"> </div>
-                <div class="w-9/12 h-4/6 text-2xl font-semibold leading-snug text-justify text-indigo-500"><p>Cadastre-se agora na AutoRepasse e transforme sua concessionária com a melhor solução em gestão de vendas automotivas, garantindo eficiência, produtividade e agilidade na busca de informações.</p></div>
+                <div class="w-9/12 h-4/6 text-2xl font-semibold leading-snug text-justify text-black-900"><p>Cadastre-se agora na AutoRepasse e transforme sua concessionária com a melhor solução em gestão de vendas automotivas, garantindo eficiência, produtividade e agilidade na busca de informações.</p></div>
                 <div class="w-9/12 h-4/6 mb-8"><button class="shadow-lg shadow-gray-600 px-4 py-2 bg-white text-indigo-500 border-2 font-bold border-indigo-500 rounded-lg hover:bg-indigo-700 hover:text-white focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onclick="window.location.href='/register'">Cadastre-se</button></div>
             </div>
         

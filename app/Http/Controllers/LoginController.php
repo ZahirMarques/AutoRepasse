@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
+use App\Models\Veiculo;
 class LoginController extends Controller
 {
     /**
@@ -14,7 +15,7 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view('auth.index');
+        return view('auth.dashboard');
     }
 
     /**
@@ -44,7 +45,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credintials)) {
             $request->session()->regenerate();
-            return redirect(url('/index'));
+            return redirect(url('/dashboard'));
         }
 
         return back()->withInput();
@@ -96,5 +97,13 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         return redirect(url('/'));
+    }
+
+    public function dashboard() {
+
+        $veiculo = Veiculo::all(['id','veiculo', 'ano_modelo', 'placa','cor']);
+        return view('auth.dashboard', [
+            'veiculo' => $veiculo,
+        ]);
     }
 }
