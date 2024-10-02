@@ -15,14 +15,17 @@ return new class extends Migration
     {
         Schema::create('vendas', function (Blueprint $table) {
             $table->id();
-            $table->string('financiamento');
-            $table->string('tipo',45);
             $table->unsignedBigInteger('veiculo_id');
-            $table->foreign('veiculo_id')->references('id')->on('veiculos')->onDelete('cascade');
             $table->unsignedBigInteger('pessoa_id');
+            $table->boolean('financiamento')->default(false);
+            $table->string('tipo');
+        
+            $table->foreign('veiculo_id')->references('id')->on('veiculos')->onDelete('cascade');
             $table->foreign('pessoa_id')->references('id')->on('pessoas')->onDelete('cascade');
+        
             $table->timestamps();
         });
+        
     }
 
     /**

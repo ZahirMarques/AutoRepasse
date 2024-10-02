@@ -17,4 +17,9 @@ class Pessoa extends Model
         'cnpj',
         'contato'
     ];
+
+    public function veiculos()
+    {
+        return $this->hasMany(Veiculo::class, 'proprietario_id');
+    }
 }

@@ -20,7 +20,13 @@ class Veiculo extends Model
         'cod_seg_cla',
         'crv',
         'atpve',
+        'proprietario_id'
     ];
 
+    public function proprietario()
+    {
+        return $this->belongsTo(Pessoa::class, 'proprietario_id');
+    }
+    
     protected $guarded = [];
 }

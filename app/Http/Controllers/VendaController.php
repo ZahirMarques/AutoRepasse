@@ -46,26 +46,21 @@ class VendaController extends Controller
      */
     public function store(Request $request)
     {
-
-        $venda = new Venda();
-        
-        $venda->tipo = $request->input('tipo');
-        
-        if ($request->input('financiamento') == '') {
-            $venda->financiamento = 'não';
-        } else{
-            $venda->financiamento = 'sim';
-        }
-        
-        $venda->veiculo_id = $request->veiculos;
-        $venda->pessoa_id = $request->pessoas;
-        
-        $venda->save();
-
-        return redirect(url('/dashboard'));
-       
+        // Criar a venda
+        $venda = Venda::create([
+            'financiamento' => $request->has('financiamento'), // Verifica se o checkbox foi marcado
+            'tipo' => $request->tipo,
+            'pessoa_id' => $request->pessoas,
+            'veiculo_id' => $request->veiculos,
+        ]);
+    
+        // Atualizar o proprietário do veículo
+        $veiculo = Veiculo::findOrFail($request->veiculos);
+        $veiculo->proprietario_id = $request->pessoas; // Supondo que existe a coluna `proprietario_id` na tabela `veiculos`
+        $veiculo->save();
+    
+        return redirect('/dashboard')->with('success', 'Venda cadastrada e proprietário do veículo atualizado com sucesso!');
     }
-
     /**
      * Display the specified resource.
      *
