@@ -36,37 +36,33 @@ class VeiculoController extends Controller
     public function store(Request $request)
     {
         
-        // Validação com mensagens personalizadas
-    $validatedData = $request->validate([
-        'veiculo' => 'required|string|max:45',
-        'ano_modelo' => 'required|string|max:8',
-        'placa' => 'required|string|max:7|unique:veiculos',
-        'renavam' => 'required|string|max:11|unique:veiculos',
-        'cor' => 'required|string|max:15',
-        'chassi' => 'required|string|max:20|unique:veiculos',
-        'cod_seg_crv' => 'required|string|max:20|unique:veiculos',
-        'cod_seg_cla' => 'required|string|max:20|unique:veiculos',
-        'crv' => 'required|string|max:20|unique:veiculos',
-        'atpve' => 'required|string|max:20|unique:veiculos',
-    ], [
-        'veiculo.required' => 'O campo Veículo é obrigatório.',
-        'ano_modelo.required' => 'O campo Ano/Modelo é obrigatório.',
-        'placa.required' => 'O campo Placa é obrigatório.',
-        'placa.unique' => 'Esta Placa já está cadastrada.',
-        'renavam.required' => 'O campo Renavam é obrigatório.',
-        'renavam.unique' => 'Este Renavam já está cadastrado.',
-        'cor.required' => 'O campo Cor é obrigatório.',
-        'chassi.required' => 'O campo Chassi é obrigatório.',
-        'chassi.unique' => 'Este Chassi já está cadastrado.',
-        'cod_seg_crv.required' => 'O campo Código de Segurança CRV é obrigatório.',
-        'cod_seg_crv.unique' => 'Este Código de Segurança CRV já está cadastrado.',
-        'cod_seg_cla.required' => 'O campo Código de Segurança CLA é obrigatório.',
-        'cod_seg_cla.unique' => 'Este Código de Segurança CLA já está cadastrado.',
-        'crv.required' => 'O campo CRV é obrigatório.',
-        'crv.unique' => 'Este CRV já está cadastrado.',
-        'atpve.required' => 'O campo ATPVE é obrigatório.',
-        'atpve.unique' => 'Este ATPVE já está cadastrado.',
-    ]);
+        $validatedData = $request->validate([
+            'veiculo' => 'required|string|max:45', // Campo obrigatório
+            'ano_modelo' => 'required|string|max:8', // Campo opcional
+            'placa' => 'required|string|max:7|unique:veiculos', // Campo obrigatório e único
+            'renavam' => 'required|digits:11|unique:veiculos', // Campo obrigatório, apenas dígitos, único
+            'cor' => 'required|string|max:15', // Campo obrigatório
+            'chassi' => 'nullable|string|max:20|unique:veiculos', // Campo opcional, único
+            'cod_seg_crv' => 'nullable|digits:20|unique:veiculos', // Campo opcional, apenas dígitos, único
+            'cod_seg_cla' => 'nullable|digits:20|unique:veiculos', // Campo opcional, apenas dígitos, único
+            'crv' => 'nullable|digits:20|unique:veiculos', // Campo opcional, apenas dígitos, único
+            'atpve' => 'nullable|string|max:20|unique:veiculos', // Campo opcional, único
+        ], [
+            'veiculo.required' => 'O campo Veículo é obrigatório.',
+            'ano_modelo.required' => 'O campo ano/modelo é obrigatório.',
+            'placa.required' => 'O campo Placa é obrigatório.',
+            'placa.unique' => 'Esta Placa já está cadastrada.',
+            'placa.max' => 'A placa não pode ter mais de 7 caracteres.',
+            'renavam.required' => 'O campo Renavam é obrigatório.',
+            'renavam.digits' => 'O Renavam deve conter exatamente 11 números.',
+            'renavam.unique' => 'Este Renavam já está cadastrado.',
+            'cor.required' => 'O campo Cor é obrigatório.',
+            'chassi.unique' => 'Este Chassi já está cadastrado.',
+            'cod_seg_crv.digits' => 'O Código de Segurança CRV deve conter apenas números.',
+            'cod_seg_cla.digits' => 'O Código de Segurança CLA deve conter apenas números.',
+            'crv.digits' => 'O CRV deve conter apenas números.',
+            'atpve.unique' => 'Este ATPVE já está cadastrado.',
+        ]);
 
         Veiculo::create($request->all());
 
