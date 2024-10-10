@@ -8,28 +8,28 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <div class="bg-cover grid h-full object-center bg-gradient-to-l from-white from-65% to-indigo-500 place-items-center min-h-screen">
+    <div class="bg-cover grid h-full object-center bg-gradient-to-l from-white from-65% to-violet-500 place-items-center min-h-screen">
 
-        <nav class="mt-16 bg-indigo-500 w-9/12 rounded-lg sticky top-0 z-50">
+        <nav class="mt-16 bg-white w-9/12 border-2 border-violet-500 rounded-lg sticky top-0 z-50">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <img src="{{ asset('img/autorepasse.png') }}" alt="Imagem AutoRepasse" class="h-8">
               <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <h1 class="text-white font-bold text-xl">Bem vindo, {{ Auth::user()->name }}!</h1>
+                <h1 class="text-violet-500 font-bold text-xl">Bem vindo, {{ Auth::user()->name }}!</h1>
               </a>
               <div class="hidden w-full md:block md:w-auto">
                 <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
                   <li>
-                    <button class="px-2 py-1 bg-white text-indigo-400 border-2 border-white font-bold rounded-lg hover:bg-indigo-400 hover:text-white duration-300" onclick="window.location.href='/veiculo/create'">Cadastrar Veículo</button>
+                    <button class="px-2 py-1 bg-violet-500 text-white border-2 border-white font-bold rounded-lg hover:bg-indigo-400 hover:text-white duration-300" onclick="window.location.href='/veiculo/dashboard'">Veículos</button>
                   </li>
                   <li>
-                    <button class="px-2 py-1 bg-white text-indigo-400 border-2 border-white font-bold rounded-lg hover:bg-indigo-400 hover:text-white duration-300" onclick="window.location.href='/pessoa/create'">Cadastrar Pessoa</button>
+                    <button class="px-2 py-1 bg-violet-500 text-white border-2 border-white font-bold rounded-lg hover:bg-indigo-400 hover:text-white duration-300" onclick="window.location.href='/pessoa/dashboard'">Pessoas</button>
                   </li>
-                  <li>
+                  <!-- <li>
                     <button class="px-2 py-1 bg-white text-indigo-400 border-2 border-white font-bold rounded-lg hover:bg-indigo-400 hover:text-white duration-300" onclick="window.location.href='/pessoa/dashboard'">Pessoas Cadastradas</button>
                   </li>
                   <li>
                     <button class="px-2 py-1 bg-white text-indigo-400 border-2 border-white font-bold rounded-lg hover:bg-indigo-400 hover:text-white duration-300" onclick="window.location.href='/venda/create'">Cadastrar Venda</button>
-                  </li>
+                  </li> -->
                   <li>
                     <form action="{{ url('/logout') }}" method="post">
                         @csrf

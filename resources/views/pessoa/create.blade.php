@@ -41,7 +41,7 @@
         
     </form>
 
-    <a href="{{url('dashboard')}}">Voltar</a>
+    <button onclick="window.location.href='/pessoa/dashboard'">Voltar</button>
 
     
 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('veiculo', 45)->nullable(false);
             $table->string('ano_modelo', 8)->nullable(false);
-            $table->string('placa', 7)->unique()->nullable(false);
+            $table->string('placa', 8)->unique()->nullable(false);
             $table->string('renavam', 11)->unique()->nullable(false);
             $table->string('cor', 15)->nullable(false);
             $table->string('chassi', 20)->unique()->nullable();

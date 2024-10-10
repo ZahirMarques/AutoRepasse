@@ -38,8 +38,8 @@ class VeiculoController extends Controller
         
         $validatedData = $request->validate([
             'veiculo' => 'required|string|max:45', // Campo obrigatório
-            'ano_modelo' => 'required|string|max:8', // Campo opcional
-            'placa' => 'required|string|max:7|unique:veiculos', // Campo obrigatório e único
+            'ano_modelo' => 'required|digits:4|date_format:Y', // Campo opcional
+            'placa' => 'required|string|max:8|unique:veiculos|regex:/^[A-Z]{3}-[0-9]{4}$/', // Campo obrigatório e único
             'renavam' => 'required|digits:11|unique:veiculos', // Campo obrigatório, apenas dígitos, único
             'cor' => 'required|string|max:15', // Campo obrigatório
             'chassi' => 'nullable|string|max:20|unique:veiculos', // Campo opcional, único
@@ -50,9 +50,12 @@ class VeiculoController extends Controller
         ], [
             'veiculo.required' => 'O campo Veículo é obrigatório.',
             'ano_modelo.required' => 'O campo ano/modelo é obrigatório.',
+            'ano_modelo.digits' => 'O Ano/Modelo deve conter o ano com exatamente 4 números.',
+            'data.date_format' => 'A data deve estar no formato aaaa',
             'placa.required' => 'O campo Placa é obrigatório.',
             'placa.unique' => 'Esta Placa já está cadastrada.',
-            'placa.max' => 'A placa não pode ter mais de 7 caracteres.',
+            'placa.max' => 'A placa não pode ter mais de 8 caracteres.',
+            'placa.regex' => 'A placa deve estar no formato ABC-1234', 
             'renavam.required' => 'O campo Renavam é obrigatório.',
             'renavam.digits' => 'O Renavam deve conter exatamente 11 números.',
             'renavam.unique' => 'Este Renavam já está cadastrado.',

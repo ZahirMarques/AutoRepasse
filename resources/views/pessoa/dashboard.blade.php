@@ -34,8 +34,12 @@
     
         @else
        <p>Você ainda não cadastrou nenhuma pessoa, <a href="{{url('/pessoa/create')}}">Cadastrar Pessoa</a></p>
-        @endif
-    
-    <p><a href="{{url('dashboard')}}">Voltar</a></p> 
+        @endif 
+
+        <br>
+        
+    <button onclick="window.location.href='/pessoa/create'">Cadastrar Pessoas</button>
+
+    <button onclick="window.location.href='/dashboard'">Voltar</button>
 </body>
 </html>
