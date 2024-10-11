@@ -15,10 +15,7 @@ class RegisteredUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-
-    }
+    public function index() {}
 
     /**
      * Show the form for creating a new resource.
@@ -39,19 +36,42 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
 
-            $email = $request->email;
-            $password = $request->password;
-            $name = $request->name;
+        $rules = [
+            'name' => 'required|min:3',
+            'email' => 'required|email|unique:users,email',
+            'password' => [
+                'required',
+                'string',
+                'min:8', // Define o comprimento mínimo da senha
+                'regex:/[a-zA-Z]/', // Exige pelo menos uma letra
+                'regex:/[0-9]/', // Exige pelo menos um número
+            ],
+        ];
 
-            $user = new User;
-            $user->name = $name;
-            $user->email = $email;
-            $user->password = Hash::make($password);
-            $user->save();
+        $messages = [
+            'email.unique' => 'Este endereço de e-mail já está em uso. Por favor, escolha outro endereço de e-mail.',
+            'password.regex' => 'A senha deve conter pelo menos uma letra e um número.',
+            'name.min' => 'O nome deve ter no minimo 3 letras',
+            'password.min' => 'A senha deve conter pelo menos 8 caracteres',
 
-            Auth::login($user);
+        ];
 
-            return redirect(url('dashboard'));
+        //Check form fields.
+        $request->validate($rules, $messages);
+
+        $email = $request->email;
+        $password = $request->password;
+        $name = $request->name;
+
+        $user = new User;
+        $user->name = $name;
+        $user->email = $email;
+        $user->password = Hash::make($password);
+        $user->save();
+
+        Auth::login($user);
+
+        return redirect(url('dashboard'));
     }
     /**
      * Display the specified resource.
@@ -98,15 +118,12 @@ class RegisteredUserController extends Controller
         //
     }
 
-    public function dashboard() {
+    public function dashboard()
+    {
 
-        $veiculo = Veiculo::all(['id','veiculo', 'ano_modelo', 'placa','cor']);
+        $veiculo = Veiculo::all(['id', 'veiculo', 'ano_modelo', 'placa', 'cor']);
         return view('auth.dashboard', [
             'veiculo' => $veiculo,
         ]);
     }
-    
 }
-
-
-

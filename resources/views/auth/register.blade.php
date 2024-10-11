@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="bg-cover grid h-screen object-center bg-gradient-to-l from-white from-65% to-violet-700 place-items-center min-h-screen">
@@ -24,14 +25,22 @@
                 
                         @csrf
                         <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
-                        <input type="text" name="name" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        
+                        <input type="text" name="name" value="{{ old('name') }}" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @error('name')
+                         <div style="color: red;">{{ $message }}</div>
+                         @enderror
                 
                         <label for="email" class="block text-sm font-medium text-gray-700 mt-3">Email</label>
-                        <input type="text" name="email" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" name="email" value="{{ old('email') }}" id="email" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @error('email')
+                         <div style="color: red;">{{ $message }}</div>
+                         @enderror
                 
                         <label for="password" class="block text-sm font-medium text-gray-700 mt-3">Senha</label>
-                        <input type="password" name="password" id="password" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="password" name="password" value="{{ old('password') }}" id="password" required class="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @error('password')
+                        <div style="color: red;">{{ $message }}</div>
+                        @enderror
                 
                         <button class="w-full bg-violet-500 text-white py-2 font-bold rounded hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-5">Enviar</button>
                     </form>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 // Register
-use App\Http\Controllers\RegisteredUserController;
+
 Route::controller(RegisteredUserController::class)->group(function () {
     Route::get('/register', 'create');
     Route::post('/register', 'store');
+   
 });
 
 // Login
