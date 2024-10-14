@@ -9,7 +9,7 @@
 <body>
     <h1>Cadastro de Veículo</h1>
 
-    <form action="{{ url('veiculo/store') }}" method="post">
+    <form action="{{ url('veiculos/store') }}" method="post">
         @csrf
 
         {{-- Veiculo --}}
@@ -78,13 +78,16 @@
         {{-- ATPVE --}}
         <label>ATPVE:</label>
         <input type="text" name="atpve" value="{{ old('atpve') }}"> <br>
-        @error('atpve')
-            <div style="color: red;">{{ $message }}</div>
-        @enderror
+      
 
         <button>Adicionar Veículo</button> <br> <br>
     </form>
+            @if (session('success'))
+            <div class="bg-green-500 text-white p-3 rounded mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
+    <button onclick="window.location.href='/veiculos/dashboard'"> Voltar </button>
     
-    <a href="{{ url('dashboard') }}">Voltar</a>
 </body>
 </html>

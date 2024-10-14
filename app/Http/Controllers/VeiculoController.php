@@ -43,9 +43,9 @@ class VeiculoController extends Controller
             'renavam' => 'required|digits:11|unique:veiculos', // Campo obrigatório, apenas dígitos, único
             'cor' => 'required|string|max:15', // Campo obrigatório
             'chassi' => 'nullable|string|max:20|unique:veiculos', // Campo opcional, único
-            'cod_seg_crv' => 'nullable|digits:20|unique:veiculos', // Campo opcional, apenas dígitos, único
-            'cod_seg_cla' => 'nullable|digits:20|unique:veiculos', // Campo opcional, apenas dígitos, único
-            'crv' => 'nullable|digits:20|unique:veiculos', // Campo opcional, apenas dígitos, único
+            'cod_seg_crv' => 'nullable|unique:veiculos', // Campo opcional, apenas dígitos, único
+            'cod_seg_cla' => 'nullable|unique:veiculos', // Campo opcional, apenas dígitos, único
+            'crv' => 'nullable|unique:veiculos', // Campo opcional, apenas dígitos, único
             'atpve' => 'nullable|string|max:20|unique:veiculos', // Campo opcional, único
         ], [
             'veiculo.required' => 'O campo Veículo é obrigatório.',
@@ -68,8 +68,7 @@ class VeiculoController extends Controller
         ]);
 
         Veiculo::create($request->all());
-
-        return redirect(url('/dashboard'));
+        return redirect('veiculos/create')->with('success', 'Veiculo Cadastrado com Sucesso');
 
     }
 
@@ -100,7 +99,7 @@ class VeiculoController extends Controller
 
     $veiculo = $query->get();
 
-    return view('auth.dashboard', compact('veiculo'));
+    return view('veiculos.dashboard', compact('veiculo'));
 }
 
 
@@ -115,7 +114,7 @@ class VeiculoController extends Controller
     {
         Veiculo::findOrFail($request->id)->update($request->all());
 
-        return redirect('/veiculo/dashboard')->with('msg','Veiculo editado com sucesso');
+        return redirect('/veiculos/dashboard')->with('msg','Veiculo editado com sucesso');
     }
 
     public function edit($id)
@@ -135,7 +134,7 @@ class VeiculoController extends Controller
     {
         Veiculo::findOrFail($id)->delete();
 
-        return redirect(url('/auth.dashboard'))->with('msg','Veiculo excluido com sucesso');
+        return redirect('/veiculos/dashboard');
     }
 
     public function show($id)

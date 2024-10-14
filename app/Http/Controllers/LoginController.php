@@ -43,12 +43,18 @@ class LoginController extends Controller
             'password' => $request->password,
         ];
 
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withErrors(['email' => 'Este e-mail não está cadastrado.'])->withInput();
+        }
+
         if (Auth::attempt($credintials)) {
             $request->session()->regenerate();
             return redirect(url('/dashboard'));
         }
 
-        return back()->withInput();
+        return back()->withErrors(['password' => 'Senha incorreta.'])->withInput();
 
     }
 

@@ -44,7 +44,7 @@ class PessoaController extends Controller
             'contato' => $request->contato,
         ]);
 
-        return redirect(url('/dashboard'));
+        return redirect(url('/pessoa/dashboard'));
     }
 
     public function dashboard() {
@@ -106,6 +106,6 @@ class PessoaController extends Controller
     {
         Pessoa::findOrFail($id)->delete();
 
-        return redirect('/dashboard')->with('msg','Cliente excluido com sucesso');
+        return redirect('/pessoa/dashboard')->with('msg','Cliente excluido com sucesso');
     }
 }

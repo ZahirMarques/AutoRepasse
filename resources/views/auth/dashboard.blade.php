@@ -19,7 +19,7 @@
               <div class="hidden w-full md:block md:w-auto">
                 <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
                   <li>
-                    <button class="px-2 py-1 bg-violet-500 text-white border-2 border-white font-bold rounded-lg hover:bg-indigo-400 hover:text-white duration-300" onclick="window.location.href='/veiculo/dashboard'">Veículos</button>
+                    <button class="px-2 py-1 bg-violet-500 text-white border-2 border-white font-bold rounded-lg hover:bg-indigo-400 hover:text-white duration-300" onclick="window.location.href='/veiculos/dashboard'">Veículos</button>
                   </li>
                   <li>
                     <button class="px-2 py-1 bg-violet-500 text-white border-2 border-white font-bold rounded-lg hover:bg-indigo-400 hover:text-white duration-300" onclick="window.location.href='/pessoa/dashboard'">Pessoas</button>
@@ -67,52 +67,6 @@
                     <button type="submit" name="all" value="1" class="my-5 px-2 bg-indigo-500 text-white border-2 text-sm font-bold border-indigo-500 rounded-lg hover:bg-indigo-700 hover:border-indigo-700 hover:text-white duration-300"> Mostrar Todos </button>
                 </div>
             </form>
-        </div>
-        
-
-        <div class="grid grid-rows-3 w-11/12 h-4/6 bg-red-300">
-                <div> 
-                    <h1>Veículos Cadastrados</h1>
-                </div>
-    
-                <div> 
-                    <ul class="list-none p-0">
-                        @if (count($veiculo) > 0)
-                            @foreach ($veiculo as $veiculos)
-                            <li class="mb-4 border border-gray-300 p-4">
-                                <!-- Exibição dos veículos sem tabela -->
-                                <div class="flex items-center">
-                                    <!-- Espaço para a foto do veículo -->
-                                    <div class="w-36 mr-4">
-                                        <img src="{{ $veiculos->foto_url ?? '/path/to/default-image.jpg' }}" alt="Foto do Veículo" class="w-full h-auto object-cover">
-                                    </div>
-                                    <div class="flex-1 cursor-pointer" onclick="window.location.href='/veiculo/show/{{$veiculos->id}}'">
-                                        <p><strong>Veículo:</strong> {{ $veiculos->veiculo }}</p>
-                                        <p><strong>Ano:</strong> {{ $veiculos->ano_modelo }}</p>
-                                        <p><strong>Placa:</strong> {{ $veiculos->placa }}</p>
-                                        <p><strong>Cor:</strong> {{ $veiculos->cor }}</p>
-                                    </div>
-                                    <!-- Botões de Ação à direita -->
-                                    <div class="ml-4">
-                                        <form action="/veiculo/edit/{{ $veiculos->id }}" method="get" class="inline">
-                                            @csrf
-                                            <button type="submit" class="bg-blue-500 text-white px-4 py-1 rounded mr-2 hover:bg-blue-600">Editar</button>
-                                        </form>
-                                        <form action="/veiculo/destroy/{{ $veiculos->id }}" method="post" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">Deletar</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </li>
-                            @endforeach
-                    </ul>
-                    @else
-                    <p>Você ainda não cadastrou nenhum veículo, <a href="{{ url('/veiculo/create') }}">Cadastrar Veículo</a></p>
-                @endif
-                </div>
-            </div>
         </div>
     </div>
 

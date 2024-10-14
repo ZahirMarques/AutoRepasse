@@ -39,13 +39,13 @@ Route::controller(LoginController::class)->group(function () {
 // Veiculos
 Use App\Http\Controllers\VeiculoController;
 Route::controller(VeiculoController::class)->group(function () {
-    Route::get('/veiculo/create', 'create');
-    Route::post('/veiculo/store', 'store');
-    Route::get('/veiculo/show/{id}', 'show');
-    Route::get('/veiculo/dashboard', 'dashboard');
-    Route::delete('/veiculo/destroy/{id}', 'destroy');
-    Route::get('/veiculo/edit/{id}', 'edit');
-    Route::put('/veiculo/update/{id}', 'update');
+    Route::get('/veiculos/create', 'create');
+    Route::post('/veiculos/store', 'store');
+    Route::get('/veiculos/show/{id}', 'show');
+    Route::get('/veiculos/dashboard', 'dashboard');
+    Route::delete('/veiculos/destroy/{id}', 'destroy');
+    Route::get('/veiculos/edit/{id}', 'edit');
+    Route::put('/veiculos/update/{id}', 'update');
 })->middleware('auth');
 
 // Pessoas
