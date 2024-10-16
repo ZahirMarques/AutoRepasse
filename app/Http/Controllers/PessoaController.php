@@ -34,6 +34,29 @@ class PessoaController extends Controller
      */
     public function store(Request $request)
     {
+
+
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'cidade' => 'required|string|max:255',
+            'estado' => 'required|string|max:255',
+            'cpf' => [
+                'required',
+                'string',
+                'max:18',
+            ],
+            'cnpj' => [
+                'nullable',
+                'string',
+                'max:18',
+               
+            ],
+            'contato' => 'required|string|max:15',
+        ], [
+            'cpf.regex' => 'O CPF deve ser um número válido no formato XXX.XXX.XXX-XX ou XXXXXXXXXXX.',
+            'cnpj.regex' => 'O CNPJ deve ser um número válido no formato XX.XXX.XXX/XXXX-XX ou XXXXXXXXXXXXXXX.',
+        ]);
+
         Pessoa::create([
 
             'nome' => $request->nome,
