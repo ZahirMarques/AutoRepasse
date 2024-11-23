@@ -20,7 +20,8 @@ class Veiculo extends Model
         'cod_seg_cla',
         'crv',
         'atpve',
-        'proprietario_id'
+        'proprietario_id',
+        'imagem'
     ];
 
     public function proprietario()

@@ -5,52 +5,223 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cadastrar Venda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
-    <h1>Cadastrar vendas</h1>
-    <form action="{{url('/venda/store')}}" method="post">
+<body class="bg-gray-100">
 
-        @csrf
+<!-- Navbar -->
+<nav class="bg-white shadow-md py-6 border-b-2 fixed top-0 left-0 w-full z-10">
+        <div class="container mx-auto px-4 flex flex-wrap items-center justify-center">
+            <!-- Logo -->
+            <div class="flex items-center absolute left-4">
+                <img src="{{ asset('img/autorepasse.png') }}" alt="Imagem AutoRepasse" class="w-26 h-8">
+            </div>
 
-        {{-- Financiamento --}}
-        <label for="financiamento">Financiamento:</label>
-        <input type="checkbox" name="financiamento">
+            <!-- Navigation Links (Desktop) -->
+            <div class="flex items-center space-x-8 text-base font-semibold text-gray-700 md:flex hidden">
+                <a href="{{ url('/dashboard') }}" 
+                   class="{{ request()->is('dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                   Dashboard
+                </a>
+
+                <!-- Veículos Dropdown -->
+                <div class="group relative">
+                    <a href="{{ url('/veiculos/dashboard') }}" 
+                       class="{{ request()->is('veiculos/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                       Veículos
+                    </a>
+
+                    <!-- Dropdown Menu -->
+                    <div id="dropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
+                        <a href="{{ url('/veiculos/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Veículos Cadastrados</a>
+                        <a href="{{ url('/veiculos/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Veículo</a>
+                    </div>
+                </div>
+
+                <a href="{{ url('/venda/create') }}" 
+                   class="{{ request()->is('venda/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                   Vendas
+                </a>
+
+                <!-- Clientes Dropdown -->
+                <div class="group relative">
+                    <a href="{{ url('/pessoa/dashboard') }}" 
+                    class="{{ request()->is('pessoa/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    Clientes
+                    </a>
+
+                    <!-- Dropdown Menu -->
+                    <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
+                        <a href="{{ url('/pessoa/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
+                        <a href="{{ url('/pessoa/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
+                    </div>
+                </div>
 
 
-        {{-- Tipo --}}
-        <select name="tipo">
+                <!-- Logout Button -->
+                <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 ml-4">
+                    @csrf
+                    <button class="text-gray-700 text-sm hover:text-red-500">
+                        Sair
+                    </button>
+                </form>
+            </div>
 
-            <option value="pix">Pix</option>
-            <option value="prazo">À prazo</option>
-            <option value="vista">À vista</option>
+            <!-- Mobile Menu Toggle -->
+            <div class="md:hidden flex items-center ml-auto">
+                <button id="menuToggle" class="text-gray-700 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-        </select>
-        
-        {{-- Pessoas --}}
-        <select name="pessoas" id="pessoas">
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
+            <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
+            <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
+            <a href="{{ url('/venda/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
+            <a href="{{ url('/pessoa/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <!-- Logout Button -->
+            <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
+                @csrf
+                <button class="text-gray-700 text-sm hover:text-red-500">
+                    Sair
+                </button>
+            </form>
+        </div>
+    </nav>
 
-            @foreach ($pessoas as $pessoa)
-            <tr>
-                <td><option value={{$pessoa->id}}>{{$pessoa->nome}}</option></td>
-            </tr>
-            @endforeach
+<!-- Main Content -->
+<div class="bg-cover grid place-items-center min-h-screen pt-24 from-white">
 
-        </select>
+    <!-- Cadastro de Venda Form -->
+    <div class="max-w-3xl w-full px-6 py-4 bg-white rounded-lg shadow-xl">
+        <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Cadastrar Venda</h1>
+        <form action="{{ url('/venda/store') }}" method="post">
+            @csrf
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-        {{-- Veiculos --}}
-        <select name="veiculos" id="veiculos">
+                <!-- Financiamento -->
+                <div class="flex items-center">
+                    <label for="financiamento" class="mr-2 text-sm font-medium text-gray-700">Financiamento:</label>
+                    <input type="checkbox" name="financiamento" class="w-4 h-4">
+                </div>
 
-            @foreach ($veiculos as $veiculo)
-            <tr>
-                <td><option value={{$veiculo->id}}>{{$veiculo->veiculo}}</option></td>
-            </tr>
-            @endforeach
-            
-        </select>
+                <!-- Tipo -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Tipo de Pagamento:</label>
+                    <select name="tipo" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                        <option value="pix">Pix</option>
+                        <option value="prazo">À Prazo</option>
+                        <option value="vista">À Vista</option>
+                    </select>
+                </div>
 
-        <button>Enviar</button>
-    </form>
+                <!-- Pessoas -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Cliente:</label>
+                    <select name="pessoas" id="pessoas" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                        @foreach ($pessoas as $pessoa)
+                            <option value="{{ $pessoa->id }}">{{ $pessoa->nome }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-    <a href="{{url('/dashboard')}}">Voltar</a>
+                <!-- Veículos -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Veículo:</label>
+                    <select name="veiculos" id="veiculos" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                        @foreach ($veiculos as $veiculo)
+                            <option value="{{ $veiculo->id }}">{{ $veiculo->veiculo }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+            </div>
+
+            <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded focus:outline-none hover:bg-violet-700">Cadastrar Venda</button>
+        </form>
+    </div>
+</div>
+
+<script>
+        (function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const vehiclesLink = document.querySelector('a[href="{{ url('/veiculos/dashboard') }}"]').parentElement;
+            const clientesLink = document.querySelector('a[href="{{ url('/pessoa/dashboard') }}"]').parentElement;
+            const clientesDropdownMenu = document.getElementById('clientesDropdownMenu');
+
+            // Mobile Menu Toggle
+            menuToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('flex');
+            });
+
+            // Veículos Dropdown
+            vehiclesLink.addEventListener('mouseenter', () => {
+                dropdownMenu.classList.remove('hidden');
+                setTimeout(() => {
+                    dropdownMenu.classList.add('opacity-100');
+                }, 0);
+            });
+
+            vehiclesLink.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    if (!dropdownMenu.matches(':hover')) {
+                        dropdownMenu.classList.remove('opacity-100');
+                        dropdownMenu.classList.add('hidden');
+                    }
+                }, 100);
+            });
+
+            dropdownMenu.addEventListener('mouseenter', () => {
+                dropdownMenu.classList.remove('opacity-0');
+                dropdownMenu.classList.add('opacity-100');
+            });
+
+            dropdownMenu.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    dropdownMenu.classList.remove('opacity-100');
+                    dropdownMenu.classList.add('hidden');
+                }, 100);
+            });
+
+            // Clientes Dropdown
+            clientesLink.addEventListener('mouseenter', () => {
+                clientesDropdownMenu.classList.remove('hidden');
+                setTimeout(() => {
+                    clientesDropdownMenu.classList.add('opacity-100');
+                }, 0);
+            });
+
+            clientesLink.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    if (!clientesDropdownMenu.matches(':hover')) {
+                        clientesDropdownMenu.classList.remove('opacity-100');
+                        clientesDropdownMenu.classList.add('hidden');
+                    }
+                }, 100);
+            });
+
+            clientesDropdownMenu.addEventListener('mouseenter', () => {
+                clientesDropdownMenu.classList.remove('opacity-0');
+                clientesDropdownMenu.classList.add('opacity-100');
+            });
+
+            clientesDropdownMenu.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    clientesDropdownMenu.classList.remove('opacity-100');
+                    clientesDropdownMenu.classList.add('hidden');
+                }, 100);
+            });
+        })();
+
+    </script>
+
 </body>
 </html>

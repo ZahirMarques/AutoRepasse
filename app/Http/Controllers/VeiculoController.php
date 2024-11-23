@@ -47,6 +47,7 @@ class VeiculoController extends Controller
             'cod_seg_cla' => 'nullable|unique:veiculos', // Campo opcional, apenas dígitos, único
             'crv' => 'nullable|unique:veiculos', // Campo opcional, apenas dígitos, único
             'atpve' => 'nullable|string|max:20|unique:veiculos', // Campo opcional, único
+            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             'veiculo.required' => 'O campo Veículo é obrigatório.',
             'ano_modelo.required' => 'O campo ano/modelo é obrigatório.',
@@ -66,6 +67,12 @@ class VeiculoController extends Controller
             'crv.digits' => 'O CRV deve conter apenas números.',
             'atpve.unique' => 'Este ATPVE já está cadastrado.',
         ]);
+
+        if ($request->hasFile('imagem')) {
+            // Armazena a imagem na pasta 'public/veiculos_imagens'
+            $imagePath = $request->file('imagem')->store('veiculos_img', 'public/');
+            $validatedData['imagem'] = $imagePath;
+        }
 
         Veiculo::create($request->all());
         return redirect('veiculos/create')->with('success', 'Veiculo Cadastrado com Sucesso');

@@ -24,21 +24,41 @@
                    Dashboard
                 </a>
 
-                <a href="{{ url('/veiculos/dashboard') }}" 
-                   class="{{ request()->is('veiculos/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
-                   Veículos
-                </a>
+                <!-- Veículos Dropdown -->
+                <div class="group relative">
+                    <a href="{{ url('/veiculos/dashboard') }}" 
+                       class="{{ request()->is('veiculos/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                       Veículos
+                    </a>
 
-                <a href="{{ url('/vendas') }}" 
-                   class="{{ request()->is('vendas') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    <!-- Dropdown Menu -->
+                    <div id="dropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
+                        <a href="{{ url('/veiculos/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Veículos Cadastrados</a>
+                        <a href="{{ url('/veiculos/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Veículo</a>
+                    </div>
+                </div>
+
+                <a href="{{ url('/venda/create') }}" 
+                   class="{{ request()->is('venda/create') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                    Vendas
                 </a>
 
-                <a href="{{ url('/pessoa/create') }}" 
-                   class="{{ request()->is('/pessoa/create') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
-                   Clientes
-                </a>
+                <!-- Clientes Dropdown -->
+                <div class="group relative">
+                    <a href="{{ url('/pessoa/dashboard') }}" 
+                    class="{{ request()->is('pessoa/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    Clientes
+                    </a>
 
+                    <!-- Dropdown Menu -->
+                    <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
+                        <a href="{{ url('/pessoa/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
+                        <a href="{{ url('/pessoa/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
+                    </div>
+                </div>
+
+
+                <!-- Logout Button -->
                 <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 ml-4">
                     @csrf
                     <button class="text-gray-700 text-sm hover:text-red-500">
@@ -61,8 +81,9 @@
         <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
             <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
             <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
-            <a href="{{ url('/vendas') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
-            <a href="{{ url('/pessoa/create') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <a href="{{ url('/venda/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
+            <a href="{{ url('/pessoa/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <!-- Logout Button -->
             <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
                 @csrf
                 <button class="text-gray-700 text-sm hover:text-red-500">
@@ -75,11 +96,11 @@
     <!-- Main Content -->
     <div class="pt-24 min-h-screen flex justify-center items-start">
         <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg w-full lg:w-2/3">
-            <h1 class="text-2xl font-bold text-center text-violet-600 mb-8">Pessoas Cadastradas</h1>
+            <h1 class="text-2xl font-bold text-center text-violet-600 mb-8">Clientes Cadastrados</h1>
 
             <button onclick="window.location.href='/pessoa/create'" 
                     class="px-6 py-2 bg-violet-600 text-white font-bold rounded-lg shadow-lg hover:bg-violet-700 mb-6">
-                Cadastrar Nova Pessoa
+                Cadastrar Novo Cliente
             </button>
 
             <div>
@@ -120,7 +141,7 @@
                         </tbody>
                     </table>
                 @else
-                    <p class="text-center text-gray-700">Você ainda não cadastrou nenhuma pessoa. <a href="{{ url('/pessoa/create') }}" class="text-violet-500 underline">Cadastrar Pessoa</a></p>
+                    <p class="text-center text-gray-700">Você ainda não cadastrou nenhum Cliente. </p>
                 @endif
             </div>
         </div>
@@ -130,12 +151,76 @@
         (function() {
             const menuToggle = document.getElementById('menuToggle');
             const mobileMenu = document.getElementById('mobileMenu');
-            
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const vehiclesLink = document.querySelector('a[href="{{ url('/veiculos/dashboard') }}"]').parentElement;
+            const clientesLink = document.querySelector('a[href="{{ url('/pessoa/dashboard') }}"]').parentElement;
+            const clientesDropdownMenu = document.getElementById('clientesDropdownMenu');
+
+            // Mobile Menu Toggle
             menuToggle.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
                 mobileMenu.classList.toggle('flex');
             });
+
+            // Veículos Dropdown
+            vehiclesLink.addEventListener('mouseenter', () => {
+                dropdownMenu.classList.remove('hidden');
+                setTimeout(() => {
+                    dropdownMenu.classList.add('opacity-100');
+                }, 0);
+            });
+
+            vehiclesLink.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    if (!dropdownMenu.matches(':hover')) {
+                        dropdownMenu.classList.remove('opacity-100');
+                        dropdownMenu.classList.add('hidden');
+                    }
+                }, 100);
+            });
+
+            dropdownMenu.addEventListener('mouseenter', () => {
+                dropdownMenu.classList.remove('opacity-0');
+                dropdownMenu.classList.add('opacity-100');
+            });
+
+            dropdownMenu.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    dropdownMenu.classList.remove('opacity-100');
+                    dropdownMenu.classList.add('hidden');
+                }, 100);
+            });
+
+            // Clientes Dropdown
+            clientesLink.addEventListener('mouseenter', () => {
+                clientesDropdownMenu.classList.remove('hidden');
+                setTimeout(() => {
+                    clientesDropdownMenu.classList.add('opacity-100');
+                }, 0);
+            });
+
+            clientesLink.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    if (!clientesDropdownMenu.matches(':hover')) {
+                        clientesDropdownMenu.classList.remove('opacity-100');
+                        clientesDropdownMenu.classList.add('hidden');
+                    }
+                }, 100);
+            });
+
+            clientesDropdownMenu.addEventListener('mouseenter', () => {
+                clientesDropdownMenu.classList.remove('opacity-0');
+                clientesDropdownMenu.classList.add('opacity-100');
+            });
+
+            clientesDropdownMenu.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    clientesDropdownMenu.classList.remove('opacity-100');
+                    clientesDropdownMenu.classList.add('hidden');
+                }, 100);
+            });
         })();
+
     </script>
 </body>
 </html>
