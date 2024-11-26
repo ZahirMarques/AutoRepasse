@@ -135,7 +135,7 @@
                     <label class="block text-sm font-medium text-gray-700">Veículo:</label>
                     <select name="veiculos" id="veiculos" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
                         @foreach ($veiculos as $veiculo)
-                            <option value="{{ $veiculo->id }}">{{ $veiculo->veiculo }}</option>
+                            <option value="{{ $veiculo->id }}">{{ $veiculo->marca}} {{$veiculo->modelo}} | Placa: {{$veiculo->placa}} | Ano/Modelo: {{$veiculo->ano_modelo}}</option>
                         @endforeach
                     </select>
                 </div>

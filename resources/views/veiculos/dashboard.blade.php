@@ -117,17 +117,33 @@
             </div>
         </div>
 
+            @if(session('success'))
+                    <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
+                        <span>{{ session('success') }}</span>
+                        <button id="close-btn" class="ml-4 text-green-700 font-bold">X</button>
+                    </div>
+
+                    <script>
+                        // Fechar a mensagem quando o botão de fechar for clicado
+                        document.getElementById('close-btn').onclick = function() {
+                            document.getElementById('success-message').style.display = 'none';
+                        };
+
+                        // Fazer a mensagem desaparecer automaticamente após 10 segundos
+                        setTimeout(function() {
+                            document.getElementById('success-message').style.display = 'none';
+                        }, 10000);
+                    </script>
+                @endif
+                
         <div>
             <ul class="list-none p-0">
                 @if (count($veiculo) > 0)
                     @foreach ($veiculo as $veiculos)
                         <li class="mb-6 p-6 bg-white rounded-lg border-2 border-blue-500 hover:shadow-xl transition veiculo-item">
                             <div class="flex items-center space-x-6">
-                                <div class="w-36">
-                                    <img src="{{ $veiculos->foto_url ?? '/path/to/default-image.jpg' }}" alt="Foto do Veículo" class="w-full h-auto object-cover rounded-lg">
-                                </div>
                                 <div class="flex-1 cursor-pointer" onclick="window.location.href='/veiculos/show/{{$veiculos->id}}'">
-                                    <p class="text-xl font-semibold text-gray-700"><strong>Veículo:</strong> {{ $veiculos->veiculo }}</p>
+                                    <p class="text-xl font-semibold text-gray-700"><strong> {{ $veiculos->marca}} {{ $veiculos->modelo}} </strong></p>
                                     <p class="text-sm text-gray-600"><strong>Ano:</strong> {{ $veiculos->ano_modelo }}</p>
                                     <p class="text-sm text-gray-600"><strong>Placa:</strong> {{ $veiculos->placa }}</p>
                                     <p class="text-sm text-gray-600"><strong>Cor:</strong> {{ $veiculos->cor }}</p>
@@ -140,7 +156,7 @@
                                             Editar
                                         </button>
                                     </form>
-                                    <form action="/veiculos/destroy/{{ $veiculos->id }}" method="post" class="inline ml-2">
+                                    <form action="/veiculos/destroy/{{ $veiculos->id }}" method="post" class="inline ml-2" onsubmit="return confirmDelete()">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" 
@@ -148,12 +164,18 @@
                                             Deletar
                                         </button>
                                     </form>
+                                    
+                                    <script>
+                                        function confirmDelete() {
+                                            return confirm("Tem certeza que deseja excluir este veículo?");
+                                        }
+                                    </script>
                                 </div>
                             </div>
                         </li>
                     @endforeach
                 @else
-                    <p class="text-center text-gray-700">Você ainda não cadastrou nenhum veículo. <button onclick="window.location.href='/veiculos/create'" class="text-violet-500 underline">Cadastrar Veículo</button></p>
+                    <p class="text-center text-gray-700">Você ainda não cadastrou nenhum veículo.</p>
                 @endif
             </ul>
         </div>
@@ -174,10 +196,11 @@
             // Pega o texto dos campos que queremos buscar (por exemplo, nome do veículo, placa, etc.)
             const veiculoNome = veiculo.querySelector('.text-xl').innerText.toLowerCase();
             const veiculoAno = veiculo.querySelector('.text-sm.text-gray-600').innerText.toLowerCase();
+            const veiculoCor = veiculo.querySelector('.text-sm.text-gray-600').innerText.toLowerCase();
             const veiculoPlaca = veiculo.querySelectorAll('.text-sm.text-gray-600')[1].innerText.toLowerCase();
             
             // Verifica se o nome, ano ou placa do veículo contém o texto da pesquisa
-            if (veiculoNome.includes(searchQuery) || veiculoAno.includes(searchQuery) || veiculoPlaca.includes(searchQuery)) {
+            if (veiculoNome.includes(searchQuery) || veiculoAno.includes(searchQuery) || veiculoCor.includes(searchQuery) || veiculoPlaca.includes(searchQuery)) {
                 veiculo.style.display = ''; // Exibe o item
             } else {
                 veiculo.style.display = 'none'; // Esconde o item

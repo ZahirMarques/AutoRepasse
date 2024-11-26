@@ -128,7 +128,7 @@
                                     </form>
                                     
                                     <!-- Deletar -->
-                                    <form action="/pessoa/destroy/{{ $pessoa->id }}" method="post" style="display:inline;">
+                                    <form action="/pessoa/destroy/{{ $pessoa->id }}" method="post" style="display:inline;" onsubmit="return confirmDelete()">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="px-4 py-2 text-red-600 bg-white border-2 border-red-600 font-bold rounded-lg hover:bg-red-600 hover:text-white transition">
@@ -144,6 +144,12 @@
                     <p class="text-center text-gray-700">Você ainda não cadastrou nenhum Cliente. </p>
                 @endif
             </div>
+            
+            <script>
+                function confirmDelete() {
+                    return confirm("Tem certeza que deseja excluir este usuário?");
+                }
+            </script>
         </div>
     </div>
 

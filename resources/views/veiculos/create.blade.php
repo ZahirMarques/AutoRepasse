@@ -10,6 +10,43 @@
 </head>
 <body class="bg-gray-100">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                    function formatAno_Modelo(input) {
+                let value = input.value.replace(/\D/g, ''); // Remove qualquer caractere não numérico
+
+                // Limita a quantidade de caracteres a 8
+                if (value.length > 8) {
+                    value = value.substring(0, 8);
+                }
+
+                // Adiciona a barra entre os dois grupos de 4 números
+                if (value.length > 4) {
+                    value = value.replace(/(\d{4})(\d{0,4})$/, '$1/$2');
+                }
+
+                input.value = value;
+            }
+
+            function formatPlaca(input) {
+                let value = input.value.replace(/\W/g, ''); // Remove caracteres não alfanuméricos
+
+                // Converte as letras para maiúsculas
+                value = value.toUpperCase();
+
+                // Limita o valor a 7 caracteres
+                if (value.length > 7) {
+                    value = value.substring(0, 7);
+                }
+
+                // Formata o valor como "ABC-1234"
+                if (value.length > 3) {
+                    value = value.replace(/(\w{3})(\w{0,4})$/, '$1-$2');
+                }
+
+                input.value = value;
+            }
+    </script>
 <!-- Navbar -->
 <nav class="bg-white shadow-md py-6 border-b-2 fixed top-0 left-0 w-full z-10">
         <div class="container mx-auto px-4 flex flex-wrap items-center justify-center">
@@ -102,98 +139,169 @@
         <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Cadastro de Veículos</h1>
         <form action="{{ url('veiculos/store') }}" method="post" enctype="multipart/form-data">
             @csrf
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Veículo: <b>*</b></label>
-                    <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="veiculo" placeholder="Golf 2.0 Tsi Gti 16v Turbo Gasolina 4p Automático" value="{{ old('veiculo') }}">
-                    @error('veiculo')
-                    <div style="color: red;">{{ $message }}</div>
-                    @enderror
-                </div>
+            @if(session('success'))
+                    <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
+                        <span>{{ session('success') }}</span>
+                        <button id="close-btn" class="ml-4 text-green-700 font-bold">X</button>
+                    </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Ano/Modelo: <b>*</b></label>
-                    <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="ano_modelo" placeholder="aaaa" value="{{ old('ano_modelo') }}">
-                    @error('ano_modelo')
-                    <div style="color: red;">{{ $message }}</div>
-                    @enderror
-                </div>
+                    <script>
+                        // Fechar a mensagem quando o botão de fechar for clicado
+                        document.getElementById('close-btn').onclick = function() {
+                            document.getElementById('success-message').style.display = 'none';
+                        };
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Placa: <b>*</b></label>
-                    <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="placa" placeholder="ABC-1111" value="{{ old('placa') }}">
-                    @error('placa')
-                    <div style="color: red;">{{ $message }}</div>
-                    @enderror
-                </div>
+                        // Fazer a mensagem desaparecer automaticamente após 10 segundos
+                        setTimeout(function() {
+                            document.getElementById('success-message').style.display = 'none';
+                        }, 10000);
+                    </script>
+                @endif
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Renavam: <b>*</b></label>
-                    <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="renavam" placeholder="01234567890" value="{{ old('renavam') }}">
-                    @error('renavam')
-                    <div style="color: red;">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Cor: <b>*</b></label>
-                    <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cor" placeholder="Branco" value="{{ old('cor') }}">
-                    @error('cor')
-                    <div style="color: red;">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Chassi:</label>
-                    <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="chassi" value="{{ old('chassi') }}">
-                    @error('chassi')
-                    <div style="color: red;">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Código Seg. CRV:</label>
-                    <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cod_seg_crv" value="{{ old('cod_seg_crv') }}">
-                    @error('cod_seg_crv')
-                    <div style="color: red;">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Código Seg. CLA:</label>
-                    <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cod_seg_cla" value="{{ old('cod_seg_cla') }}">
-                    @error('cod_seg_cla')
-                    <div style="color: red;">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Combustível: <b>*</b></label>
-                    <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="combustivel" placeholder="Gasolina" value="{{ old('combustivel') }}">
-                    @error('combustivel')
-                    <div style="color: red;">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Categoria: <b>*</b></label>
-                    <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="categoria" placeholder="SUV" value="{{ old('categoria') }}">
-                    @error('categoria')
-                    <div style="color: red;">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Imagem do Veículo: <b>*</b></label>
-                    <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" 
-                           type="file" name="imagem">
-                    @error('imagem')
-                    <div style="color: red;">{{ $message }}</div>
-                    @enderror
-                </div>
-                
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Marca: <b>*</b></label>
+                <input 
+                    class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" 
+                    type="text" 
+                    name="marca" 
+                    placeholder="Volkswagen" 
+                    value="{{ old('marca') }}"
+                >
+                @error('marca')
+                <div style="color: red;">{{ $message }}</div>
+                @enderror
             </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Modelo: <b>*</b></label>
+                <input 
+                    class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" 
+                    type="text" 
+                    name="modelo" 
+                    placeholder="Golf 2.0 Tsi Gti 16v Turbo Gasolina 4p Automático" 
+                    value="{{ old('modelo') }}"
+                >
+                @error('modelo')
+                <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Ano/Modelo: <b>*</b></label>
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="ano_modelo" placeholder="aaaa" oninput="formatAno_Modelo(this)" value="{{ old('ano_modelo') }}">
+                @error('ano_modelo')
+                <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Placa: <b>*</b></label>
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="placa" oninput="formatPlaca(this)" placeholder="ABC-1111" value="{{ old('placa') }}">
+                @error('placa')
+                <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Renavam: <b>*</b></label>
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="renavam" placeholder="01234567890" maxlength="11" value="{{ old('renavam') }}">
+                @error('renavam')
+                <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Cor: <b>*</b></label>
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cor" placeholder="Branco" value="{{ old('cor') }}">
+                @error('cor')
+                <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Chassi:</label>
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="chassi" maxlength="17" placeholder="12345678910111213" value="{{ old('chassi') }}">
+                @error('chassi')
+                <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">ATPVE:</label>
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="atpve" placeholder="Código ATPVE" maxlength="7" value="{{ old('atpve') }}">
+                @error('atpve')
+                <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">CRV:</label>
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="crv" placeholder="Número do CRV" maxlength="11" value="{{ old('crv') }}">
+                @error('crv')
+                <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Código Seg. CRV:</label>
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cod_seg_crv" maxlength="11" placeholder="12345678910" value="{{ old('cod_seg_crv') }}">
+                @error('cod_seg_crv')
+                <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">CLA:</label>
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cla" maxlength="7" placeholder="1234567" value="{{ old('cla') }}">
+                @error('cla')
+                <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Código Seg. CLA:</label>
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cod_seg_cla"  maxlength="6" placeholder="123456" value="{{ old('cod_seg_cla') }}">
+                @error('cod_seg_cla')
+                <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Combustível: <b>*</b></label>
+                <select class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" name="combustivel" required>
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="Gasolina" {{ old('combustivel') == 'Gasolina' ? 'selected' : '' }}>Gasolina</option>
+                    <option value="Diesel" {{ old('combustivel') == 'Diesel' ? 'selected' : '' }}>Diesel</option>
+                    <option value="Flex" {{ old('combustivel') == 'Flex' ? 'selected' : '' }}>Flex</option>
+                    <option value="Híbrido" {{ old('combustivel') == 'Híbrido' ? 'selected' : '' }}>Híbrido</option>
+                    <option value="Álcool" {{ old('combustivel') == 'Álcool' ? 'selected' : '' }}>Álcool</option>
+                    <option value="Elétrico" {{ old('combustivel') == 'Elétrico' ? 'selected' : '' }}>Elétrico</option>
+                </select>
+                @error('combustivel')
+                    <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Categoria: <b>*</b></label>
+                <select class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" name="categoria" required>
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="SUV" {{ old('categoria') == 'SUV' ? 'selected' : '' }}>SUV</option>
+                    <option value="Hatch" {{ old('categoria') == 'Hatch' ? 'selected' : '' }}>Hatch</option>
+                    <option value="Sedã" {{ old('categoria') == 'Sedã' ? 'selected' : '' }}>Sedã</option>
+                    <option value="Picape" {{ old('categoria') == 'Picape' ? 'selected' : '' }}>Picape</option>
+                    <option value="Esportivo" {{ old('categoria') == 'Esportivo' ? 'selected' : '' }}>Esportivo</option>
+                    <option value="Minivan" {{ old('categoria') == 'Minivan' ? 'selected' : '' }}>Minivan</option>
+                    <option value="Outro" {{ old('categoria') == 'Outro' ? 'selected' : '' }}>Outro</option>
+                </select>
+                @error('categoria')
+                    <div style="color: red;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+
 
             <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded focus:outline-none hover:bg-violet-700">Cadastrar</button>
         </form>

@@ -98,8 +98,7 @@
 <div class="bg-cover grid place-items-center min-h-screen pt-24 from-white">
     <div class="max-w-3xl w-full px-6 py-4 bg-white rounded-lg shadow-xl">
         <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Detalhes do Veículo</h1>
-        <h2 class="text-lg font-bold text-gray-700 mb-4">Veículo: {{$veiculo->veiculo}}</h2>
-        <p><b>Foto: </b> <img src="{{Storage::url($veiculo->imagem)}}"> </p>
+        <h2 class="text-lg font-bold text-gray-700 mb-4">Veículo: {{$veiculo->marca}} {{$veiculo->modelo}}</h2>
         <p><b>Ano/Modelo:</b> {{$veiculo->ano_modelo}}</p>
         <p><b>Placa:</b> {{$veiculo->placa}}</p>
         <p><b>Cor:</b> {{$veiculo->cor}}</p>
@@ -110,6 +109,8 @@
         <p><b>Código de Segurança do CLA:</b> {{$veiculo->cod_seg_cla}}</p>
         <p><b>Chassi:</b> {{$veiculo->chassi}}</p>
         <p><b>ATPVE:</b> {{$veiculo->atpve}}</p>
+        <p><b>Combustível:</b> {{$veiculo->combustivel}}</p>
+        <p><b>Categoria:</b> {{$veiculo->categoria}}</p>
         <div class="mt-6">
             <a href="{{ url('/veiculos/dashboard') }}" class="py-2 px-4 bg-violet-600 text-white font-bold rounded hover:bg-violet-700">
                 Voltar

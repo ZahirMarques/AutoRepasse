@@ -10,7 +10,8 @@ class Veiculo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'veiculo',
+        'marca',
+        'modelo',
         'ano_modelo',
         'placa',
         'renavam',
@@ -18,10 +19,12 @@ class Veiculo extends Model
         'chassi',
         'cod_seg_crv',
         'cod_seg_cla',
+        'cla',
         'crv',
         'atpve',
         'proprietario_id',
-        'imagem'
+        'combustivel',
+        'categoria'
     ];
 
     public function proprietario()

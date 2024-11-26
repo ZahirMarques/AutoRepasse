@@ -107,7 +107,7 @@ class LoginController extends Controller
 
     public function dashboard() {
 
-        $veiculo = Veiculo::all(['id','veiculo', 'ano_modelo', 'placa','cor']);
+        $veiculo = Veiculo::all(['id','marca','modelo', 'ano_modelo', 'placa','cor']);
         return view('auth.dashboard', [
             'veiculo' => $veiculo,
         ]);

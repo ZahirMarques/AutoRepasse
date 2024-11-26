@@ -34,6 +34,16 @@
 
             input.value = value;
         }
+
+        function formatEstado(input) {
+            let value = input.value.replace(/[^A-Za-z]/g, ''); // Remove qualquer coisa que não seja letra
+
+            // Limita a string a 2 caracteres e transforma em maiúsculas
+            value = value.slice(0, 2).toUpperCase();
+
+            input.value = value;
+        }
+
     </script>
 </head>
 
@@ -140,7 +150,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Estado:</label>
-                        <input type="text" name="estado" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                        <input type="text" name="estado" oninput="formatEstado(this)" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">CPF:</label>

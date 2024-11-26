@@ -37,8 +37,9 @@ class VeiculoController extends Controller
     {
         
         $validatedData = $request->validate([
-            'veiculo' => 'required|string|max:45', // Campo obrigatório
-            'ano_modelo' => 'required|digits:4|date_format:Y', // Campo opcional
+            'marca' => 'required|string|max:45',
+            'modelo' => 'required|string|max:45', // Campo obrigatório
+            'ano_modelo' => 'required|regex:/^\d{4}\/\d{4}$/', // Campo opcional
             'placa' => 'required|string|max:8|unique:veiculos|regex:/^[A-Z]{3}-[0-9]{4}$/', // Campo obrigatório e único
             'renavam' => 'required|digits:11|unique:veiculos', // Campo obrigatório, apenas dígitos, único
             'cor' => 'required|string|max:15', // Campo obrigatório
@@ -46,10 +47,13 @@ class VeiculoController extends Controller
             'cod_seg_crv' => 'nullable|unique:veiculos', // Campo opcional, apenas dígitos, único
             'cod_seg_cla' => 'nullable|unique:veiculos', // Campo opcional, apenas dígitos, único
             'crv' => 'nullable|unique:veiculos', // Campo opcional, apenas dígitos, único
+            'cla' => 'nullable|unique:veiculos',
             'atpve' => 'nullable|string|max:20|unique:veiculos', // Campo opcional, único
-            'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'combustivel' => 'required|in:Gasolina,Diesel,Flex,Híbrido,Álcool,Elétrico',
+            'categoria' => 'required|in:SUV,Hatch,Sedã,Picape,Esportivo,Minivan,Outro',
         ], [
-            'veiculo.required' => 'O campo Veículo é obrigatório.',
+            'marca.required' => 'O campo Marca é obrigatório.',
+            'modelo.required' => 'O campo Modelo é obrigatório.',
             'ano_modelo.required' => 'O campo ano/modelo é obrigatório.',
             'ano_modelo.digits' => 'O Ano/Modelo deve conter o ano com exatamente 4 números.',
             'data.date_format' => 'A data deve estar no formato aaaa',
@@ -68,14 +72,8 @@ class VeiculoController extends Controller
             'atpve.unique' => 'Este ATPVE já está cadastrado.',
         ]);
 
-        if ($request->hasFile('imagem')) {
-            // Armazena a imagem na pasta 'public/veiculos_imagens'
-            $imagePath = $request->file('imagem')->store('veiculos_img', 'public/');
-            $validatedData['imagem'] = $imagePath;
-        }
-
         Veiculo::create($request->all());
-        return redirect('veiculos/create')->with('success', 'Veiculo Cadastrado com Sucesso');
+        return redirect('veiculos/create')->with('success', 'Veículo cadastrado com sucesso!');
 
     }
 
@@ -88,7 +86,8 @@ class VeiculoController extends Controller
         
         // Busca nos veículos
         $query->where(function($q) use ($search) {
-            $q->where('veiculo', 'like', '%' . $search . '%')
+            $q->where('marca', 'like', '%' . $search . '%')
+              ->orWhere('modelo', 'like','%' . $search . '%')
               ->orWhere('placa', 'like', '%' . $search . '%')
               ->orWhere('cor', 'like', '%' . $search . '%')
               ->orWhere('ano_modelo', 'like', '%' . $search . '%');
@@ -121,7 +120,7 @@ class VeiculoController extends Controller
     {
         Veiculo::findOrFail($request->id)->update($request->all());
 
-        return redirect('/veiculos/dashboard')->with('msg','Veiculo editado com sucesso');
+        return redirect('veiculos/dashboard')->with('success', 'Veículo editado com sucesso!');
     }
 
     public function edit($id)
@@ -129,6 +128,7 @@ class VeiculoController extends Controller
         $veiculo = Veiculo::findOrFail($id);
 
         return view('veiculos.edit', ['veiculo' => $veiculo]);
+        
     }
 
     /**
