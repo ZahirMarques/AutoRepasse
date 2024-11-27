@@ -97,11 +97,32 @@
 <!-- Main Content -->
 <div class="bg-cover grid place-items-center min-h-screen pt-24 from-white">
 
+        
     <!-- Cadastro de Venda Form -->
     <div class="max-w-3xl w-full px-6 py-4 bg-white rounded-lg shadow-xl">
         <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Cadastrar Venda</h1>
         <form action="{{ url('/venda/store') }}" method="post">
             @csrf
+
+            @if(session('success'))
+                <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
+                    <span>{{ session('success') }}</span>
+                    <button id="close-btn" class="ml-4 text-green-700 font-bold">X</button>
+                </div>
+
+                <script>
+                    // Fechar a mensagem quando o botão de fechar for clicado
+                    document.getElementById('close-btn').onclick = function() {
+                        document.getElementById('success-message').style.display = 'none';
+                    };
+
+                    // Fazer a mensagem desaparecer automaticamente após 10 segundos
+                    setTimeout(function() {
+                        document.getElementById('success-message').style.display = 'none';
+                    }, 10000);
+                </script>
+            @endif
+            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 <!-- Financiamento -->
@@ -123,7 +144,7 @@
                 <!-- Pessoas -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Cliente:</label>
-                    <select name="pessoas" id="pessoas" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                    <select name="pessoa_id" id="pessoas" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
                         @foreach ($pessoas as $pessoa)
                             <option value="{{ $pessoa->id }}">{{ $pessoa->nome }}</option>
                         @endforeach
@@ -133,7 +154,7 @@
                 <!-- Veículos -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Veículo:</label>
-                    <select name="veiculos" id="veiculos" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                    <select name="veiculo_id" id="veiculos" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
                         @foreach ($veiculos as $veiculo)
                             <option value="{{ $veiculo->id }}">{{ $veiculo->marca}} {{$veiculo->modelo}} | Placa: {{$veiculo->placa}} | Ano/Modelo: {{$veiculo->ano_modelo}}</option>
                         @endforeach

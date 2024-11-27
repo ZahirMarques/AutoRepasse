@@ -19,12 +19,12 @@ class PessoaController extends Controller
         'cidade' => 'required|string|max:45',
         'estado' => 'required|string|max:2',
         'cpf' => [
-            'required',
+            'nullable',
             'string',
             'max:14', // Ajustado para o tamanho correto
             'regex:/^\d{3}\.\d{3}\.\d{3}-\d{2}$|^\d{11}$/', // Aceita com ou sem formatação
         ],
-        'cnpj' => 'nullable|string|max:14',
+        'cnpj' => 'nullable|string|max:18',
         'contato' => 'required|string|max:15',
     ], [
         'cpf.regex' => 'O CPF deve ser válido no formato XXX.XXX.XXX-XX ou XXXXXXXXXXX.',
@@ -39,7 +39,8 @@ class PessoaController extends Controller
         'contato' => $request->contato,
     ]);
 
-    return redirect(url('/pessoa/dashboard'))->with('msg', 'Pessoa cadastrada com sucesso.');
+    session()->flash('success', 'Cliente cadastrado com sucesso!');
+    return redirect('/pessoa/dashboard')->with('success', 'Pessoa cadastrada com sucesso!');
 }
 
 
@@ -66,7 +67,7 @@ class PessoaController extends Controller
         $pessoa = Pessoa::findOrFail($id);
         $pessoa->update($request->all());
 
-        return redirect('/pessoa/dashboard')->with('msg', 'Pessoa editada com sucesso');
+        return redirect('pessoa/dashboard')->with('success', 'Pessoa editada com sucesso!');
     }
 
     public function destroy($id)

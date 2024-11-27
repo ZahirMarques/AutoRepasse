@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('vendas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('veiculo_id');
+            $table->unsignedBigInteger('veiculo_id')->unique();
             $table->unsignedBigInteger('pessoa_id');
             $table->boolean('financiamento')->default(false);
             $table->string('tipo');

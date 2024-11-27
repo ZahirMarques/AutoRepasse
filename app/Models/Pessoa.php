@@ -22,4 +22,9 @@ class Pessoa extends Model
     {
         return $this->hasMany(Veiculo::class, 'proprietario_id');
     }
+
+    public function vendas()
+    {
+        return $this->hasMany(Venda::class);
+    }
 }

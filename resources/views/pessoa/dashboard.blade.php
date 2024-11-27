@@ -103,6 +103,25 @@
                 Cadastrar Novo Cliente
             </button>
 
+            @if(session('success'))
+                <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
+                    <span>{{ session('success') }}</span>
+                    <button id="close-btn" class="ml-4 text-green-700 font-bold">X</button>
+                </div>
+
+                <script>
+                    // Fechar a mensagem quando o botão de fechar for clicado
+                    document.getElementById('close-btn').onclick = function() {
+                        document.getElementById('success-message').style.display = 'none';
+                    };
+
+                    // Fazer a mensagem desaparecer automaticamente após 10 segundos
+                    setTimeout(function() {
+                        document.getElementById('success-message').style.display = 'none';
+                    }, 10000);
+                </script>
+            @endif
+            
             <div>
                 @if (isset($pessoas) && count($pessoas) > 0) <!-- Verifica se $pessoas está definido e tem elementos -->
                     <table class="min-w-full bg-white shadow-md rounded-lg border-collapse">

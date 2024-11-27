@@ -44,6 +44,23 @@
             input.value = value;
         }
 
+        function formatCNPJ(input) {
+            // Remove todos os caracteres não numéricos
+            let value = input.value.replace(/\D/g, '');
+
+            // Aplica a formatação de CNPJ
+            if (value.length <= 14) {
+                value = value.replace(/^(\d{2})(\d)/, '$1.$2'); // Primeira parte
+                value = value.replace(/^(\d{2}\.\d{3})(\d)/, '$1.$2'); // Segunda parte
+                value = value.replace(/^(\d{2}\.\d{3}\.\d{3})(\d)/, '$1/$2'); // Terceira parte
+                value = value.replace(/^(\d{2}\.\d{3}\.\d{3}\/\d{4})(\d{2})$/, '$1-$2'); // Quarta parte
+            }
+
+            // Atualiza o valor do input com o formato
+            input.value = value;
+        }
+
+
     </script>
 </head>
 
@@ -139,6 +156,7 @@
             <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Cadastrar Cliente</h1>
             <form action="{{ url('/pessoa/store') }}" method="post">
                 @csrf
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Nome:</label>
@@ -152,10 +170,17 @@
                         <label class="block text-sm font-medium text-gray-700">Estado:</label>
                         <input type="text" name="estado" oninput="formatEstado(this)" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
                     </div>
+
                     <div>
                         <label class="block text-sm font-medium text-gray-700">CPF:</label>
                         <input type="text" name="cpf" oninput="formatCPF(this)" maxlength="14" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
                     </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">CNPJ:</label>
+                        <input type="text" name="cnpj" oninput="formatCNPJ(this)" maxlength="18" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                    </div>
+
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Contato:</label>
                         <input type="text" name="contato" oninput="formatContato(this)" maxlength="15" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">

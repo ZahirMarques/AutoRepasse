@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Venda;
 use App\Models\Veiculo;
 use App\Models\Pessoa;
+use Illuminate\Validation\Rule;
 
 class VendaController extends Controller
 {
@@ -46,20 +47,37 @@ class VendaController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'financiamento' => 'nullable',
+            'tipo' => 'nullable',
+            'pessoa_id' => 'required', // Garantir que o comprador foi enviado
+            'veiculo_id' => 'required|unique:vendas,veiculo_id', // Garantir que o veículo não foi vendido antes
+        ], [
+            'veiculo_id.unique' => 'Este carro já foi vendido.',
+            'pessoa_id.required' => 'O comprador é obrigatório.',
+        ]);
         // Criar a venda
         $venda = Venda::create([
-            'financiamento' => $request->has('financiamento'), // Verifica se o checkbox foi marcado
+            'financiamento' => $request->has('financiamento'), // Checkbox do financiamento
             'tipo' => $request->tipo,
-            'pessoa_id' => $request->pessoas,
-            'veiculo_id' => $request->veiculos,
+            'pessoa_id' => $request->pessoa_id, // Campo correto
+            'veiculo_id' => $request->veiculo_id, // Campo correto
         ]);
-    
-        // Atualizar o proprietário do veículo
-        $veiculo = Veiculo::findOrFail($request->veiculos);
-        $veiculo->proprietario_id = $request->pessoas; // Supondo que existe a coluna `proprietario_id` na tabela `veiculos`
+
+        
+
+        $veiculo = Veiculo::findOrFail($request->veiculo_id);
+        $veiculo->proprietario_id = $request->pessoa_id; 
         $veiculo->save();
-    
-        return redirect('/dashboard')->with('success', 'Venda cadastrada e proprietário do veículo atualizado com sucesso!');
+        // Recuperar todas as vendas para exibir na dashboard
+        $vendas = Venda::with(['pessoa', 'veiculo'])->get();
+        dd($vendas);
+        // Redirecionar para o dashboard e exibir a venda criada
+        return redirect('auth/dashboard')->with([
+        'success' => 'Venda cadastrada e proprietário do veículo atualizado com sucesso!', // Passa a venda para a sessão
+        'vendas' => $vendas,
+        // Passa todas as vendas para a view
+        ]);
     }
     /**
      * Display the specified resource.
@@ -74,6 +92,13 @@ class VendaController extends Controller
         return view('venda.show', ['venda' => $venda]);
     }
 
+    public function dashboard()
+    {
+        // Carregar todas as vendas com os relacionamentos (veículo e comprador)
+        $vendas = Venda::with(['pessoa', 'veiculo'])->get;
+
+        return view('dashboard', compact('vendas'));
+    }
     /**
      * Show the form for editing the specified resource.
      *

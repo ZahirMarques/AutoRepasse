@@ -15,4 +15,12 @@ class Venda extends Model
         'veiculo_id',
         'pessoa_id',
     ];
+
+    public function pessoa(){
+        return $this->belongsTo(Pessoa::class);
+    }
+
+    public function veiculo(){
+        return $this->belongsTo(Veiculo::class);
+    }
 }

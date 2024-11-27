@@ -62,8 +62,9 @@ Route::controller(PessoaController::class)->group(function (){
 
 //Venda
 use App\Http\Controllers\VendaController;
-Route::controller(VendaController::class)->group(function(){
-    Route::get('/venda/create', 'create');
-    Route::post('/venda/store', 'store');
-    Route::get('venda/show', 'show');
+Route::controller(VendaController::class)->group(function() {
+    Route::get('/venda/create', 'create')->name('venda.create');
+    Route::post('/venda/store', 'store')->name('venda.store');
+    Route::get('/venda/show/{id}', 'show')->name('venda.show'); // Adicionada a rota com parâmetro para exibir uma venda específica
+    // Route::get('/auth/dashboard', 'dashboard')->name('auth.dashboard'); // Adicionada a rota para exibir o dashboard de vendas
 })->middleware('auth');
