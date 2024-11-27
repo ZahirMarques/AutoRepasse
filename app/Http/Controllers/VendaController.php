@@ -71,7 +71,7 @@ class VendaController extends Controller
         $veiculo->save();
         // Recuperar todas as vendas para exibir na dashboard
         $vendas = Venda::with(['pessoa', 'veiculo'])->get();
-        dd($vendas);
+       
         // Redirecionar para o dashboard e exibir a venda criada
         return redirect('auth/dashboard')->with([
         'success' => 'Venda cadastrada e proprietário do veículo atualizado com sucesso!', // Passa a venda para a sessão

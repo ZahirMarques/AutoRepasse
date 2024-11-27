@@ -7,6 +7,61 @@
     <title>Editar Pessoa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function formatCPF(input) {
+            let value = input.value.replace(/\D/g, '');
+
+            if (value.length <= 11) {
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
+            }
+
+            input.value = value;
+        }
+
+        function formatContato(input) {
+            let value = input.value.replace(/\D/g, '');
+
+            if (value.length <= 11) {
+                if (value.length > 6) {
+                    value = value.replace(/(\d{2})(\d{5})(\d)/, '($1) $2-$3');
+                } else if (value.length > 2) {
+                    value = value.replace(/(\d{2})(\d)/, '($1) $2');
+                }
+            }
+
+            input.value = value;
+        }
+
+        function formatEstado(input) {
+            let value = input.value.replace(/[^A-Za-z]/g, ''); // Remove qualquer coisa que não seja letra
+
+            // Limita a string a 2 caracteres e transforma em maiúsculas
+            value = value.slice(0, 2).toUpperCase();
+
+            input.value = value;
+        }
+
+        function formatCNPJ(input) {
+            // Remove todos os caracteres não numéricos
+            let value = input.value.replace(/\D/g, '');
+
+            // Aplica a formatação de CNPJ
+            if (value.length <= 14) {
+                value = value.replace(/^(\d{2})(\d)/, '$1.$2'); // Primeira parte
+                value = value.replace(/^(\d{2}\.\d{3})(\d)/, '$1.$2'); // Segunda parte
+                value = value.replace(/^(\d{2}\.\d{3}\.\d{3})(\d)/, '$1/$2'); // Terceira parte
+                value = value.replace(/^(\d{2}\.\d{3}\.\d{3}\/\d{4})(\d{2})$/, '$1-$2'); // Quarta parte
+            }
+
+            // Atualiza o valor do input com o formato
+            input.value = value;
+        }
+
+
+    </script>
+    
 </head>
 <body class="bg-gray-100">
 
@@ -107,32 +162,32 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Nome:</label>
-                    <input type="text" name="pessoa" value="{{$pessoa->nome}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                    <input type="text" name="nome" oninput="formatNome(this)" value="{{$pessoa->nome}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Cidade:</label>
-                    <input type="text" name="cidade" value="{{$pessoa->cidade}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                    <input type="text" name="cidade" oninput="formatCidade(this)" value="{{$pessoa->cidade}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Estado:</label>
-                    <input type="text" name="estado" value="{{$pessoa->estado}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                    <input type="text" name="estado" oninput="formatEstado(this)" value="{{$pessoa->estado}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">CPF:</label>
-                    <input type="text" name="cpf" value="{{$pessoa->cpf}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                    <input type="text" name="cpf" oninput="formatCPF(this)" maxlength="14" value="{{$pessoa->cpf}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">CNPJ:</label>
-                    <input type="text" name="cnpj" value="{{$pessoa->cnpj}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                    <input type="text" name="cnpj" oninput="formatCNPJ(this)" maxlength="18" value="{{$pessoa->cnpj}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Contato:</label>
-                    <input type="text" name="contato" value="{{$pessoa->contato}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                    <input type="text" name="contato" oninput="formatContato(this)" maxlength="15"6 value="{{$pessoa->contato}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
                 </div>
             </div>
 

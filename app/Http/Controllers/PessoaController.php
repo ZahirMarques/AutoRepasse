@@ -13,40 +13,39 @@ class PessoaController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'nome' => 'required|string|max:45',
-        'cidade' => 'required|string|max:45',
-        'estado' => 'required|string|max:2',
-        'cpf' => [
-            'nullable',
-            'string',
-            'max:14', // Ajustado para o tamanho correto
-            'regex:/^\d{3}\.\d{3}\.\d{3}-\d{2}$|^\d{11}$/', // Aceita com ou sem formatação
-        ],
-        'cnpj' => 'nullable|string|max:18',
-        'contato' => 'required|string|max:15',
-    ], [
-        'cpf.regex' => 'O CPF deve ser válido no formato XXX.XXX.XXX-XX ou XXXXXXXXXXX.',
-    ]);
+    {
+        $request->validate([
+            'nome' => 'required|string|max:45',
+            'cidade' => 'required|string|max:45',
+            'estado' => 'required|string|max:2',
+            'cpf' => [
+                'nullable',
+                'string',
+                'max:14',
+                'regex:/^\d{3}\.\d{3}\.\d{3}-\d{2}$|^\d{11}$/',
+            ],
+            'cnpj' => 'nullable|string|max:18',
+            'contato' => 'required|string|max:15',
+        ], [
+            'cpf.regex' => 'O CPF deve ser válido no formato XXX.XXX.XXX-XX ou XXXXXXXXXXX.',
+        ]);
 
-    Pessoa::create([
-        'nome' => $request->nome,
-        'cidade' => $request->cidade,
-        'estado' => $request->estado,
-        'cpf' => $request->cpf,
-        'cnpj' => $request->cnpj,
-        'contato' => $request->contato,
-    ]);
+        Pessoa::create([
+            'nome' => $request->nome,
+            'cidade' => $request->cidade,
+            'estado' => $request->estado,
+            'cpf' => $request->cpf,
+            'cnpj' => $request->cnpj,
+            'contato' => $request->contato,
+        ]);
 
-    session()->flash('success', 'Cliente cadastrado com sucesso!');
-    return redirect('/pessoa/dashboard')->with('success', 'Pessoa cadastrada com sucesso!');
-}
-
+        session()->flash('success', 'Cliente cadastrado com sucesso!');
+        return redirect('/pessoa/dashboard')->with('success', 'Pessoa cadastrada com sucesso!');
+    }
 
     public function dashboard()
     {
-        $pessoas = Pessoa::all(['id', 'nome', 'contato']);
+        $pessoas = Pessoa::all(['id', 'nome', 'cidade', 'estado', 'contato']);
         return view('pessoa.dashboard', ['pessoas' => $pessoas]);
     }
 

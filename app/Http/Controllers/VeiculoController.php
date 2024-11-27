@@ -67,8 +67,13 @@ class VeiculoController extends Controller
             'cor.required' => 'O campo Cor é obrigatório.',
             'chassi.unique' => 'Este Chassi já está cadastrado.',
             'cod_seg_crv.digits' => 'O Código de Segurança CRV deve conter apenas números.',
+            'cod_seg_crv.unique' => 'Este Código de Segurança CRV já está cadastrado.',
             'cod_seg_cla.digits' => 'O Código de Segurança CLA deve conter apenas números.',
+            'cod_seg_cla.unique' => 'Este Código de Segurança CLA já está cadastrado.',
             'crv.digits' => 'O CRV deve conter apenas números.',
+            'crv.unique' => 'Este CRV já está cadastrado.',
+            'cla.digits' => 'O CRV deve conter apenas números.',
+            'cla.unique' => 'Este CLA já está cadastrado.',
             'atpve.unique' => 'Este ATPVE já está cadastrado.',
         ]);
 

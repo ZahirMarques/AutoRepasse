@@ -95,82 +95,131 @@
 
     <!-- Main Content -->
     <div class="pt-24 min-h-screen flex justify-center items-start">
-        <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg w-full lg:w-2/3">
-            <h1 class="text-2xl font-bold text-center text-violet-600 mb-8">Clientes Cadastrados</h1>
+    <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg w-full lg:w-2/3">
 
+        <h1 class="text-2xl font-bold text-center text-violet-600 mb-8">Clientes Cadastrados</h1>
+
+        <!-- Botão Cadastrar Novo Cliente e Barra de Pesquisa -->
+        <div class="flex justify-between items-center mb-6">
             <button onclick="window.location.href='/pessoa/create'" 
-                    class="px-6 py-2 bg-violet-600 text-white font-bold rounded-lg shadow-lg hover:bg-violet-700 mb-6">
+                    class="px-6 py-2 bg-violet-600 text-white font-bold rounded-lg shadow-lg hover:bg-violet-700">
                 Cadastrar Novo Cliente
             </button>
 
-            @if(session('success'))
-                <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
-                    <span>{{ session('success') }}</span>
-                    <button id="close-btn" class="ml-4 text-green-700 font-bold">X</button>
-                </div>
+            <div class="relative w-1/2">
+                <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" 
+                       placeholder="Pesquisar por cliente..." onkeyup="searchClients()">
+            </div>
+        </div>
 
-                <script>
-                    // Fechar a mensagem quando o botão de fechar for clicado
-                    document.getElementById('close-btn').onclick = function() {
-                        document.getElementById('success-message').style.display = 'none';
-                    };
+        @if(session('success'))
+            <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
+                <span>{{ session('success') }}</span>
+                <button id="close-btn" class="ml-4 text-green-700 font-bold">X</button>
+            </div>
 
-                    // Fazer a mensagem desaparecer automaticamente após 10 segundos
-                    setTimeout(function() {
-                        document.getElementById('success-message').style.display = 'none';
-                    }, 10000);
-                </script>
-            @endif
-            
-            <div>
-                @if (isset($pessoas) && count($pessoas) > 0) <!-- Verifica se $pessoas está definido e tem elementos -->
-                    <table class="min-w-full bg-white shadow-md rounded-lg border-collapse">
-                        <thead>
-                            <tr>
-                                <th class="px-6 py-3 border-b-2 border-gray-300">#</th>
-                                <th class="px-6 py-3 border-b-2 border-gray-300">Nome</th>
-                                <th class="px-6 py-3 border-b-2 border-gray-300">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($pessoas as $pessoa)
-                            <tr class="hover:bg-gray-100">
-                                <td class="px-6 py-3 border-b border-gray-300">{{ $loop->iteration }}</td>
-                                <td class="px-6 py-3 border-b border-gray-300"><a href="/pessoa/show/{{ $pessoa->id }}" class="text-blue-500">{{ $pessoa->nome }}</a></td>
-                                <td class="px-6 py-3 border-b border-gray-300">
-                                    <!-- Editar -->
-                                    <form action="/pessoa/edit/{{ $pessoa->id }}" method="get" style="display:inline;">
+            <script>
+                document.getElementById('close-btn').onclick = function() {
+                    document.getElementById('success-message').style.display = 'none';
+                };
+
+                setTimeout(function() {
+                    document.getElementById('success-message').style.display = 'none';
+                }, 10000);
+            </script>
+        @endif
+
+        <div>
+            <ul class="list-none p-0">
+                @if (isset($pessoas) && count($pessoas) > 0)
+                    @foreach ($pessoas as $pessoa)
+                        <li class="mb-6 p-6 bg-white rounded-lg border-2 border-blue-500 hover:shadow-xl transition client-item">
+                            <div class="flex items-center space-x-6">
+                                <div class="flex-1 cursor-pointer" onclick="window.location.href='/pessoa/show/{{$pessoa->id}}'">
+                                    <p class="text-xl font-semibold text-gray-700"><strong>{{ $pessoa->nome }}</strong></p>
+                                    <p class="text-sm text-gray-600"><strong>ID:</strong> {{ $pessoa->id }}</p>
+                                    <p class="text-sm text-gray-600"><strong>Cidade:</strong> {{ $pessoa->cidade }}</p>
+                                    <p class="text-sm text-gray-600"><strong>Estado:</strong> {{ $pessoa->estado }}</p>
+                                    <p class="text-sm text-gray-600"><strong>Contato:</strong> {{ $pessoa->contato }}</p>
+                                </div>
+                                <div>
+                                    <form action="/pessoa/edit/{{ $pessoa->id }}" method="get" class="inline">
                                         @csrf
-                                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
+                                        <button type="submit" 
+                                                class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
                                             Editar
                                         </button>
                                     </form>
-                                    
-                                    <!-- Deletar -->
-                                    <form action="/pessoa/destroy/{{ $pessoa->id }}" method="post" style="display:inline;" onsubmit="return confirmDelete()">
+                                    <form action="/pessoa/destroy/{{ $pessoa->id }}" method="post" class="inline ml-2" onsubmit="return confirmDelete()">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="px-4 py-2 text-red-600 bg-white border-2 border-red-600 font-bold rounded-lg hover:bg-red-600 hover:text-white transition">
+                                        <button type="submit" 
+                                                class="px-4 py-2 text-red-600 bg-white border-2 border-red-600 text-red font-bold rounded-lg hover:bg-red-600 hover:text-white transition">
                                             Deletar
                                         </button>
                                     </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
                 @else
-                    <p class="text-center text-gray-700">Você ainda não cadastrou nenhum Cliente. </p>
+                    <p class="text-center text-gray-700">Você ainda não cadastrou nenhum cliente.</p>
                 @endif
-            </div>
-            
-            <script>
-                function confirmDelete() {
-                    return confirm("Tem certeza que deseja excluir este usuário?");
-                }
-            </script>
+            </ul>
         </div>
     </div>
+</div>
+
+<script>
+    function searchClients() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const clients = document.querySelectorAll('.client-item');
+
+        clients.forEach(client => {
+            const name = client.textContent.toLowerCase();
+            client.style.display = name.includes(input) ? 'block' : 'none';
+        });
+    }
+
+    function confirmDelete() {
+        return confirm("Tem certeza que deseja excluir este cliente?");
+    }
+</script>
+
+
+<script>
+    function searchClients() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const clients = document.querySelectorAll('.client-item');
+
+        clients.forEach(client => {
+            const textContent = client.textContent.toLowerCase();
+            client.style.display = textContent.includes(input) ? 'block' : 'none';
+        });
+    }
+
+    function confirmDelete() {
+        return confirm("Tem certeza que deseja excluir este cliente?");
+    }
+</script>
+
+
+    <script>
+        function searchClients() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const clients = document.querySelectorAll('.client-item');
+
+            clients.forEach(client => {
+                const name = client.textContent.toLowerCase();
+                client.style.display = name.includes(input) ? 'block' : 'none';
+            });
+        }
+
+        function confirmDelete() {
+            return confirm("Tem certeza que deseja excluir este cliente?");
+        }
+    </script>
+
 
     <script>
         (function() {
