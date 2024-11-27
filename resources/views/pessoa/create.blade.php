@@ -174,6 +174,9 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">CPF:</label>
                         <input type="text" name="cpf" oninput="formatCPF(this)" maxlength="14" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                        @error('cpf')
+                            <div style="color: red;">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div>

@@ -55,6 +55,7 @@ class VeiculoController extends Controller
             'marca.required' => 'O campo Marca é obrigatório.',
             'modelo.required' => 'O campo Modelo é obrigatório.',
             'ano_modelo.required' => 'O campo ano/modelo é obrigatório.',
+            'ano_modelo.regex' => 'O campo ano/modelo deve estar no formato aaaa/aaaa.',
             'ano_modelo.digits' => 'O Ano/Modelo deve conter o ano com exatamente 4 números.',
             'data.date_format' => 'A data deve estar no formato aaaa',
             'placa.required' => 'O campo Placa é obrigatório.',

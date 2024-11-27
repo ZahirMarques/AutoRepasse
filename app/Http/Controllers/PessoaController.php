@@ -23,11 +23,13 @@ class PessoaController extends Controller
                 'string',
                 'max:14',
                 'regex:/^\d{3}\.\d{3}\.\d{3}-\d{2}$|^\d{11}$/',
+                'unique:pessoas,cpf', // Aqui você especifica a tabela e coluna
             ],
             'cnpj' => 'nullable|string|max:18',
             'contato' => 'required|string|max:15',
         ], [
             'cpf.regex' => 'O CPF deve ser válido no formato XXX.XXX.XXX-XX ou XXXXXXXXXXX.',
+            'cpf.unique' => 'Este CPF já está cadastrado!',
         ]);
 
         Pessoa::create([
@@ -62,12 +64,38 @@ class PessoaController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $pessoa = Pessoa::findOrFail($id);
-        $pessoa->update($request->all());
+{
+    $pessoa = Pessoa::findOrFail($id);
 
-        return redirect('pessoa/dashboard')->with('success', 'Pessoa editada com sucesso!');
-    }
+    $request->validate([
+        'nome' => 'required|string|max:45',
+        'cidade' => 'required|string|max:45',
+        'estado' => 'required|string|max:2',
+        'cpf' => [
+            'nullable',
+            'string',
+            'max:14',
+            'regex:/^\d{3}\.\d{3}\.\d{3}-\d{2}$|^\d{11}$/',
+            "unique:pessoas,cpf,$id", // Ignorar o CPF do registro atual
+        ],
+        'cnpj' => 'nullable|string|max:18',
+        'contato' => 'required|string|max:15',
+    ], [
+        'cpf.regex' => 'O CPF deve ser válido no formato XXX.XXX.XXX-XX ou XXXXXXXXXXX.',
+        'cpf.unique' => 'Este CPF já está cadastrado!',
+    ]);
+
+    $pessoa->update([
+        'nome' => $request->nome,
+        'cidade' => $request->cidade,
+        'estado' => $request->estado,
+        'cpf' => $request->cpf,
+        'cnpj' => $request->cnpj,
+        'contato' => $request->contato,
+    ]);
+
+    return redirect('pessoa/dashboard')->with('success', 'Pessoa editada com sucesso!');
+}
 
     public function destroy($id)
     {
