@@ -115,17 +115,12 @@
         @if(session('success'))
             <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
                 <span>{{ session('success') }}</span>
-                <button id="close-btn" class="ml-4 text-green-700 font-bold">X</button>
             </div>
 
             <script>
-                document.getElementById('close-btn').onclick = function() {
-                    document.getElementById('success-message').style.display = 'none';
-                };
-
                 setTimeout(function() {
                     document.getElementById('success-message').style.display = 'none';
-                }, 10000);
+                }, 5000);
             </script>
         @endif
 

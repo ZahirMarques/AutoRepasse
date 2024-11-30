@@ -73,8 +73,9 @@ class VendaController extends Controller
         $vendas = Venda::with(['pessoa', 'veiculo'])->get();
        
         // Redirecionar para o dashboard e exibir a venda criada
-        return redirect('auth/dashboard')->with([
+        return redirect('venda/create')->with([
         'success' => 'Venda cadastrada e proprietário do veículo atualizado com sucesso!', // Passa a venda para a sessão
+        'error' => 'O veículo já foi vendido! ',
         'vendas' => $vendas,
         // Passa todas as vendas para a view
         ]);

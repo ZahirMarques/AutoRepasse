@@ -255,34 +255,35 @@
                 <label class="block text-sm font-medium text-gray-700">Combustível: <b>*</b></label>
                 <select class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" name="combustivel" required>
                     <option value="" disabled selected>Selecione</option>
-                    <option value="Gasolina" {{ old('combustivel') == 'Gasolina' ? 'selected' : '' }}>Gasolina</option>
-                    <option value="Diesel" {{ old('combustivel') == 'Diesel' ? 'selected' : '' }}>Diesel</option>
-                    <option value="Flex" {{ old('combustivel') == 'Flex' ? 'selected' : '' }}>Flex</option>
-                    <option value="Híbrido" {{ old('combustivel') == 'Híbrido' ? 'selected' : '' }}>Híbrido</option>
-                    <option value="Álcool" {{ old('combustivel') == 'Álcool' ? 'selected' : '' }}>Álcool</option>
-                    <option value="Elétrico" {{ old('combustivel') == 'Elétrico' ? 'selected' : '' }}>Elétrico</option>
+                    <option value="Gasolina" {{ (isset($veiculo) && $veiculo->combustivel == 'Gasolina') ? 'selected' : '' }}>Gasolina</option>
+                    <option value="Diesel" {{ (isset($veiculo) && $veiculo->combustivel == 'Diesel') ? 'selected' : '' }}>Diesel</option>
+                    <option value="Flex" {{ (isset($veiculo) && $veiculo->combustivel == 'Flex') ? 'selected' : '' }}>Flex</option>
+                    <option value="Híbrido" {{ (isset($veiculo) && $veiculo->combustivel == 'Híbrido') ? 'selected' : '' }}>Híbrido</option>
+                    <option value="Álcool" {{ (isset($veiculo) && $veiculo->combustivel == 'Álcool') ? 'selected' : '' }}>Álcool</option>
+                    <option value="Elétrico" {{ (isset($veiculo) && $veiculo->combustivel == 'Elétrico') ? 'selected' : '' }}>Elétrico</option>
                 </select>
                 @error('combustivel')
                     <div style="color: red;">{{ $message }}</div>
                 @enderror
             </div>
-
+            
             <div>
                 <label class="block text-sm font-medium text-gray-700">Categoria: <b>*</b></label>
                 <select class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" name="categoria" required>
                     <option value="" disabled selected>Selecione</option>
-                    <option value="SUV" {{ old('categoria') == 'SUV' ? 'selected' : '' }}>SUV</option>
-                    <option value="Hatch" {{ old('categoria') == 'Hatch' ? 'selected' : '' }}>Hatch</option>
-                    <option value="Sedã" {{ old('categoria') == 'Sedã' ? 'selected' : '' }}>Sedã</option>
-                    <option value="Picape" {{ old('categoria') == 'Picape' ? 'selected' : '' }}>Picape</option>
-                    <option value="Esportivo" {{ old('categoria') == 'Esportivo' ? 'selected' : '' }}>Esportivo</option>
-                    <option value="Minivan" {{ old('categoria') == 'Minivan' ? 'selected' : '' }}>Minivan</option>
-                    <option value="Outro" {{ old('categoria') == 'Outro' ? 'selected' : '' }}>Outro</option>
+                    <option value="SUV" {{ (isset($veiculo) && $veiculo->categoria == 'SUV') ? 'selected' : '' }}>SUV</option>
+                    <option value="Hatch" {{ (isset($veiculo) && $veiculo->categoria == 'Hatch') ? 'selected' : '' }}>Hatch</option>
+                    <option value="Sedã" {{ (isset($veiculo) && $veiculo->categoria == 'Sedã') ? 'selected' : '' }}>Sedã</option>
+                    <option value="Picape" {{ (isset($veiculo) && $veiculo->categoria == 'Picape') ? 'selected' : '' }}>Picape</option>
+                    <option value="Esportivo" {{ (isset($veiculo) && $veiculo->categoria == 'Esportivo') ? 'selected' : '' }}>Esportivo</option>
+                    <option value="Minivan" {{ (isset($veiculo) && $veiculo->categoria == 'Minivan') ? 'selected' : '' }}>Minivan</option>
+                    <option value="Outro" {{ (isset($veiculo) && $veiculo->categoria == 'Outro') ? 'selected' : '' }}>Outro</option>
                 </select>
                 @error('categoria')
                     <div style="color: red;">{{ $message }}</div>
                 @enderror
             </div>
+            
         </div>
 
     <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded focus:outline-none hover:bg-violet-700">

@@ -7,6 +7,9 @@
     <title>Cadastrar Venda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Incluindo Tom Select -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.default.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
 </head>
 <body class="bg-gray-100">
 
@@ -103,34 +106,53 @@
         <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Cadastrar Venda</h1>
         <form action="{{ url('/venda/store') }}" method="post">
             @csrf
-
+    
             @if(session('success'))
                 <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
                     <span>{{ session('success') }}</span>
-                    <button id="close-btn" class="ml-4 text-green-700 font-bold">X</button>
                 </div>
-
-                <script>
-                    // Fechar a mensagem quando o botão de fechar for clicado
-                    document.getElementById('close-btn').onclick = function() {
-                        document.getElementById('success-message').style.display = 'none';
-                    };
-
-                    // Fazer a mensagem desaparecer automaticamente após 10 segundos
-                    setTimeout(function() {
-                        document.getElementById('success-message').style.display = 'none';
-                    }, 10000);
-                </script>
             @endif
+
+            @if($errors->has('veiculo_id'))
+                <div id="error-message" class="bg-red-100 text-red-700 border border-red-300 p-4 mb-4 rounded flex justify-between items-center">
+                    <span> Venda não concluída. Veículo já vendido! </span>
+            
+                </div>
+            @endif
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Sucesso
+                    const successMessage = document.getElementById('success-message');
+
+                    if (successMessage) {
+                        setTimeout(() => {
+                            successMessage.style.display = 'none';
+                        }, 5000); // 10 segundos
+                    }
+
+                    // Erro
+                    const errorMessage = document.getElementById('error-message');
+
+                    if (errorMessage) {
+                        setTimeout(() => {
+                            errorMessage.style.display = 'none';
+                        }, 5000); // 10 segundos
+                    }
+                });
+            </script>
+
+
+
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
+    
                 <!-- Financiamento -->
                 <div class="flex items-center">
                     <label for="financiamento" class="mr-2 text-sm font-medium text-gray-700">Financiamento:</label>
                     <input type="checkbox" name="financiamento" class="w-4 h-4">
                 </div>
-
+    
                 <!-- Tipo -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Tipo de Pagamento:</label>
@@ -140,7 +162,7 @@
                         <option value="vista">À Vista</option>
                     </select>
                 </div>
-
+    
                 <!-- Pessoas -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Cliente:</label>
@@ -150,7 +172,7 @@
                         @endforeach
                     </select>
                 </div>
-
+    
                 <!-- Veículos -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Veículo:</label>
@@ -160,12 +182,13 @@
                         @endforeach
                     </select>
                 </div>
-
+    
             </div>
-
+    
             <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded focus:outline-none hover:bg-violet-700">Cadastrar Venda</button>
         </form>
     </div>
+    
 </div>
 
 <script>
@@ -241,6 +264,19 @@
                 }, 100);
             });
         })();
+
+         // Inicializar Tom Select para os dropdowns
+        new TomSelect('#pessoas', {
+            create: false,
+            sortField: 'text',
+            placeholder: 'Selecione um cliente...',
+        });
+
+        new TomSelect('#veiculos', {
+            create: false,
+            sortField: 'text',
+            placeholder: 'Selecione um veículo...',
+        });
 
     </script>
 
