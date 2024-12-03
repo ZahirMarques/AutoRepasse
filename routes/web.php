@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +19,7 @@ Route::get('/', function () {
 
 
 // Register
-
+use App\Http\Controllers\RegisteredUserController;
 Route::controller(RegisteredUserController::class)->group(function () {
     Route::get('/register', 'create');
     Route::post('/register', 'store');
@@ -49,22 +48,24 @@ Route::controller(VeiculoController::class)->group(function () {
 })->middleware('auth');
 
 // Pessoas
-use App\Http\Controllers\PessoaController;
-Route::controller(PessoaController::class)->group(function (){
-    Route::get('/pessoa/create', 'create');
-    Route::post('/pessoa/store', 'store');
-    Route::get('/pessoa/show/{id}', 'show');
-    Route::get('/pessoa/dashboard', 'dashboard');
-    Route::delete('/pessoa/destroy/{id}', 'destroy');
-    Route::get('/pessoa/edit/{id}', 'edit');
-    Route::put('/pessoa/update/{id}', 'update');
+use App\Http\Controllers\ClienteController;
+Route::controller(ClienteController::class)->group(function (){
+    Route::get('/clientes/create', 'create');
+    Route::post('/clientes/store', 'store');
+    Route::get('/clientes/show/{id}', 'show');
+    Route::get('/clientes/dashboard', 'dashboard');
+    Route::delete('/clientes/destroy/{id}', 'destroy');
+    Route::get('/clientes/edit/{id}', 'edit');
+    Route::put('/clientes/update/{id}', 'update');
 })->middleware('auth');
 
 //Venda
 use App\Http\Controllers\VendaController;
 Route::controller(VendaController::class)->group(function() {
-    Route::get('/venda/create', 'create')->name('venda.create');
-    Route::post('/venda/store', 'store')->name('venda.store');
-    Route::get('/venda/show/{id}', 'show')->name('venda.show'); // Adicionada a rota com parâmetro para exibir uma venda específica
+    Route::get('/vendas/create', 'create')->name('venda.create');
+    Route::post('/vendas/store', 'store')->name('venda.store');
+    Route::get('/vendas/show/{id}', 'show')->name('venda.show');
+    Route::get('/dashboard', [VendaController::class, 'dashboard'])->name('auth.dashboard');
+// Adicionada a rota com parâmetro para exibir uma venda específica
     // Route::get('/auth/dashboard', 'dashboard')->name('auth.dashboard'); // Adicionada a rota para exibir o dashboard de vendas
 })->middleware('auth');

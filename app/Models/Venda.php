@@ -13,11 +13,11 @@ class Venda extends Model
         'financiamento' => 'boolean',
         'tipo',
         'veiculo_id',
-        'pessoa_id',
+        'cliente_id',
     ];
 
-    public function pessoa(){
-        return $this->belongsTo(Pessoa::class);
+    public function cliente(){
+        return $this->belongsTo(Cliente::class);
     }
 
     public function veiculo(){

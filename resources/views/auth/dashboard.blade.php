@@ -38,22 +38,22 @@
                     </div>
                 </div>
 
-                <a href="{{ url('/venda/create') }}" 
-                   class="{{ request()->is('venda/create') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                <a href="{{ url('/vendas/create') }}" 
+                   class="{{ request()->is('vendas/create') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                    Vendas
                 </a>
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/pessoa/dashboard') }}" 
-                    class="{{ request()->is('pessoa/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    <a href="{{ url('/clientes/dashboard') }}" 
+                    class="{{ request()->is('clientes/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Clientes
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/pessoa/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
-                        <a href="{{ url('/pessoa/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
+                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
+                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
                     </div>
                 </div>
 
@@ -81,8 +81,8 @@
         <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
             <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
             <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
-            <a href="{{ url('/venda/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
-            <a href="{{ url('/pessoa/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
+            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
             <!-- Logout Button -->
             <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
                 @csrf
@@ -94,7 +94,72 @@
     </nav>
 
     <!-- Main Content -->
-   
+    <main class="pt-20 min-h-screen flex justify-center items-center">
+    <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+
+        <!-- Todas as Vendas -->
+        <div class="bg-white shadow-md rounded-lg p-4">
+            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center">Todas as Vendas</h1>
+            <div class="mb-4">
+                <!-- Barra de Pesquisa para Vendas -->
+                <input type="text" id="searchVendas" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Pesquisar por veículo, comprador..." onkeyup="filterList('vendas')">
+            </div>
+            <div class="h-[32rem] overflow-y-auto">
+                <ul id="vendasList">
+                    @foreach ($vendas as $venda)
+                    <li class="mb-4 p-4 bg-white rounded-lg border-2 border-sky-600">
+                        <p><strong>{{ $venda->veiculo->marca }} {{ $venda->veiculo->modelo }}</p></strong>  
+                        <p><strong>Comprador:</strong> {{ $venda->cliente->nome }}</p>
+                        <p><strong>Data:</strong> {{ \Carbon\Carbon::parse($venda->created_at)->format('d/m/Y') }}</p>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+
+        <!-- Todos os Veículos -->
+        <div class="bg-white shadow-md rounded-lg p-4">
+            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center">Todos os Veículos</h1>
+            <div class="mb-4">
+                <!-- Barra de Pesquisa para Veículos -->
+                <input type="text" id="searchVeiculos" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Pesquisar por modelo, marca..." onkeyup="filterList('veiculos')">
+            </div>
+            <div class="h-[32rem] overflow-y-auto">
+                <ul id="veiculosList">
+                    @foreach ($veiculos as $veiculo)
+                    <li class="mb-4 p-4 bg-white border-2 border-sky-600 rounded-lg" onclick="window.location.href='/veiculos/show/{{$veiculo->id}}'">
+                        <p><strong>{{ $veiculo->marca }} {{ $veiculo->modelo }} </strong></p>
+                        <p><strong>Ano/Modelo: </strong> {{ $veiculo->ano_modelo }}</p>
+                        <p><strong>Placa: </strong>{{ $veiculo->placa }}</p>
+                        <p><strong>Cor: </strong>{{ $veiculo->cor }}</p>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+
+        <!-- Todos os Clientes -->
+        <div class="bg-white shadow-md rounded-lg p-4">
+            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center">Todos os Clientes</h1>
+            <div class="mb-4">
+                <!-- Barra de Pesquisa para Clientes -->
+                <input type="text" id="searchClientes" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Pesquisar por nome, cidade..." onkeyup="filterList('clientes')">
+            </div>
+            <div class="h-[32rem] overflow-y-auto">
+                <ul id="clientesList">
+                    @foreach ($clientes as $cliente)
+                    <li class="mb-4 p-4 bg-white rounded-lg border-2 border-sky-600" onclick="window.location.href='/clientes/show/{{$cliente->id}}'">
+                        <p><strong>Nome:</strong> {{ $cliente->nome }}</p>
+                        <p><strong>ID:</strong> {{ $cliente->id }}</p>
+                        <p><strong>Telefone:</strong> {{ $cliente->contato }}</p>
+                        <p><strong>Cidade:</strong> {{ $cliente->cidade }} - {{ $cliente->estado }}</p>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
 
     <script>
         (function() {
@@ -102,7 +167,7 @@
             const mobileMenu = document.getElementById('mobileMenu');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const vehiclesLink = document.querySelector('a[href="{{ url('/veiculos/dashboard') }}"]').parentElement;
-            const clientesLink = document.querySelector('a[href="{{ url('/pessoa/dashboard') }}"]').parentElement;
+            const clientesLink = document.querySelector('a[href="{{ url('/clientes/dashboard') }}"]').parentElement;
             const clientesDropdownMenu = document.getElementById('clientesDropdownMenu');
 
             // Mobile Menu Toggle
@@ -169,6 +234,23 @@
                 }, 100);
             });
         })();
+
+        function filterList(section) {
+        var input, filter, list, items, i, txtValue;
+        input = document.getElementById("search" + section.charAt(0).toUpperCase() + section.slice(1));
+        filter = input.value.toLowerCase();
+        list = document.getElementById(section + "List");
+        items = list.getElementsByTagName("li");
+
+        for (i = 0; i < items.length; i++) {
+            txtValue = items[i].textContent || items[i].innerText;
+            if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                items[i].style.display = "";
+            } else {
+                items[i].style.display = "none";
+            }
+        }
+    }
 
     </script>
 

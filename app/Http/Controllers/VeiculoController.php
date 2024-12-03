@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Veiculo;
-use App\Models\Pessoa;
+use App\Models\Cliente;
 class VeiculoController extends Controller
 {
     /**
@@ -99,7 +99,7 @@ class VeiculoController extends Controller
               ->orWhere('ano_modelo', 'like', '%' . $search . '%');
         });
 
-        $pessoas = Pessoa::where(function($q) use ($search) {
+        $pessoas = Cliente::where(function($q) use ($search) {
             $q->where('cpf', 'like', '%' . $search . '%')
               ->orWhere('cnpj', 'like', '%' . $search . '%');
         })->pluck('id');

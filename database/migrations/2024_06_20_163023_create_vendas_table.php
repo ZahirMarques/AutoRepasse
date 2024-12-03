@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('vendas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('veiculo_id')->unique();
-            $table->unsignedBigInteger('pessoa_id');
+            $table->unsignedBigInteger('cliente_id');
             $table->boolean('financiamento')->default(false);
             $table->string('tipo');
         
             $table->foreign('veiculo_id')->references('id')->on('veiculos')->onDelete('cascade');
-            $table->foreign('pessoa_id')->references('id')->on('pessoas')->onDelete('cascade');
+            $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade');
         
             $table->timestamps();
         });

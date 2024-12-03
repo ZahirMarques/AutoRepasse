@@ -4,12 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cadastrar Venda</title>
+    <title>Editar Cliente</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Incluindo Tom Select -->
-    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.default.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        function formatCPF(input) {
+            let value = input.value.replace(/\D/g, '');
+
+            if (value.length <= 11) {
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
+            }
+
+            input.value = value;
+        }
+
+        function formatContato(input) {
+            let value = input.value.replace(/\D/g, '');
+
+            if (value.length <= 11) {
+                if (value.length > 6) {
+                    value = value.replace(/(\d{2})(\d{5})(\d)/, '($1) $2-$3');
+                } else if (value.length > 2) {
+                    value = value.replace(/(\d{2})(\d)/, '($1) $2');
+                }
+            }
+
+            input.value = value;
+        }
+
+        function formatEstado(input) {
+            let value = input.value.replace(/[^A-Za-z]/g, ''); // Remove qualquer coisa que não seja letra
+
+            // Limita a string a 2 caracteres e transforma em maiúsculas
+            value = value.slice(0, 2).toUpperCase();
+
+            input.value = value;
+        }
+
+        function formatCNPJ(input) {
+            // Remove todos os caracteres não numéricos
+            let value = input.value.replace(/\D/g, '');
+
+            // Aplica a formatação de CNPJ
+            if (value.length <= 14) {
+                value = value.replace(/^(\d{2})(\d)/, '$1.$2'); // Primeira parte
+                value = value.replace(/^(\d{2}\.\d{3})(\d)/, '$1.$2'); // Segunda parte
+                value = value.replace(/^(\d{2}\.\d{3}\.\d{3})(\d)/, '$1/$2'); // Terceira parte
+                value = value.replace(/^(\d{2}\.\d{3}\.\d{3}\/\d{4})(\d{2})$/, '$1-$2'); // Quarta parte
+            }
+
+            // Atualiza o valor do input com o formato
+            input.value = value;
+        }
+
+
+    </script>
+    
 </head>
 <body class="bg-gray-100">
 
@@ -42,22 +94,22 @@
                     </div>
                 </div>
 
-                <a href="{{ url('/venda/create') }}" 
-                   class="{{ request()->is('venda/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                <a href="{{ url('/vendas/create') }}" 
+                   class="{{ request()->is('vendas/create') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                    Vendas
                 </a>
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/pessoa/dashboard') }}" 
-                    class="{{ request()->is('pessoa/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    <a href="{{ url('/clientes/dashboard') }}" 
+                    class="{{ request()->is('clientes/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Clientes
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/pessoa/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
-                        <a href="{{ url('/pessoa/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
+                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
+                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
                     </div>
                 </div>
 
@@ -85,8 +137,8 @@
         <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
             <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
             <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
-            <a href="{{ url('/venda/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
-            <a href="{{ url('/pessoa/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
+            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
             <!-- Logout Button -->
             <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
                 @csrf
@@ -100,95 +152,53 @@
 <!-- Main Content -->
 <div class="bg-cover grid place-items-center min-h-screen pt-24 from-white">
 
-        
-    <!-- Cadastro de Venda Form -->
+    <!-- Formulário de Edição -->
     <div class="max-w-3xl w-full px-6 py-4 bg-white rounded-lg shadow-xl">
-        <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Cadastrar Venda</h1>
-        <form action="{{ url('/venda/store') }}" method="post">
+        <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Editar Cliente</h1>
+        <form action="/clientes/update/{{$cliente->id}}" method="post">
             @csrf
-    
-            @if(session('success'))
-                <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
-                    <span>{{ session('success') }}</span>
-                </div>
-            @endif
+            @method('PUT')
 
-            @if($errors->has('veiculo_id'))
-                <div id="error-message" class="bg-red-100 text-red-700 border border-red-300 p-4 mb-4 rounded flex justify-between items-center">
-                    <span> Venda não concluída. Veículo já vendido! </span>
-            
-                </div>
-            @endif
-
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    // Sucesso
-                    const successMessage = document.getElementById('success-message');
-
-                    if (successMessage) {
-                        setTimeout(() => {
-                            successMessage.style.display = 'none';
-                        }, 5000); // 10 segundos
-                    }
-
-                    // Erro
-                    const errorMessage = document.getElementById('error-message');
-
-                    if (errorMessage) {
-                        setTimeout(() => {
-                            errorMessage.style.display = 'none';
-                        }, 5000); // 10 segundos
-                    }
-                });
-            </script>
-
-
-
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    
-                <!-- Financiamento -->
-                <div class="flex items-center">
-                    <label for="financiamento" class="mr-2 text-sm font-medium text-gray-700">Financiamento:</label>
-                    <input type="checkbox" name="financiamento" class="w-4 h-4">
-                </div>
-    
-                <!-- Tipo -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Tipo de Pagamento:</label>
-                    <select name="tipo" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
-                        <option value="pix">Pix</option>
-                        <option value="prazo">À Prazo</option>
-                        <option value="vista">À Vista</option>
-                    </select>
+                    <label class="block text-sm font-medium text-gray-700">Nome:</label>
+                    <input type="text" name="nome" oninput="formatNome(this)" value="{{$cliente->nome}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
                 </div>
-    
-                <!-- Pessoas -->
+
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Cliente:</label>
-                    <select name="pessoa_id" id="pessoas" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
-                        @foreach ($pessoas as $pessoa)
-                            <option value="{{ $pessoa->id }}">{{ $pessoa->nome }}</option>
-                        @endforeach
-                    </select>
+                    <label class="block text-sm font-medium text-gray-700">Cidade:</label>
+                    <input type="text" name="cidade" oninput="formatCidade(this)" value="{{$cliente->cidade}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
                 </div>
-    
-                <!-- Veículos -->
+
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Veículo:</label>
-                    <select name="veiculo_id" id="veiculos" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
-                        @foreach ($veiculos as $veiculo)
-                            <option value="{{ $veiculo->id }}">{{ $veiculo->marca}} {{$veiculo->modelo}} | Placa: {{$veiculo->placa}} | Ano/Modelo: {{$veiculo->ano_modelo}}</option>
-                        @endforeach
-                    </select>
+                    <label class="block text-sm font-medium text-gray-700">Estado:</label>
+                    <input type="text" name="estado" oninput="formatEstado(this)" value="{{$cliente->estado}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
                 </div>
-    
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">CPF:</label>
+                    <input type="text" name="cpf" oninput="formatCPF(this)" maxlength="14" value="{{$cliente->cpf}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                    @error('cpf')
+                        <div style="color: red;">{{ $message }}</div>
+                    @enderror  
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">CNPJ:</label>
+                    <input type="text" name="cnpj" oninput="formatCNPJ(this)" maxlength="18" value="{{$cliente->cnpj}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Contato:</label>
+                    <input type="text" name="contato" oninput="formatContato(this)" maxlength="15"6 value="{{$cliente->contato}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                </div>
             </div>
-    
-            <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded focus:outline-none hover:bg-violet-700">Cadastrar Venda</button>
+
+            <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded focus:outline-none hover:bg-violet-700">
+                Salvar Alterações
+            </button>
         </form>
     </div>
-    
 </div>
 
 <script>
@@ -197,7 +207,7 @@
             const mobileMenu = document.getElementById('mobileMenu');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const vehiclesLink = document.querySelector('a[href="{{ url('/veiculos/dashboard') }}"]').parentElement;
-            const clientesLink = document.querySelector('a[href="{{ url('/pessoa/dashboard') }}"]').parentElement;
+            const clientesLink = document.querySelector('a[href="{{ url('/clientes/dashboard') }}"]').parentElement;
             const clientesDropdownMenu = document.getElementById('clientesDropdownMenu');
 
             // Mobile Menu Toggle
@@ -264,19 +274,6 @@
                 }, 100);
             });
         })();
-
-         // Inicializar Tom Select para os dropdowns
-        new TomSelect('#pessoas', {
-            create: false,
-            sortField: 'text',
-            placeholder: 'Selecione um cliente...',
-        });
-
-        new TomSelect('#veiculos', {
-            create: false,
-            sortField: 'text',
-            placeholder: 'Selecione um veículo...',
-        });
 
     </script>
 

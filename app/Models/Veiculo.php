@@ -29,7 +29,7 @@ class Veiculo extends Model
 
     public function proprietario()
     {
-        return $this->belongsTo(Pessoa::class, 'proprietario_id');
+        return $this->belongsTo(Cliente::class, 'proprietario_id');
     }
     
     protected $guarded = [];

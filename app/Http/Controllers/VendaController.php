@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Venda;
 use App\Models\Veiculo;
-use App\Models\Pessoa;
+use App\Models\Cliente;
 use Illuminate\Validation\Rule;
 
 class VendaController extends Controller
@@ -30,11 +30,11 @@ class VendaController extends Controller
     {
 
         $veiculos = Veiculo::all();
-        $pessoas = Pessoa::all();
+        $clientes = Cliente::all();
 
-        return view('venda.create', [
+        return view('vendas.create', [
             'veiculos' => $veiculos,
-            'pessoas' => $pessoas,
+            'clientes' => $clientes,
         ]);
 
     }
@@ -50,30 +50,30 @@ class VendaController extends Controller
         $request->validate([
             'financiamento' => 'nullable',
             'tipo' => 'nullable',
-            'pessoa_id' => 'required', // Garantir que o comprador foi enviado
+            'cliente_id' => 'required', // Garantir que o comprador foi enviado
             'veiculo_id' => 'required|unique:vendas,veiculo_id', // Garantir que o veículo não foi vendido antes
         ], [
             'veiculo_id.unique' => 'Este carro já foi vendido.',
-            'pessoa_id.required' => 'O comprador é obrigatório.',
+            'cliente_id.required' => 'O comprador é obrigatório.',
         ]);
         // Criar a venda
         $venda = Venda::create([
             'financiamento' => $request->has('financiamento'), // Checkbox do financiamento
             'tipo' => $request->tipo,
-            'pessoa_id' => $request->pessoa_id, // Campo correto
+            'cliente_id' => $request->cliente_id, // Campo correto
             'veiculo_id' => $request->veiculo_id, // Campo correto
         ]);
 
         
 
         $veiculo = Veiculo::findOrFail($request->veiculo_id);
-        $veiculo->proprietario_id = $request->pessoa_id; 
+        $veiculo->proprietario_id = $request->cliente_id; 
         $veiculo->save();
         // Recuperar todas as vendas para exibir na dashboard
-        $vendas = Venda::with(['pessoa', 'veiculo'])->get();
+        $vendas = Venda::with(['cliente', 'veiculo'])->get();
        
         // Redirecionar para o dashboard e exibir a venda criada
-        return redirect('venda/create')->with([
+        return redirect('auth/dashboard')->with([
         'success' => 'Venda cadastrada e proprietário do veículo atualizado com sucesso!', // Passa a venda para a sessão
         'error' => 'O veículo já foi vendido! ',
         'vendas' => $vendas,
@@ -95,10 +95,17 @@ class VendaController extends Controller
 
     public function dashboard()
     {
-        // Carregar todas as vendas com os relacionamentos (veículo e comprador)
-        $vendas = Venda::with(['pessoa', 'veiculo'])->get;
-
-        return view('dashboard', compact('vendas'));
+        // Recuperar todas as vendas com os relacionamentos (cliente e veiculo)
+        $vendas = Venda::with(['cliente', 'veiculo'])->get();
+        
+        // Recuperar todos os veículos
+        $veiculos = Veiculo::all();
+        
+        // Recuperar todos os clientes
+        $clientes = Cliente::all();
+    
+        // Retornar a view do dashboard com as variáveis
+        return view('auth.dashboard', compact('vendas', 'veiculos', 'clientes'));
     }
     /**
      * Show the form for editing the specified resource.

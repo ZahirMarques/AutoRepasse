@@ -76,22 +76,22 @@
                     </div>
                 </div>
 
-                <a href="{{ url('/venda/create') }}" 
-                   class="{{ request()->is('venda/create') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                <a href="{{ url('/vendas/create') }}" 
+                   class="{{ request()->is('vendas/create') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                    Vendas
                 </a>
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/pessoa/dashboard') }}" 
-                    class="{{ request()->is('pessoa/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    <a href="{{ url('/clientes/dashboard') }}" 
+                    class="{{ request()->is('clientes/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Clientes
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/pessoa/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
-                        <a href="{{ url('/pessoa/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
+                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
+                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
                     </div>
                 </div>
 
@@ -119,8 +119,8 @@
         <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
             <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
             <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
-            <a href="{{ url('/venda/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
-            <a href="{{ url('/pessoa/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
+            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
             <!-- Logout Button -->
             <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
                 @csrf
@@ -205,7 +205,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Chassi:</label>
-                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="chassi" maxlength="17" value="{{ $veiculo->chassi }}">
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="chassi" maxlength="17" placeholder="12345678910111213" value="{{ $veiculo->chassi }}">
                 @error('chassi')
                 <div style="color: red;">{{ $message }}</div>
                 @enderror
@@ -213,7 +213,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">ATPVE:</label>
-                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="atpve" placeholder="Código ATPVE" value="{{ $veiculo->atpve }}">
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="atpve" placeholder="Código ATPVE" maxlength="7" value="{{ $veiculo->atpve }}">
                 @error('atpve')
                 <div style="color: red;">{{ $message }}</div>
                 @enderror
@@ -221,7 +221,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">CRV:</label>
-                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="crv" placeholder="Número do CRV" value="{{ $veiculo->crv }}">
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="crv" placeholder="Número do CRV" maxlength="11" value="{{ $veiculo->crv }}">
                 @error('crv')
                 <div style="color: red;">{{ $message }}</div>
                 @enderror
@@ -229,7 +229,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Código Seg. CRV:</label>
-                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cod_seg_crv" maxlength="11" value="{{ $veiculo->cod_seg_crv }}">
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cod_seg_crv" maxlength="11" placeholder="12345678910" value="{{ $veiculo->cod_seg_crv }}">
                 @error('cod_seg_crv')
                 <div style="color: red;">{{ $message }}</div>
                 @enderror
@@ -237,7 +237,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">CLA:</label>
-                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cla" value="{{ $veiculo->cla }}">
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cla" maxlength="7" placeholder="1234567" value="{{ $veiculo->cla }}">
                 @error('cla')
                 <div style="color: red;">{{ $message }}</div>
                 @enderror
@@ -245,7 +245,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Código Seg. CLA:</label>
-                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cod_seg_cla" value="{{ $veiculo->cod_seg_cla }}">
+                <input class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" type="text" name="cod_seg_cla"  maxlength="6" placeholder="123456" value="{{ $veiculo->cod_seg_cla }}">
                 @error('cod_seg_cla')
                 <div style="color: red;">{{ $message }}</div>
                 @enderror
@@ -266,7 +266,7 @@
                     <div style="color: red;">{{ $message }}</div>
                 @enderror
             </div>
-            
+
             <div>
                 <label class="block text-sm font-medium text-gray-700">Categoria: <b>*</b></label>
                 <select class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm" name="categoria" required>
@@ -283,7 +283,6 @@
                     <div style="color: red;">{{ $message }}</div>
                 @enderror
             </div>
-            
         </div>
 
     <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded focus:outline-none hover:bg-violet-700">
@@ -299,7 +298,7 @@
             const mobileMenu = document.getElementById('mobileMenu');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const vehiclesLink = document.querySelector('a[href="{{ url('/veiculos/dashboard') }}"]').parentElement;
-            const clientesLink = document.querySelector('a[href="{{ url('/pessoa/dashboard') }}"]').parentElement;
+            const clientesLink = document.querySelector('a[href="{{ url('/clientes/dashboard') }}"]').parentElement;
             const clientesDropdownMenu = document.getElementById('clientesDropdownMenu');
 
             // Mobile Menu Toggle

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Editar Pessoa</title>
+    <title>Cadastro de clientes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -61,12 +62,12 @@
 
 
     </script>
-    
 </head>
+
 <body class="bg-gray-100">
 
-<!-- Navbar -->
-<nav class="bg-white shadow-md py-6 border-b-2 fixed top-0 left-0 w-full z-10">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md py-6 border-b-2 fixed top-0 left-0 w-full z-10">
         <div class="container mx-auto px-4 flex flex-wrap items-center justify-center">
             <!-- Logo -->
             <div class="flex items-center absolute left-4">
@@ -101,15 +102,15 @@
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/pessoa/dashboard') }}" 
-                    class="{{ request()->is('pessoa/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    <a href="{{ url('/clientes/dashboard') }}" 
+                    class="{{ request()->is('clientes/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Clientes
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/pessoa/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
-                        <a href="{{ url('/pessoa/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
+                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
+                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
                     </div>
                 </div>
 
@@ -138,7 +139,7 @@
             <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
             <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
             <a href="{{ url('/venda/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
-            <a href="{{ url('/pessoa/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
             <!-- Logout Button -->
             <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
                 @csrf
@@ -149,57 +150,50 @@
         </div>
     </nav>
 
-<!-- Main Content -->
-<div class="bg-cover grid place-items-center min-h-screen pt-24 from-white">
+    <!-- Main Content -->
+    <div class="bg-cover grid place-items-center min-h-screen pt-24">
+        <div class="max-w-3xl w-full px-6 py-4 bg-white rounded-lg shadow-xl">
+            <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Cadastrar Cliente</h1>
+            <form action="{{ url('/clientes/store') }}" method="post">
+                @csrf
 
-    <!-- Formulário de Edição -->
-    <div class="max-w-3xl w-full px-6 py-4 bg-white rounded-lg shadow-xl">
-        <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Editar Cliente</h1>
-        <form action="/pessoa/update/{{$pessoa->id}}" method="post">
-            @csrf
-            @method('PUT')
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Nome:</label>
+                        <input type="text" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Cidade:</label>
+                        <input type="text" name="cidade" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Estado:</label>
+                        <input type="text" name="estado" oninput="formatEstado(this)" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                    </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Nome:</label>
-                    <input type="text" name="nome" oninput="formatNome(this)" value="{{$pessoa->nome}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">CPF:</label>
+                        <input type="text" name="cpf" oninput="formatCPF(this)" maxlength="14" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                        @error('cpf')
+                            <div style="color: red;">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">CNPJ:</label>
+                        <input type="text" name="cnpj" oninput="formatCNPJ(this)" maxlength="18" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Contato:</label>
+                        <input type="text" name="contato" oninput="formatContato(this)" maxlength="15" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                    </div>
                 </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Cidade:</label>
-                    <input type="text" name="cidade" oninput="formatCidade(this)" value="{{$pessoa->cidade}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Estado:</label>
-                    <input type="text" name="estado" oninput="formatEstado(this)" value="{{$pessoa->estado}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">CPF:</label>
-                    <input type="text" name="cpf" oninput="formatCPF(this)" maxlength="14" value="{{$pessoa->cpf}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
-                    @error('cpf')
-                        <div style="color: red;">{{ $message }}</div>
-                    @enderror  
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">CNPJ:</label>
-                    <input type="text" name="cnpj" oninput="formatCNPJ(this)" maxlength="18" value="{{$pessoa->cnpj}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Contato:</label>
-                    <input type="text" name="contato" oninput="formatContato(this)" maxlength="15"6 value="{{$pessoa->contato}}" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
-                </div>
-            </div>
-
-            <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded focus:outline-none hover:bg-violet-700">
-                Salvar Alterações
-            </button>
-        </form>
+                <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded hover:bg-violet-700 p-3 ">Cadastrar</button>
+            </form>
+        </div>
     </div>
-</div>
+</body>
 
 <script>
         (function() {
@@ -207,7 +201,7 @@
             const mobileMenu = document.getElementById('mobileMenu');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const vehiclesLink = document.querySelector('a[href="{{ url('/veiculos/dashboard') }}"]').parentElement;
-            const clientesLink = document.querySelector('a[href="{{ url('/pessoa/dashboard') }}"]').parentElement;
+            const clientesLink = document.querySelector('a[href="{{ url('/clientes/dashboard') }}"]').parentElement;
             const clientesDropdownMenu = document.getElementById('clientesDropdownMenu');
 
             // Mobile Menu Toggle
@@ -277,5 +271,4 @@
 
     </script>
 
-</body>
 </html>

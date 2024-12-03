@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pessoas Cadastradas</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cadastrar Venda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Incluindo Tom Select -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.default.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
 </head>
 <body class="bg-gray-100">
 
-    <!-- Navbar -->
-    <nav class="bg-white shadow-md py-6 border-b-2 fixed top-0 left-0 w-full z-10">
+<!-- Navbar -->
+<nav class="bg-white shadow-md py-6 border-b-2 fixed top-0 left-0 w-full z-10">
         <div class="container mx-auto px-4 flex flex-wrap items-center justify-center">
             <!-- Logo -->
             <div class="flex items-center absolute left-4">
@@ -38,22 +42,22 @@
                     </div>
                 </div>
 
-                <a href="{{ url('/venda/create') }}" 
-                   class="{{ request()->is('venda/create') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                <a href="{{ url('/vendas/create') }}" 
+                   class="{{ request()->is('vendas/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                    Vendas
                 </a>
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/pessoa/dashboard') }}" 
-                    class="{{ request()->is('pessoa/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    <a href="{{ url('/clientes/dashboard') }}" 
+                    class="{{ request()->is('clientes/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Clientes
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/pessoa/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
-                        <a href="{{ url('/pessoa/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
+                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
+                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
                     </div>
                 </div>
 
@@ -81,8 +85,8 @@
         <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
             <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
             <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
-            <a href="{{ url('/venda/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
-            <a href="{{ url('/pessoa/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
+            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
             <!-- Logout Button -->
             <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
                 @csrf
@@ -93,136 +97,107 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="pt-24 min-h-screen flex justify-center items-start">
-    <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg w-full lg:w-2/3">
+<!-- Main Content -->
+<div class="bg-cover grid place-items-center min-h-screen pt-24 from-white">
 
-        <h1 class="text-2xl font-bold text-center text-violet-600 mb-8">Clientes Cadastrados</h1>
+        
+    <!-- Cadastro de Venda Form -->
+    <div class="max-w-3xl w-full px-6 py-4 bg-white rounded-lg shadow-xl">
+        <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Cadastrar Venda</h1>
+        <form action="{{ url('/vendas/store') }}" method="post">
+            @csrf
+    
+            @if(session('success'))
+                <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
 
-        <!-- Botão Cadastrar Novo Cliente e Barra de Pesquisa -->
-        <div class="flex justify-between items-center mb-6">
-            <button onclick="window.location.href='/pessoa/create'" 
-                    class="px-6 py-2 bg-violet-600 text-white font-bold rounded-lg shadow-lg hover:bg-violet-700">
-                Cadastrar Novo Cliente
-            </button>
-
-            <div class="relative w-1/2">
-                <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" 
-                       placeholder="Pesquisar por cliente..." onkeyup="searchClients()">
-            </div>
-        </div>
-
-        @if(session('success'))
-            <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
-                <span>{{ session('success') }}</span>
-            </div>
+            @if($errors->has('veiculo_id'))
+                <div id="error-message" class="bg-red-100 text-red-700 border border-red-300 p-4 mb-4 rounded flex justify-between items-center">
+                    <span> Venda não concluída. Veículo já vendido! </span>
+            
+                </div>
+            @endif
 
             <script>
-                setTimeout(function() {
-                    document.getElementById('success-message').style.display = 'none';
-                }, 5000);
-            </script>
-        @endif
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Sucesso
+                    const successMessage = document.getElementById('success-message');
 
-        <div>
-            <ul class="list-none p-0">
-                @if (isset($pessoas) && count($pessoas) > 0)
-                    @foreach ($pessoas as $pessoa)
-                        <li class="mb-6 p-6 bg-white rounded-lg border-2 border-blue-500 hover:shadow-xl transition client-item">
-                            <div class="flex items-center space-x-6">
-                                <div class="flex-1 cursor-pointer" onclick="window.location.href='/pessoa/show/{{$pessoa->id}}'">
-                                    <p class="text-xl font-semibold text-gray-700"><strong>{{ $pessoa->nome }}</strong></p>
-                                    <p class="text-sm text-gray-600"><strong>ID:</strong> {{ $pessoa->id }}</p>
-                                    <p class="text-sm text-gray-600"><strong>Cidade:</strong> {{ $pessoa->cidade }}</p>
-                                    <p class="text-sm text-gray-600"><strong>Estado:</strong> {{ $pessoa->estado }}</p>
-                                    <p class="text-sm text-gray-600"><strong>Contato:</strong> {{ $pessoa->contato }}</p>
-                                </div>
-                                <div>
-                                    <form action="/pessoa/edit/{{ $pessoa->id }}" method="get" class="inline">
-                                        @csrf
-                                        <button type="submit" 
-                                                class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
-                                            Editar
-                                        </button>
-                                    </form>
-                                    <form action="/pessoa/destroy/{{ $pessoa->id }}" method="post" class="inline ml-2" onsubmit="return confirmDelete()">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" 
-                                                class="px-4 py-2 text-red-600 bg-white border-2 border-red-600 text-red font-bold rounded-lg hover:bg-red-600 hover:text-white transition">
-                                            Deletar
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </li>
-                    @endforeach
-                @else
-                    <p class="text-center text-gray-700">Você ainda não cadastrou nenhum cliente.</p>
-                @endif
-            </ul>
-        </div>
+                    if (successMessage) {
+                        setTimeout(() => {
+                            successMessage.style.display = 'none';
+                        }, 5000); // 10 segundos
+                    }
+
+                    // Erro
+                    const errorMessage = document.getElementById('error-message');
+
+                    if (errorMessage) {
+                        setTimeout(() => {
+                            errorMessage.style.display = 'none';
+                        }, 5000); // 10 segundos
+                    }
+                });
+            </script>
+
+
+
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    
+                <!-- Financiamento -->
+                <div class="flex items-center">
+                    <label for="financiamento" class="mr-2 text-sm font-medium text-gray-700">Financiamento:</label>
+                    <input type="checkbox" name="financiamento" class="w-4 h-4">
+                </div>
+    
+                <!-- Tipo -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Tipo de Pagamento:</label>
+                    <select name="tipo" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                        <option value="pix">Pix</option>
+                        <option value="prazo">À Prazo</option>
+                        <option value="vista">À Vista</option>
+                    </select>
+                </div>
+    
+                <!-- clientes -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Cliente:</label>
+                    <select name="cliente_id" id="clientes" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                        @foreach ($clientes as $cliente)
+                            <option value="{{ $cliente->id }}">{{ $cliente->nome }}</option>
+                        @endforeach
+                    </select>
+                </div>
+    
+                <!-- Veículos -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Veículo:</label>
+                    <select name="veiculo_id" id="veiculos" class="mt-1 block w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-white text-sm">
+                        @foreach ($veiculos as $veiculo)
+                            <option value="{{ $veiculo->id }}">{{ $veiculo->marca}} {{$veiculo->modelo}} | Placa: {{$veiculo->placa}} | Ano/Modelo: {{$veiculo->ano_modelo}}</option>
+                        @endforeach
+                    </select>
+                </div>
+    
+            </div>
+    
+            <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded focus:outline-none hover:bg-violet-700">Cadastrar Venda</button>
+        </form>
     </div>
+    
 </div>
 
 <script>
-    function searchClients() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const clients = document.querySelectorAll('.client-item');
-
-        clients.forEach(client => {
-            const name = client.textContent.toLowerCase();
-            client.style.display = name.includes(input) ? 'block' : 'none';
-        });
-    }
-
-    function confirmDelete() {
-        return confirm("Tem certeza que deseja excluir este cliente?");
-    }
-</script>
-
-
-<script>
-    function searchClients() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const clients = document.querySelectorAll('.client-item');
-
-        clients.forEach(client => {
-            const textContent = client.textContent.toLowerCase();
-            client.style.display = textContent.includes(input) ? 'block' : 'none';
-        });
-    }
-
-    function confirmDelete() {
-        return confirm("Tem certeza que deseja excluir este cliente?");
-    }
-</script>
-
-
-    <script>
-        function searchClients() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const clients = document.querySelectorAll('.client-item');
-
-            clients.forEach(client => {
-                const name = client.textContent.toLowerCase();
-                client.style.display = name.includes(input) ? 'block' : 'none';
-            });
-        }
-
-        function confirmDelete() {
-            return confirm("Tem certeza que deseja excluir este cliente?");
-        }
-    </script>
-
-
-    <script>
         (function() {
             const menuToggle = document.getElementById('menuToggle');
             const mobileMenu = document.getElementById('mobileMenu');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const vehiclesLink = document.querySelector('a[href="{{ url('/veiculos/dashboard') }}"]').parentElement;
-            const clientesLink = document.querySelector('a[href="{{ url('/pessoa/dashboard') }}"]').parentElement;
+            const clientesLink = document.querySelector('a[href="{{ url('/clientes/dashboard') }}"]').parentElement;
             const clientesDropdownMenu = document.getElementById('clientesDropdownMenu');
 
             // Mobile Menu Toggle
@@ -290,6 +265,20 @@
             });
         })();
 
+         // Inicializar Tom Select para os dropdowns
+        new TomSelect('#clientes', {
+            create: false,
+            sortField: 'text',
+            placeholder: 'Selecione um cliente...',
+        });
+
+        new TomSelect('#veiculos', {
+            create: false,
+            sortField: 'text',
+            placeholder: 'Selecione um veículo...',
+        });
+
     </script>
+
 </body>
 </html>

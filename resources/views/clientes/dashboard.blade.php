@@ -1,69 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cadastro de Pessoas</title>
+    <title>Clientes Cadastrados</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        function formatCPF(input) {
-            let value = input.value.replace(/\D/g, '');
-
-            if (value.length <= 11) {
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
-            }
-
-            input.value = value;
-        }
-
-        function formatContato(input) {
-            let value = input.value.replace(/\D/g, '');
-
-            if (value.length <= 11) {
-                if (value.length > 6) {
-                    value = value.replace(/(\d{2})(\d{5})(\d)/, '($1) $2-$3');
-                } else if (value.length > 2) {
-                    value = value.replace(/(\d{2})(\d)/, '($1) $2');
-                }
-            }
-
-            input.value = value;
-        }
-
-        function formatEstado(input) {
-            let value = input.value.replace(/[^A-Za-z]/g, ''); // Remove qualquer coisa que não seja letra
-
-            // Limita a string a 2 caracteres e transforma em maiúsculas
-            value = value.slice(0, 2).toUpperCase();
-
-            input.value = value;
-        }
-
-        function formatCNPJ(input) {
-            // Remove todos os caracteres não numéricos
-            let value = input.value.replace(/\D/g, '');
-
-            // Aplica a formatação de CNPJ
-            if (value.length <= 14) {
-                value = value.replace(/^(\d{2})(\d)/, '$1.$2'); // Primeira parte
-                value = value.replace(/^(\d{2}\.\d{3})(\d)/, '$1.$2'); // Segunda parte
-                value = value.replace(/^(\d{2}\.\d{3}\.\d{3})(\d)/, '$1/$2'); // Terceira parte
-                value = value.replace(/^(\d{2}\.\d{3}\.\d{3}\/\d{4})(\d{2})$/, '$1-$2'); // Quarta parte
-            }
-
-            // Atualiza o valor do input com o formato
-            input.value = value;
-        }
-
-
-    </script>
 </head>
-
 <body class="bg-gray-100">
 
     <!-- Navbar -->
@@ -95,22 +38,22 @@
                     </div>
                 </div>
 
-                <a href="{{ url('/venda/create') }}" 
-                   class="{{ request()->is('venda/create') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                <a href="{{ url('/vendas/create') }}" 
+                   class="{{ request()->is('vendas/create') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                    Vendas
                 </a>
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/pessoa/dashboard') }}" 
-                    class="{{ request()->is('pessoa/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    <a href="{{ url('/clientes/dashboard') }}" 
+                    class="{{ request()->is('clientes/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Clientes
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/pessoa/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
-                        <a href="{{ url('/pessoa/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
+                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
+                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
                     </div>
                 </div>
 
@@ -138,8 +81,8 @@
         <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
             <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
             <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
-            <a href="{{ url('/venda/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
-            <a href="{{ url('/pessoa/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
+            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
             <!-- Logout Button -->
             <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
                 @csrf
@@ -151,57 +94,140 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="bg-cover grid place-items-center min-h-screen pt-24">
-        <div class="max-w-3xl w-full px-6 py-4 bg-white rounded-lg shadow-xl">
-            <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Cadastrar Cliente</h1>
-            <form action="{{ url('/pessoa/store') }}" method="post">
-                @csrf
+    <div class="pt-24 min-h-screen flex justify-center items-start">
+    <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg w-full lg:w-2/3">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Nome:</label>
-                        <input type="text" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Cidade:</label>
-                        <input type="text" name="cidade" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Estado:</label>
-                        <input type="text" name="estado" oninput="formatEstado(this)" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
-                    </div>
+        <h1 class="text-2xl font-bold text-center text-violet-600 mb-8">Clientes Cadastrados</h1>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">CPF:</label>
-                        <input type="text" name="cpf" oninput="formatCPF(this)" maxlength="14" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
-                        @error('cpf')
-                            <div style="color: red;">{{ $message }}</div>
-                        @enderror
-                    </div>
+        <!-- Botão Cadastrar Novo Cliente e Barra de Pesquisa -->
+        <div class="flex justify-between items-center mb-6">
+            <button onclick="window.location.href='/clientes/create'" 
+                    class="px-6 py-2 bg-violet-600 text-white font-bold rounded-lg shadow-lg hover:bg-violet-700">
+                Cadastrar Novo Cliente
+            </button>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">CNPJ:</label>
-                        <input type="text" name="cnpj" oninput="formatCNPJ(this)" maxlength="18" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
-                    </div>
+            <div class="relative w-1/2">
+                <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" 
+                       placeholder="Pesquisar por cliente..." onkeyup="searchClients()">
+            </div>
+        </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Contato:</label>
-                        <input type="text" name="contato" oninput="formatContato(this)" maxlength="15" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
-                    </div>
-                </div>
-                <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded hover:bg-violet-700 p-3 ">Cadastrar</button>
-            </form>
+        @if(session('success'))
+            <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
+                <span>{{ session('success') }}</span>
+                <button id="close-btn" class="ml-4 text-green-700 font-bold">X</button>
+            </div>
+
+            <script>
+                document.getElementById('close-btn').onclick = function() {
+                    document.getElementById('success-message').style.display = 'none';
+                };
+
+                setTimeout(function() {
+                    document.getElementById('success-message').style.display = 'none';
+                }, 10000);
+            </script>
+        @endif
+
+        <div>
+            <ul class="list-none p-0">
+                @if (isset($clientes) && count($clientes) > 0)
+                    @foreach ($clientes as $cliente)
+                        <li class="mb-6 p-6 bg-white rounded-lg border-2 border-blue-500 hover:shadow-xl transition client-item">
+                            <div class="flex items-center space-x-6">
+                                <div class="flex-1 cursor-pointer" onclick="window.location.href='/clientes/show/{{$cliente->id}}'">
+                                    <p class="text-xl font-semibold text-gray-700"><strong>{{ $cliente->nome }}</strong></p>
+                                    <p class="text-sm text-gray-600"><strong>ID:</strong> {{ $cliente->id }}</p>
+                                    <p class="text-sm text-gray-600"><strong>Cidade:</strong> {{ $cliente->cidade }}</p>
+                                    <p class="text-sm text-gray-600"><strong>Estado:</strong> {{ $cliente->estado }}</p>
+                                    <p class="text-sm text-gray-600"><strong>Contato:</strong> {{ $cliente->contato }}</p>
+                                </div>
+                                <div>
+                                    <form action="/clientes/edit/{{ $cliente->id }}" method="get" class="inline">
+                                        @csrf
+                                        <button type="submit" 
+                                                class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
+                                            Editar
+                                        </button>
+                                    </form>
+                                    <form action="/clientes/destroy/{{ $cliente->id }}" method="post" class="inline ml-2" onsubmit="return confirmDelete()">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" 
+                                                class="px-4 py-2 text-red-600 bg-white border-2 border-red-600 text-red font-bold rounded-lg hover:bg-red-600 hover:text-white transition">
+                                            Deletar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                @else
+                    <p class="text-center text-gray-700">Você ainda não cadastrou nenhum cliente.</p>
+                @endif
+            </ul>
         </div>
     </div>
-</body>
+</div>
 
 <script>
+    function searchClients() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const clients = document.querySelectorAll('.client-item');
+
+        clients.forEach(client => {
+            const name = client.textContent.toLowerCase();
+            client.style.display = name.includes(input) ? 'block' : 'none';
+        });
+    }
+
+    function confirmDelete() {
+        return confirm("Tem certeza que deseja excluir este cliente?");
+    }
+</script>
+
+
+<script>
+    function searchClients() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const clients = document.querySelectorAll('.client-item');
+
+        clients.forEach(client => {
+            const textContent = client.textContent.toLowerCase();
+            client.style.display = textContent.includes(input) ? 'block' : 'none';
+        });
+    }
+
+    function confirmDelete() {
+        return confirm("Tem certeza que deseja excluir este cliente?");
+    }
+</script>
+
+
+    <script>
+        function searchClients() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const clients = document.querySelectorAll('.client-item');
+
+            clients.forEach(client => {
+                const name = client.textContent.toLowerCase();
+                client.style.display = name.includes(input) ? 'block' : 'none';
+            });
+        }
+
+        function confirmDelete() {
+            return confirm("Tem certeza que deseja excluir este cliente?");
+        }
+    </script>
+
+
+    <script>
         (function() {
             const menuToggle = document.getElementById('menuToggle');
             const mobileMenu = document.getElementById('mobileMenu');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const vehiclesLink = document.querySelector('a[href="{{ url('/veiculos/dashboard') }}"]').parentElement;
-            const clientesLink = document.querySelector('a[href="{{ url('/pessoa/dashboard') }}"]').parentElement;
+            const clientesLink = document.querySelector('a[href="{{ url('/clientes/dashboard') }}"]').parentElement;
             const clientesDropdownMenu = document.getElementById('clientesDropdownMenu');
 
             // Mobile Menu Toggle
@@ -270,5 +296,5 @@
         })();
 
     </script>
-
+</body>
 </html>
