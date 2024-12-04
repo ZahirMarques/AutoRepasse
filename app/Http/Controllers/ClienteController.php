@@ -41,7 +41,6 @@ class ClienteController extends Controller
             'contato' => $request->contato,
         ]);
 
-        session()->flash('success', 'Cliente cadastrado com sucesso!');
         return redirect('/clientes/dashboard')->with('success', 'Cliente cadastrado com sucesso!');
     }
 

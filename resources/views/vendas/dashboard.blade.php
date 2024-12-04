@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes Cadastrados</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vendas Cadastradas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-gray-100">
-
     <!-- Navbar -->
     <nav class="bg-white shadow-md py-6 border-b-2 fixed top-0 left-0 w-full z-10">
         <div class="container mx-auto px-4 flex flex-wrap items-center justify-center">
@@ -27,7 +27,7 @@
                 <!-- Veículos Dropdown -->
                 <div class="group relative">
                     <a href="{{ url('/veiculos/dashboard') }}" 
-                       class="{{ request()->is('veiculos/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                       class="{{ request()->is('veiculos/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                        Veículos
                     </a>
 
@@ -55,7 +55,7 @@
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
                     <a href="{{ url('/clientes/dashboard') }}" 
-                    class="{{ request()->is('clientes/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    class="{{ request()->is('clientes/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Clientes
                     </a>
 
@@ -102,129 +102,69 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="pt-24 min-h-screen flex justify-center items-start">
-    <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg w-full lg:w-2/3">
-
-        <h1 class="text-2xl font-bold text-center text-violet-600 mb-8">Clientes Cadastrados</h1>
-
-        <!-- Botão Cadastrar Novo Cliente e Barra de Pesquisa -->
-        <div class="flex justify-between items-center mb-6">
-            <button onclick="window.location.href='/clientes/create'" 
-                    class="px-6 py-2 bg-violet-600 text-white font-bold rounded-lg shadow-lg hover:bg-violet-700">
-                Cadastrar Novo Cliente
-            </button>
-
-            <div class="relative w-1/2">
-                <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" 
-                       placeholder="Pesquisar por cliente..." onkeyup="searchClients()">
+        <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg w-full lg:w-2/3">
+    
+            <h1 class="text-2xl font-bold text-center text-violet-600 mb-8">Vendas Cadastradas</h1>
+    
+            <!-- Botão Cadastrar Nova Venda e Barra de Pesquisa -->
+            <div class="flex justify-between items-center mb-6">
+                <button onclick="window.location.href='/vendas/create'" 
+                        class="px-6 py-2 bg-violet-600 text-white font-bold rounded-lg shadow-lg hover:bg-violet-700">
+                    Cadastrar Nova Venda
+                </button>
+    
+                <div class="relative w-1/2">
+                    <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" 
+                           placeholder="Pesquisar por venda..." onkeyup="searchVendas()">
+                </div>
             </div>
-        </div>
-
-        @if(session('success'))
-            <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
-                <span>{{ session('success') }}</span>
+    
+            @if(session('success'))
+                <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
+                    <span>{{ session('success') }}</span>
+                </div>
+    
+                <script>
+                    setTimeout(function() {
+                        document.getElementById('success-message').style.display = 'none';
+                    }, 5000);
+                </script>
+            @endif
+    
+            <div>
+                <ul class="list-none p-0">
+                    @if (isset($vendas) && count($vendas) > 0)
+                        @foreach ($vendas as $venda)
+                            <li class="mb-6 p-6 bg-white rounded-lg border-2 border-blue-500 venda-item">
+                                <div class="flex items-center space-x-6">
+                                    <div class="flex-1" onclick="window.location.href='/vendas/show/{{$venda->id}}'">
+                                        <p class="text-xl font-semibold text-gray-700"><strong>Venda ID:</strong> {{ $venda->id }}</p>
+                                        <p class="text-sm text-gray-600"><strong>Cliente:</strong> {{ $venda->cliente->nome }}</p>
+                                        <p class="text-sm text-gray-600"><strong>Veículo:</strong> {{ $venda->veiculo->marca }} {{ $venda->veiculo->modelo }}</p>
+                                        <p class="text-sm text-gray-600"><strong>Tipo:</strong> {{ $venda->tipo ?? 'N/A' }}</p>
+                                        <p class="text-sm text-gray-600"><strong>Financiamento:</strong> {{ $venda->financiamento ? 'Sim' : 'Não' }}</p>
+                                    </div>
+                                    <div>
+                                        <form action="/vendas/destroy/{{ $venda->id }}" method="post" class="inline ml-2" onsubmit="return confirmDelete()">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" 
+                                                    class="px-4 py-2 text-red-600 bg-white border-2 border-red-600 font-bold rounded-lg hover:bg-red-600 hover:text-white transition">
+                                                Deletar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    @else
+                        <p class="text-center text-gray-700">Nenhuma venda cadastrada no momento.</p>
+                    @endif
+                </ul>
             </div>
-
-            <script>
-
-                setTimeout(function() {
-                    document.getElementById('success-message').style.display = 'none';
-                }, 5000);
-            </script>
-        @endif
-
-        <div>
-            <ul class="list-none p-0">
-                @if (isset($clientes) && count($clientes) > 0)
-                    @foreach ($clientes as $cliente)
-                        <li class="mb-6 p-6 bg-white rounded-lg border-2 border-blue-500 hover:shadow-xl transition client-item">
-                            <div class="flex items-center space-x-6">
-                                <div class="flex-1 cursor-pointer" onclick="window.location.href='/clientes/show/{{$cliente->id}}'">
-                                    <p class="text-xl font-semibold text-gray-700"><strong>{{ $cliente->nome }}</strong></p>
-                                    <p class="text-sm text-gray-600"><strong>ID:</strong> {{ $cliente->id }}</p>
-                                    <p class="text-sm text-gray-600"><strong>Cidade:</strong> {{ $cliente->cidade }}</p>
-                                    <p class="text-sm text-gray-600"><strong>Estado:</strong> {{ $cliente->estado }}</p>
-                                    <p class="text-sm text-gray-600"><strong>Contato:</strong> {{ $cliente->contato }}</p>
-                                </div>
-                                <div>
-                                    <form action="/clientes/edit/{{ $cliente->id }}" method="get" class="inline">
-                                        @csrf
-                                        <button type="submit" 
-                                                class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
-                                            Editar
-                                        </button>
-                                    </form>
-                                    <form action="/clientes/destroy/{{ $cliente->id }}" method="post" class="inline ml-2" onsubmit="return confirmDelete()">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" 
-                                                class="px-4 py-2 text-red-600 bg-white border-2 border-red-600 text-red font-bold rounded-lg hover:bg-red-600 hover:text-white transition">
-                                            Deletar
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </li>
-                    @endforeach
-                @else
-                    <p class="text-center text-gray-700">Você ainda não cadastrou nenhum cliente.</p>
-                @endif
-            </ul>
         </div>
     </div>
-</div>
-
-<script>
-    function searchClients() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const clients = document.querySelectorAll('.client-item');
-
-        clients.forEach(client => {
-            const name = client.textContent.toLowerCase();
-            client.style.display = name.includes(input) ? 'block' : 'none';
-        });
-    }
-
-    function confirmDelete() {
-        return confirm("Tem certeza que deseja excluir este cliente?");
-    }
-</script>
-
-
-<script>
-    function searchClients() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const clients = document.querySelectorAll('.client-item');
-
-        clients.forEach(client => {
-            const textContent = client.textContent.toLowerCase();
-            client.style.display = textContent.includes(input) ? 'block' : 'none';
-        });
-    }
-
-    function confirmDelete() {
-        return confirm("Tem certeza que deseja excluir este cliente?");
-    }
-</script>
-
-
-    <script>
-        function searchClients() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const clients = document.querySelectorAll('.client-item');
-
-            clients.forEach(client => {
-                const name = client.textContent.toLowerCase();
-                client.style.display = name.includes(input) ? 'block' : 'none';
-            });
-        }
-
-        function confirmDelete() {
-            return confirm("Tem certeza que deseja excluir este cliente?");
-        }
-    </script>
-
 
     <script>
         (function() {
@@ -236,13 +176,13 @@
             const vendasLink = document.querySelector('a[href="{{ url('/vendas/dashboard') }}"]').parentElement;
             const clientesDropdownMenu = document.getElementById('clientesDropdownMenu');
             const vendasDropdownMenu = document.getElementById('vendasDropdownMenu');
-
+    
             // Mobile Menu Toggle
             menuToggle.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
                 mobileMenu.classList.toggle('flex');
             });
-
+    
             // Veículos Dropdown
             vehiclesLink.addEventListener('mouseenter', () => {
                 dropdownMenu.classList.remove('hidden');
@@ -250,7 +190,7 @@
                     dropdownMenu.classList.add('opacity-100');
                 }, 0);
             });
-
+    
             vehiclesLink.addEventListener('mouseleave', () => {
                 setTimeout(() => {
                     if (!dropdownMenu.matches(':hover')) {
@@ -259,19 +199,19 @@
                     }
                 }, 100);
             });
-
+    
             dropdownMenu.addEventListener('mouseenter', () => {
                 dropdownMenu.classList.remove('opacity-0');
                 dropdownMenu.classList.add('opacity-100');
             });
-
+    
             dropdownMenu.addEventListener('mouseleave', () => {
                 setTimeout(() => {
                     dropdownMenu.classList.remove('opacity-100');
                     dropdownMenu.classList.add('hidden');
                 }, 100);
             });
-
+    
             // Clientes Dropdown
             clientesLink.addEventListener('mouseenter', () => {
                 clientesDropdownMenu.classList.remove('hidden');
@@ -279,7 +219,7 @@
                     clientesDropdownMenu.classList.add('opacity-100');
                 }, 0);
             });
-
+    
             clientesLink.addEventListener('mouseleave', () => {
                 setTimeout(() => {
                     if (!clientesDropdownMenu.matches(':hover')) {
@@ -288,27 +228,27 @@
                     }
                 }, 100);
             });
-
+    
             clientesDropdownMenu.addEventListener('mouseenter', () => {
                 clientesDropdownMenu.classList.remove('opacity-0');
                 clientesDropdownMenu.classList.add('opacity-100');
             });
-
+    
             clientesDropdownMenu.addEventListener('mouseleave', () => {
                 setTimeout(() => {
                     clientesDropdownMenu.classList.remove('opacity-100');
                     clientesDropdownMenu.classList.add('hidden');
                 }, 100);
             });
-
-            // Vendas Dropdown
+    
+             // Vendas Dropdown
             vendasLink.addEventListener('mouseenter', () => {
                 vendasDropdownMenu.classList.remove('hidden');
                 setTimeout(() => {
                     vendasDropdownMenu.classList.add('opacity-100');
                 }, 0);
             });
-
+    
             vendasLink.addEventListener('mouseleave', () => {
                 setTimeout(() => {
                     if (!vendasDropdownMenu.matches(':hover')) {
@@ -317,12 +257,12 @@
                     }
                 }, 100);
             });
-
+    
             vendasDropdownMenu.addEventListener('mouseenter', () => {
                 vendasDropdownMenu.classList.remove('opacity-0');
                 vendasDropdownMenu.classList.add('opacity-100');
             });
-
+    
             vendasDropdownMenu.addEventListener('mouseleave', () => {
                 setTimeout(() => {
                     vendasDropdownMenu.classList.remove('opacity-100');
@@ -330,12 +270,29 @@
                 }, 100);
             });
         })();
-
+    
         function filterList(section) {
         var input, filter, list, items, i, txtValue;
         input = document.getElementById("search" + section.charAt(0).toUpperCase() + section.slice(1));
         filter = input.value.toLowerCase();
         list = document.getElementById(section + "List");
+        items = list.getElementsByTagName("li");
+    
+        for (i = 0; i < items.length; i++) {
+            txtValue = items[i].textContent || items[i].innerText;
+            if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                items[i].style.display = "";
+            } else {
+                items[i].style.display = "none";
+            }
+        }
+    }
+
+    function searchVendas() {
+        var input, filter, list, items, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toLowerCase();
+        list = document.querySelector(".list-none");
         items = list.getElementsByTagName("li");
 
         for (i = 0; i < items.length; i++) {
@@ -348,6 +305,12 @@
         }
     }
 
+    function confirmDelete() {
+        return confirm('Tem certeza que deseja deletar esta venda?');
+    }
+    
     </script>
+
+    
 </body>
 </html>

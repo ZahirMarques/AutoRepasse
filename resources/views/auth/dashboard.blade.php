@@ -38,10 +38,19 @@
                     </div>
                 </div>
 
-                <a href="{{ url('/vendas/create') }}" 
-                   class="{{ request()->is('vendas/create') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
-                   Vendas
-                </a>
+                <!-- Dropdown Menu -->
+                <div class="group relative">
+                    <a href="{{ url('/vendas/dashboard') }}" 
+                    class="{{ request()->is('vendas/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    Vendas
+                    </a>
+
+                    <!-- Dropdown Menu -->
+                    <div id="vendasDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
+                        <a href="{{ url('/vendas/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Vendas Cadastradas</a>
+                        <a href="{{ url('/vendas/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Venda</a>
+                    </div>
+                </div>
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
@@ -107,9 +116,10 @@
             <div class="h-[32rem] overflow-y-auto">
                 <ul id="vendasList">
                     @foreach ($vendas as $venda)
-                    <li class="mb-4 p-4 bg-white rounded-lg border-2 border-sky-600">
+                    <li class="mb-4 p-4 bg-white rounded-lg border-2 border-sky-600 hover:shadow-xl transition cursor-pointer" onclick="window.location.href='/vendas/dashboard'">
                         <p><strong>{{ $venda->veiculo->marca }} {{ $venda->veiculo->modelo }}</p></strong>  
                         <p><strong>Comprador:</strong> {{ $venda->cliente->nome }}</p>
+                        <p><strong>ID da Venda:</strong> {{ $venda->id }}</p>
                         <p><strong>Data:</strong> {{ \Carbon\Carbon::parse($venda->created_at)->format('d/m/Y') }}</p>
                     </li>
                     @endforeach
@@ -127,7 +137,7 @@
             <div class="h-[32rem] overflow-y-auto">
                 <ul id="veiculosList">
                     @foreach ($veiculos as $veiculo)
-                    <li class="mb-4 p-4 bg-white border-2 border-sky-600 rounded-lg" onclick="window.location.href='/veiculos/show/{{$veiculo->id}}'">
+                    <li class="mb-4 p-4 bg-white border-2 border-sky-600 rounded-lg hover:shadow-xl transition cursor-pointer" onclick="window.location.href='/veiculos/show/{{$veiculo->id}}'">
                         <p><strong>{{ $veiculo->marca }} {{ $veiculo->modelo }} </strong></p>
                         <p><strong>Ano/Modelo: </strong> {{ $veiculo->ano_modelo }}</p>
                         <p><strong>Placa: </strong>{{ $veiculo->placa }}</p>
@@ -148,7 +158,7 @@
             <div class="h-[32rem] overflow-y-auto">
                 <ul id="clientesList">
                     @foreach ($clientes as $cliente)
-                    <li class="mb-4 p-4 bg-white rounded-lg border-2 border-sky-600" onclick="window.location.href='/clientes/show/{{$cliente->id}}'">
+                    <li class="mb-4 p-4 bg-white rounded-lg border-2 border-sky-600 hover:shadow-xl transition cursor-pointer" onclick="window.location.href='/clientes/show/{{$cliente->id}}'">
                         <p><strong>Nome:</strong> {{ $cliente->nome }}</p>
                         <p><strong>ID:</strong> {{ $cliente->id }}</p>
                         <p><strong>Telefone:</strong> {{ $cliente->contato }}</p>
@@ -168,7 +178,9 @@
             const dropdownMenu = document.getElementById('dropdownMenu');
             const vehiclesLink = document.querySelector('a[href="{{ url('/veiculos/dashboard') }}"]').parentElement;
             const clientesLink = document.querySelector('a[href="{{ url('/clientes/dashboard') }}"]').parentElement;
+            const vendasLink = document.querySelector('a[href="{{ url('/vendas/dashboard') }}"]').parentElement;
             const clientesDropdownMenu = document.getElementById('clientesDropdownMenu');
+            const vendasDropdownMenu = document.getElementById('vendasDropdownMenu');
 
             // Mobile Menu Toggle
             menuToggle.addEventListener('click', () => {
@@ -231,6 +243,35 @@
                 setTimeout(() => {
                     clientesDropdownMenu.classList.remove('opacity-100');
                     clientesDropdownMenu.classList.add('hidden');
+                }, 100);
+            });
+
+             // Vendas Dropdown
+            vendasLink.addEventListener('mouseenter', () => {
+                vendasDropdownMenu.classList.remove('hidden');
+                setTimeout(() => {
+                    vendasDropdownMenu.classList.add('opacity-100');
+                }, 0);
+            });
+
+            vendasLink.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    if (!vendasDropdownMenu.matches(':hover')) {
+                        vendasDropdownMenu.classList.remove('opacity-100');
+                        vendasDropdownMenu.classList.add('hidden');
+                    }
+                }, 100);
+            });
+
+            vendasDropdownMenu.addEventListener('mouseenter', () => {
+                vendasDropdownMenu.classList.remove('opacity-0');
+                vendasDropdownMenu.classList.add('opacity-100');
+            });
+
+            vendasDropdownMenu.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    vendasDropdownMenu.classList.remove('opacity-100');
+                    vendasDropdownMenu.classList.add('hidden');
                 }, 100);
             });
         })();

@@ -73,7 +73,7 @@ class VendaController extends Controller
         $vendas = Venda::with(['cliente', 'veiculo'])->get();
        
         // Redirecionar para o dashboard e exibir a venda criada
-        return redirect('auth/dashboard')->with([
+        return redirect('/vendas/dashboard')->with([
         'success' => 'Venda cadastrada e proprietário do veículo atualizado com sucesso!', // Passa a venda para a sessão
         'error' => 'O veículo já foi vendido! ',
         'vendas' => $vendas,
@@ -107,6 +107,21 @@ class VendaController extends Controller
         // Retornar a view do dashboard com as variáveis
         return view('auth.dashboard', compact('vendas', 'veiculos', 'clientes'));
     }
+
+    public function vendasdashboard()
+    {
+        // Recuperar todas as vendas com os relacionamentos (cliente e veiculo)
+        $vendas = Venda::with(['cliente', 'veiculo'])->get();
+        
+        // Recuperar todos os veículos
+        $veiculos = Veiculo::all();
+        
+        // Recuperar todos os clientes
+        $clientes = Cliente::all();
+    
+        // Retornar a view do dashboard com as variáveis
+        return view('vendas.dashboard', compact('vendas', 'veiculos', 'clientes'));
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -138,6 +153,8 @@ class VendaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Venda::findOrFail($id)->delete();
+
+        return redirect('/vendas/dashboard');
     }
 }

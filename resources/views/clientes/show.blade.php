@@ -36,10 +36,19 @@
                 </div>
             </div>
 
-            <a href="{{ url('/vendas/create') }}" 
-               class="{{ request()->is('vendas/create') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
-               Vendas
-            </a>
+            <!-- Vendas Dropdown -->
+            <div class="group relative">
+                <a href="{{ url('/vendas/dashboard') }}" 
+                class="{{ request()->is('vendas/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                Vendas
+                </a>
+
+                <!-- Dropdown Menu -->
+                <div id="vendasDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
+                    <a href="{{ url('/vendas/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Vendas Cadastradas</a>
+                    <a href="{{ url('/vendas/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Venda</a>
+                </div>
+            </div>
 
             <div class="group relative">
                 <a href="{{ url('/clientes/dashboard') }}" 
@@ -113,7 +122,9 @@
         const dropdownMenu = document.getElementById('dropdownMenu');
         const vehiclesLink = document.querySelector('a[href="{{ url('/veiculos/dashboard') }}"]').parentElement;
         const clientesLink = document.querySelector('a[href="{{ url('/clientes/dashboard') }}"]').parentElement;
+        const vendasLink = document.querySelector('a[href="{{ url('/vendas/dashboard') }}"]').parentElement;
         const clientesDropdownMenu = document.getElementById('clientesDropdownMenu');
+        const vendasDropdownMenu = document.getElementById('vendasDropdownMenu');
 
         // Mobile Menu Toggle
         menuToggle.addEventListener('click', () => {
@@ -178,7 +189,54 @@
                 clientesDropdownMenu.classList.add('hidden');
             }, 100);
         });
+
+        // Vendas Dropdown
+        vendasLink.addEventListener('mouseenter', () => {
+            vendasDropdownMenu.classList.remove('hidden');
+            setTimeout(() => {
+                vendasDropdownMenu.classList.add('opacity-100');
+            }, 0);
+        });
+
+        vendasLink.addEventListener('mouseleave', () => {
+            setTimeout(() => {
+                if (!vendasDropdownMenu.matches(':hover')) {
+                    vendasDropdownMenu.classList.remove('opacity-100');
+                    vendasDropdownMenu.classList.add('hidden');
+                }
+            }, 100);
+        });
+
+        vendasDropdownMenu.addEventListener('mouseenter', () => {
+            vendasDropdownMenu.classList.remove('opacity-0');
+            vendasDropdownMenu.classList.add('opacity-100');
+        });
+
+        vendasDropdownMenu.addEventListener('mouseleave', () => {
+            setTimeout(() => {
+                vendasDropdownMenu.classList.remove('opacity-100');
+                vendasDropdownMenu.classList.add('hidden');
+            }, 100);
+        });
     })();
+
+    function filterList(section) {
+    var input, filter, list, items, i, txtValue;
+    input = document.getElementById("search" + section.charAt(0).toUpperCase() + section.slice(1));
+    filter = input.value.toLowerCase();
+    list = document.getElementById(section + "List");
+    items = list.getElementsByTagName("li");
+
+    for (i = 0; i < items.length; i++) {
+        txtValue = items[i].textContent || items[i].innerText;
+        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+            items[i].style.display = "";
+        } else {
+            items[i].style.display = "none";
+        }
+    }
+}
+
 </script>
 
 </body>

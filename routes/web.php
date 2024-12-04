@@ -64,8 +64,12 @@ use App\Http\Controllers\VendaController;
 Route::controller(VendaController::class)->group(function() {
     Route::get('/vendas/create', 'create')->name('venda.create');
     Route::post('/vendas/store', 'store')->name('venda.store');
+    Route::get('/vendas/dashboard', 'vendasdashboard')->name('vendas.dashboard');
     Route::get('/vendas/show/{id}', 'show')->name('venda.show');
+
     Route::get('/dashboard', [VendaController::class, 'dashboard'])->name('auth.dashboard');
+
+    Route::delete('/vendas/destroy/{id}', 'destroy');
 // Adicionada a rota com parâmetro para exibir uma venda específica
     // Route::get('/auth/dashboard', 'dashboard')->name('auth.dashboard'); // Adicionada a rota para exibir o dashboard de vendas
 })->middleware('auth');
