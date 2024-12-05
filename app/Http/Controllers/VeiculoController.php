@@ -51,6 +51,7 @@ class VeiculoController extends Controller
             'atpve' => 'nullable|string|max:20|unique:veiculos', // Campo opcional, único
             'combustivel' => 'required|in:Gasolina,Diesel,Flex,Híbrido,Álcool,Elétrico',
             'categoria' => 'required|in:SUV,Hatch,Sedã,Picape,Esportivo,Minivan,Outro',
+            'situacao' => 'nullable|in:À venda,Vendido',
         ], [
             'marca.required' => 'O campo Marca é obrigatório.',
             'modelo.required' => 'O campo Modelo é obrigatório.',
@@ -78,13 +79,12 @@ class VeiculoController extends Controller
             'atpve.unique' => 'Este ATPVE já está cadastrado.',
         ]);
 
-        Veiculo::create($request->all());
+        Veiculo::create($validatedData);
         return redirect('veiculos/create')->with('success', 'Veículo cadastrado com sucesso!');
 
     }
 
-    public function dashboard(Request $request)
-{
+    public function dashboard(Request $request){
     $query = Veiculo::query();
 
     if ($request->has('search') && !empty($request->search)) {
@@ -96,16 +96,20 @@ class VeiculoController extends Controller
               ->orWhere('modelo', 'like','%' . $search . '%')
               ->orWhere('placa', 'like', '%' . $search . '%')
               ->orWhere('cor', 'like', '%' . $search . '%')
-              ->orWhere('ano_modelo', 'like', '%' . $search . '%');
+              ->orWhere('ano_modelo', 'like', '%' . $search . '%')
+              ->orWhere('situacao', 'like', '%' . $search . '%');
         });
 
-        $pessoas = Cliente::where(function($q) use ($search) {
+        $clientes = Cliente::where(function($q) use ($search) {
             $q->where('cpf', 'like', '%' . $search . '%')
               ->orWhere('cnpj', 'like', '%' . $search . '%');
         })->pluck('id');
 
-        if ($pessoas->isNotEmpty()) {
-            $query->orWhereIn('proprietario_id', $pessoas);
+        if ($clientes->isNotEmpty()) {
+            $query->orWhereIn('proprietario_id', $clientes);
+        }
+        if ($request->has('situacao') && !empty($request->situacao)) {
+            $query->where('situacao', $request->situacao);
         }
     }
 

@@ -142,6 +142,7 @@
                         <p><strong>Ano/Modelo: </strong> {{ $veiculo->ano_modelo }}</p>
                         <p><strong>Placa: </strong>{{ $veiculo->placa }}</p>
                         <p><strong>Cor: </strong>{{ $veiculo->cor }}</p>
+                        <p><strong>Situação:</strong> {{ $veiculo->situacao }}</p>
                     </li>
                     @endforeach
                 </ul>

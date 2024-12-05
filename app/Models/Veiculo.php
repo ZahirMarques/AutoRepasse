@@ -24,7 +24,8 @@ class Veiculo extends Model
         'atpve',
         'proprietario_id',
         'combustivel',
-        'categoria'
+        'categoria',
+        'situacao'
     ];
 
     public function proprietario()

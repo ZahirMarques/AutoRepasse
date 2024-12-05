@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('atpve', 20)->unique()->nullable();
             $table->enum('combustivel', ['Gasolina', 'Diesel', 'Flex', 'Híbrido', 'Álcool', 'Elétrico'])->nullable(false);
             $table->enum('categoria', ['SUV', 'Hatch', 'Sedã', 'Picape', 'Esportivo', 'Minivan','Outro'])->nullable(false);
+            $table->enum('situacao', ['À venda', 'Vendido'])->default('À venda')->nullable(false);
             $table->timestamps();
             
         });

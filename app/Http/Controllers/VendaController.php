@@ -68,6 +68,7 @@ class VendaController extends Controller
 
         $veiculo = Veiculo::findOrFail($request->veiculo_id);
         $veiculo->proprietario_id = $request->cliente_id; 
+        $veiculo->situacao = 'Vendido';
         $veiculo->save();
         // Recuperar todas as vendas para exibir na dashboard
         $vendas = Venda::with(['cliente', 'veiculo'])->get();
@@ -88,9 +89,9 @@ class VendaController extends Controller
      */
     public function show($id)
     {
-        $venda = Veiculo::findOrFail($id);
+        $venda = Venda::with(['veiculo','cliente'])->FindOrFail($id);
 
-        return view('venda.show', ['venda' => $venda]);
+        return view('vendas.show', compact('venda'));
     }
 
     public function dashboard()
@@ -99,7 +100,7 @@ class VendaController extends Controller
         $vendas = Venda::with(['cliente', 'veiculo'])->get();
         
         // Recuperar todos os veículos
-        $veiculos = Veiculo::all();
+        $veiculos = Veiculo::where('situacao', 'À venda')->get();
         
         // Recuperar todos os clientes
         $clientes = Cliente::all();
@@ -154,6 +155,12 @@ class VendaController extends Controller
     public function destroy($id)
     {
         Venda::findOrFail($id)->delete();
+
+        $venda = Venda::findOrFail($id);
+        $veiculo = Veiculo::findOrFail($venda->veiculo_id);
+        $veiculo->situacao = 'em estoque';
+        $veiculo->save();
+        $venda->delete();
 
         return redirect('/vendas/dashboard');
     }

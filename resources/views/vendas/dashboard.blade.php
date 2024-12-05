@@ -138,7 +138,7 @@
                         @foreach ($vendas as $venda)
                             <li class="mb-6 p-6 bg-white rounded-lg border-2 border-blue-500 venda-item">
                                 <div class="flex items-center space-x-6">
-                                    <div class="flex-1" onclick="window.location.href='/vendas/show/{{$venda->id}}'">
+                                    <div class="flex-1 cursor-pointer" onclick="window.location.href='/vendas/show/{{$venda->id}}'">
                                         <p class="text-xl font-semibold text-gray-700"><strong>Venda ID:</strong> {{ $venda->id }}</p>
                                         <p class="text-sm text-gray-600"><strong>Cliente:</strong> {{ $venda->cliente->nome }}</p>
                                         <p class="text-sm text-gray-600"><strong>Veículo:</strong> {{ $venda->veiculo->marca }} {{ $venda->veiculo->modelo }}</p>

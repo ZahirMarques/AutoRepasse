@@ -65,7 +65,7 @@ Route::controller(VendaController::class)->group(function() {
     Route::get('/vendas/create', 'create')->name('venda.create');
     Route::post('/vendas/store', 'store')->name('venda.store');
     Route::get('/vendas/dashboard', 'vendasdashboard')->name('vendas.dashboard');
-    Route::get('/vendas/show/{id}', 'show')->name('venda.show');
+    Route::get('/vendas/show/{id}', 'show')->name('vendas.show');
 
     Route::get('/dashboard', [VendaController::class, 'dashboard'])->name('auth.dashboard');
 
