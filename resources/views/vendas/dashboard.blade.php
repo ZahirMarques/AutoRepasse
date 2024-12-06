@@ -19,14 +19,14 @@
 
             <!-- Navigation Links (Desktop) -->
             <div class="flex items-center space-x-8 text-base font-semibold text-gray-700 md:flex hidden">
-                <a href="{{ url('/dashboard') }}" 
+                <a href="{{ url('/dashboard') }}"
                    class="{{ request()->is('dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                    Dashboard
                 </a>
 
                 <!-- Veículos Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/veiculos/dashboard') }}" 
+                    <a href="{{ url('/veiculos/dashboard') }}"
                        class="{{ request()->is('veiculos/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                        Veículos
                     </a>
@@ -40,7 +40,7 @@
 
                 <!-- Vendas Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/vendas/dashboard') }}" 
+                    <a href="{{ url('/vendas/dashboard') }}"
                     class="{{ request()->is('vendas/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Vendas
                     </a>
@@ -54,7 +54,7 @@
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/clientes/dashboard') }}" 
+                    <a href="{{ url('/clientes/dashboard') }}"
                     class="{{ request()->is('clientes/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Clientes
                     </a>
@@ -104,34 +104,39 @@
 
     <div class="pt-24 min-h-screen flex justify-center items-start">
         <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg w-full lg:w-2/3">
-    
+
             <h1 class="text-2xl font-bold text-center text-violet-600 mb-8">Vendas Cadastradas</h1>
-    
+
             <!-- Botão Cadastrar Nova Venda e Barra de Pesquisa -->
             <div class="flex justify-between items-center mb-6">
-                <button onclick="window.location.href='/vendas/create'" 
+                <button onclick="window.location.href='/vendas/create'"
                         class="px-6 py-2 bg-violet-600 text-white font-bold rounded-lg shadow-lg hover:bg-violet-700">
                     Cadastrar Nova Venda
                 </button>
-    
-                <div class="relative w-1/2">
-                    <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" 
-                           placeholder="Pesquisar por venda..." onkeyup="searchVendas()">
+
+                <button onclick="window.print()"
+                        class="px-6 py-2 border-2 border-violet-600 text-violet-600 font-bold rounded-lg shadow-lg hover:bg-gray-100 ml-2"> <!-- Adicionada margem à esquerda -->
+                    Imprimir
+                </button>
+
+                <div class="relative w-2/3"> <!-- Aumentando a largura da barra de pesquisa -->
+                    <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600"
+                        placeholder="Pesquisar por venda..." onkeyup="searchVendas()">
                 </div>
             </div>
-    
+
             @if(session('success'))
                 <div id="success-message" class="bg-green-100 text-green-700 border border-green-300 p-4 mb-4 rounded flex justify-between items-center">
                     <span>{{ session('success') }}</span>
                 </div>
-    
+
                 <script>
                     setTimeout(function() {
                         document.getElementById('success-message').style.display = 'none';
                     }, 5000);
                 </script>
             @endif
-    
+
             <div>
                 <ul class="list-none p-0">
                     @if (isset($vendas) && count($vendas) > 0)
@@ -149,7 +154,7 @@
                                         <form action="/vendas/destroy/{{ $venda->id }}" method="post" class="inline ml-2" onsubmit="return confirmDelete()">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" 
+                                            <button type="submit"
                                                     class="px-4 py-2 text-red-600 bg-white border-2 border-red-600 font-bold rounded-lg hover:bg-red-600 hover:text-white transition">
                                                 Deletar
                                             </button>
@@ -176,13 +181,13 @@
             const vendasLink = document.querySelector('a[href="{{ url('/vendas/dashboard') }}"]').parentElement;
             const clientesDropdownMenu = document.getElementById('clientesDropdownMenu');
             const vendasDropdownMenu = document.getElementById('vendasDropdownMenu');
-    
+
             // Mobile Menu Toggle
             menuToggle.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
                 mobileMenu.classList.toggle('flex');
             });
-    
+
             // Veículos Dropdown
             vehiclesLink.addEventListener('mouseenter', () => {
                 dropdownMenu.classList.remove('hidden');
@@ -190,7 +195,7 @@
                     dropdownMenu.classList.add('opacity-100');
                 }, 0);
             });
-    
+
             vehiclesLink.addEventListener('mouseleave', () => {
                 setTimeout(() => {
                     if (!dropdownMenu.matches(':hover')) {
@@ -199,19 +204,19 @@
                     }
                 }, 100);
             });
-    
+
             dropdownMenu.addEventListener('mouseenter', () => {
                 dropdownMenu.classList.remove('opacity-0');
                 dropdownMenu.classList.add('opacity-100');
             });
-    
+
             dropdownMenu.addEventListener('mouseleave', () => {
                 setTimeout(() => {
                     dropdownMenu.classList.remove('opacity-100');
                     dropdownMenu.classList.add('hidden');
                 }, 100);
             });
-    
+
             // Clientes Dropdown
             clientesLink.addEventListener('mouseenter', () => {
                 clientesDropdownMenu.classList.remove('hidden');
@@ -219,7 +224,7 @@
                     clientesDropdownMenu.classList.add('opacity-100');
                 }, 0);
             });
-    
+
             clientesLink.addEventListener('mouseleave', () => {
                 setTimeout(() => {
                     if (!clientesDropdownMenu.matches(':hover')) {
@@ -228,19 +233,19 @@
                     }
                 }, 100);
             });
-    
+
             clientesDropdownMenu.addEventListener('mouseenter', () => {
                 clientesDropdownMenu.classList.remove('opacity-0');
                 clientesDropdownMenu.classList.add('opacity-100');
             });
-    
+
             clientesDropdownMenu.addEventListener('mouseleave', () => {
                 setTimeout(() => {
                     clientesDropdownMenu.classList.remove('opacity-100');
                     clientesDropdownMenu.classList.add('hidden');
                 }, 100);
             });
-    
+
              // Vendas Dropdown
             vendasLink.addEventListener('mouseenter', () => {
                 vendasDropdownMenu.classList.remove('hidden');
@@ -248,7 +253,7 @@
                     vendasDropdownMenu.classList.add('opacity-100');
                 }, 0);
             });
-    
+
             vendasLink.addEventListener('mouseleave', () => {
                 setTimeout(() => {
                     if (!vendasDropdownMenu.matches(':hover')) {
@@ -257,12 +262,12 @@
                     }
                 }, 100);
             });
-    
+
             vendasDropdownMenu.addEventListener('mouseenter', () => {
                 vendasDropdownMenu.classList.remove('opacity-0');
                 vendasDropdownMenu.classList.add('opacity-100');
             });
-    
+
             vendasDropdownMenu.addEventListener('mouseleave', () => {
                 setTimeout(() => {
                     vendasDropdownMenu.classList.remove('opacity-100');
@@ -270,14 +275,14 @@
                 }, 100);
             });
         })();
-    
+
         function filterList(section) {
         var input, filter, list, items, i, txtValue;
         input = document.getElementById("search" + section.charAt(0).toUpperCase() + section.slice(1));
         filter = input.value.toLowerCase();
         list = document.getElementById(section + "List");
         items = list.getElementsByTagName("li");
-    
+
         for (i = 0; i < items.length; i++) {
             txtValue = items[i].textContent || items[i].innerText;
             if (txtValue.toLowerCase().indexOf(filter) > -1) {
@@ -308,9 +313,9 @@
     function confirmDelete() {
         return confirm('Tem certeza que deseja deletar esta venda?');
     }
-    
+
     </script>
 
-    
+
 </body>
 </html>

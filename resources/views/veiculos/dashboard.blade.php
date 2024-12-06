@@ -19,14 +19,14 @@
 
             <!-- Navigation Links (Desktop) -->
             <div class="flex items-center space-x-8 text-base font-semibold text-gray-700 md:flex hidden">
-                <a href="{{ url('/dashboard') }}" 
+                <a href="{{ url('/dashboard') }}"
                    class="{{ request()->is('dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                    Dashboard
                 </a>
 
                 <!-- Veículos Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/veiculos/dashboard') }}" 
+                    <a href="{{ url('/veiculos/dashboard') }}"
                        class="{{ request()->is('veiculos/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                        Veículos
                     </a>
@@ -40,7 +40,7 @@
 
                 <!-- Vendas Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/vendas/dashboard') }}" 
+                    <a href="{{ url('/vendas/dashboard') }}"
                     class="{{ request()->is('vendas/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Vendas
                     </a>
@@ -54,7 +54,7 @@
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/clientes/dashboard') }}" 
+                    <a href="{{ url('/clientes/dashboard') }}"
                     class="{{ request()->is('clientes/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Clientes
                     </a>
@@ -111,15 +111,20 @@
 
         <!-- Botão Cadastrar Novo Veículo e Barra de Pesquisa -->
         <div class="flex justify-between items-center mb-6">
-            <button onclick="window.location.href='/veiculos/create'" 
+            <button onclick="window.location.href='/veiculos/create'"
                     class="px-6 py-2 bg-violet-600 text-white font-bold rounded-lg shadow-lg hover:bg-violet-700">
                 Cadastrar Novo Veículo
             </button>
 
+            <button onclick="window.print()"
+                    class="px-6 py-2 border-2 border-violet-600 text-violet-600 font-bold rounded-lg shadow-lg hover:bg-gray-100 ml-2">
+                Imprimir
+            </button>
+
             <!-- Barra de Pesquisa -->
-            <div class="relative w-1/2">
-                <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" 
-                       placeholder="Pesquisar por veículo..." onkeyup="searchVehicles()">
+            <div class="relative w-2/3"> <!-- Aumentando a largura da barra de pesquisa -->
+                <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600"
+                    placeholder="Pesquisar por veículo..." onkeyup="searchVehicles()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h9" />
                 </svg>
@@ -144,7 +149,7 @@
                         }, 10000);
                     </script>
                 @endif
-                
+
         <div>
             <ul class="list-none p-0">
                 @if (count($veiculo) > 0)
@@ -161,7 +166,7 @@
                                 <div>
                                     <form action="/veiculos/edit/{{ $veiculos->id }}" method="get" class="inline">
                                         @csrf
-                                        <button type="submit" 
+                                        <button type="submit"
                                                 class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
                                             Editar
                                         </button>
@@ -169,12 +174,12 @@
                                     <form action="/veiculos/destroy/{{ $veiculos->id }}" method="post" class="inline ml-2" onsubmit="return confirmDelete()">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" 
+                                        <button type="submit"
                                                 class="px-4 py-2 text-red-600 bg-white border-2 border-red-600 text-red font-bold rounded-lg hover:bg-red-600 hover:text-white transition">
                                             Deletar
                                         </button>
                                     </form>
-                                    
+
                                     <script>
                                         function confirmDelete() {
                                             return confirm("Tem certeza que deseja excluir este veículo?");
@@ -197,10 +202,10 @@
         function searchVehicles() {
         // Pega o valor da barra de pesquisa
         const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-        
+
         // Pega todos os itens da lista de veículos
         const veiculos = document.querySelectorAll('.veiculo-item');
-        
+
         // Itera sobre os itens da lista
         veiculos.forEach(function(veiculo) {
             // Pega o texto dos campos que queremos buscar (por exemplo, nome do veículo, placa, etc.)
@@ -208,7 +213,7 @@
             const veiculoAno = veiculo.querySelector('.text-sm.text-gray-600').innerText.toLowerCase();
             const veiculoCor = veiculo.querySelector('.text-sm.text-gray-600').innerText.toLowerCase();
             const veiculoPlaca = veiculo.querySelectorAll('.text-sm.text-gray-600')[1].innerText.toLowerCase();
-            
+
             // Verifica se o nome, ano ou placa do veículo contém o texto da pesquisa
             if (veiculoNome.includes(searchQuery) || veiculoAno.includes(searchQuery) || veiculoCor.includes(searchQuery) || veiculoPlaca.includes(searchQuery)) {
                 veiculo.style.display = ''; // Exibe o item
@@ -217,7 +222,7 @@
             }
         });
     }
-    
+
     (function() {
         const menuToggle = document.getElementById('menuToggle');
         const mobileMenu = document.getElementById('mobileMenu');

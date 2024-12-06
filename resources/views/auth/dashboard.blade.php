@@ -19,14 +19,14 @@
 
             <!-- Navigation Links (Desktop) -->
             <div class="flex items-center space-x-8 text-base font-semibold text-gray-700 md:flex hidden">
-                <a href="{{ url('/dashboard') }}" 
+                <a href="{{ url('/dashboard') }}"
                    class="{{ request()->is('dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                    Dashboard
                 </a>
 
                 <!-- Veículos Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/veiculos/dashboard') }}" 
+                    <a href="{{ url('/veiculos/dashboard') }}"
                        class="{{ request()->is('veiculos/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                        Veículos
                     </a>
@@ -40,7 +40,7 @@
 
                 <!-- Dropdown Menu -->
                 <div class="group relative">
-                    <a href="{{ url('/vendas/dashboard') }}" 
+                    <a href="{{ url('/vendas/dashboard') }}"
                     class="{{ request()->is('vendas/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Vendas
                     </a>
@@ -54,7 +54,7 @@
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/clientes/dashboard') }}" 
+                    <a href="{{ url('/clientes/dashboard') }}"
                     class="{{ request()->is('clientes/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                     Clientes
                     </a>
@@ -108,7 +108,7 @@
 
         <!-- Todas as Vendas -->
         <div class="bg-white shadow-md rounded-lg p-4">
-            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center">Todas as Vendas</h1>
+            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center">Vendas</h1>
             <div class="mb-4">
                 <!-- Barra de Pesquisa para Vendas -->
                 <input type="text" id="searchVendas" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Pesquisar por veículo, comprador..." onkeyup="filterList('vendas')">
@@ -117,7 +117,7 @@
                 <ul id="vendasList">
                     @foreach ($vendas as $venda)
                     <li class="mb-4 p-4 bg-white rounded-lg border-2 border-sky-600 hover:shadow-xl transition cursor-pointer" onclick="window.location.href='/vendas/dashboard'">
-                        <p><strong>{{ $venda->veiculo->marca }} {{ $venda->veiculo->modelo }}</p></strong>  
+                        <p><strong>{{ $venda->veiculo->marca }} {{ $venda->veiculo->modelo }}</p></strong>
                         <p><strong>Comprador:</strong> {{ $venda->cliente->nome }}</p>
                         <p><strong>ID da Venda:</strong> {{ $venda->id }}</p>
                         <p><strong>Data:</strong> {{ \Carbon\Carbon::parse($venda->created_at)->format('d/m/Y') }}</p>
@@ -129,7 +129,7 @@
 
         <!-- Todos os Veículos -->
         <div class="bg-white shadow-md rounded-lg p-4">
-            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center">Todos os Veículos</h1>
+            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center">Veículos Disponíveis</h1>
             <div class="mb-4">
                 <!-- Barra de Pesquisa para Veículos -->
                 <input type="text" id="searchVeiculos" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Pesquisar por modelo, marca..." onkeyup="filterList('veiculos')">
@@ -151,7 +151,7 @@
 
         <!-- Todos os Clientes -->
         <div class="bg-white shadow-md rounded-lg p-4">
-            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center">Todos os Clientes</h1>
+            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center">Clientes</h1>
             <div class="mb-4">
                 <!-- Barra de Pesquisa para Clientes -->
                 <input type="text" id="searchClientes" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Pesquisar por nome, cidade..." onkeyup="filterList('clientes')">
