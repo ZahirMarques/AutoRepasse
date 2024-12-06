@@ -107,19 +107,19 @@
         <div class="max-w-3xl w-full px-6 py-4 bg-white rounded-lg shadow-xl">
             <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Detalhes da Venda</h1>
             
-            <h2 class="text-lg font-bold text-gray-700 mb-4">Informações do Veículo</h2>
+            <h2 class="text-lg font-bold text-violet-600 mb-2">Informações do Veículo</h2>
             <p><b>Veículo:</b> {{$venda->veiculo->marca}} {{$venda->veiculo->modelo}}</p>
             <p><b>Ano/Modelo:</b> {{$venda->veiculo->ano_modelo}}</p>
             <p><b>Placa:</b> {{$venda->veiculo->placa}}</p>
             <p><b>Cor:</b> {{$venda->veiculo->cor}}</p>
             <p><b>Renavam:</b> {{$venda->veiculo->renavam}}</p>
             
-            <h2 class="text-lg font-bold text-gray-700 mt-6 mb-4">Informações do Comprador</h2>
+            <h2 class="text-lg font-bold text-violet-600 mt-4 mb-2">Informações do Comprador</h2>
             <p><b>Nome:</b> {{$venda->cliente->nome}}</p>
             <p><b>Cidade:</b> {{$venda->cliente->cidade}}-{{$venda->cliente->estado}}</p>
             <p><b>Telefone:</b> {{$venda->cliente->contato}}</p>
             
-            <h2 class="text-lg font-bold text-gray-700 mt-6 mb-4">Detalhes da Venda</h2>
+            <h2 class="text-lg font-bold text-violet-600 mt-4 mb-2">Detalhes da Venda</h2>
             <p><b>Tipo:</b> {{$venda->tipo}}</p>
             <p><b>Financiamento:</b> {{$venda->financiamento ? 'Sim' : 'Não'}}</p>
             <p><b>Data da Venda:</b> {{$venda->created_at->format('d/m/Y')}}</p>
@@ -131,6 +131,12 @@
             </div>
         </div>
     </div>
+
+    <footer class="bg-violet-600 text-white py-4 fixed bottom-0 w-full">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">© 2024 Sistema de Venda de Veículos. Todos os direitos reservados.</p>
+        </div>
+    </footer>
     
 
 <script>

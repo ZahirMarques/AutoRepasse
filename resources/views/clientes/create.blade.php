@@ -161,47 +161,74 @@
 
     <!-- Main Content -->
     <div class="bg-cover grid place-items-center min-h-screen pt-24">
-        <div class="max-w-3xl w-full px-6 py-4 bg-white rounded-lg shadow-xl">
-            <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Cadastrar Cliente</h1>
-            <form action="{{ url('/clientes/store') }}" method="post">
-                @csrf
+    <div class="max-w-3xl w-full px-6 py-4 bg-white rounded-lg shadow-xl">
+        <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Cadastrar Cliente</h1>
+        <form action="{{ url('/clientes/store') }}" method="post">
+            @csrf
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Nome:</label>
-                        <input type="text" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Cidade:</label>
-                        <input type="text" name="cidade" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Estado:</label>
-                        <input type="text" name="estado" oninput="formatEstado(this)" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">CPF:</label>
-                        <input type="text" name="cpf" oninput="formatCPF(this)" maxlength="14" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
-                        @error('cpf')
-                            <div style="color: red;">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">CNPJ:</label>
-                        <input type="text" name="cnpj" oninput="formatCNPJ(this)" maxlength="18" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Contato:</label>
-                        <input type="text" name="contato" oninput="formatContato(this)" maxlength="15" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
-                    </div>
+                <!-- Tipo de Cliente -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Tipo de Cliente:</label>
+                    <select id="tipoCliente" name="tipo_cliente" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm" onchange="toggleCPF_CNPJ()">
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="fisica">Pessoa Física</option>
+                        <option value="juridica">Pessoa Jurídica</option>
+                    </select>
                 </div>
-                <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded hover:bg-violet-700 p-3 ">Cadastrar</button>
-            </form>
-        </div>
+
+                <!-- Nome -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nome:</label>
+                    <input type="text" name="nome" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                </div>
+
+                <!-- Cidade -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Cidade:</label>
+                    <input type="text" name="cidade" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                </div>
+
+                <!-- Estado -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Estado:</label>
+                    <input type="text" name="estado" oninput="formatEstado(this)" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                </div>
+
+                <!-- CPF -->
+                <div id="cpfField">
+                    <label class="block text-sm font-medium text-gray-700">CPF:</label>
+                    <input type="text" name="cpf" oninput="formatCPF(this)" maxlength="14" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                    @error('cpf')
+                        <div style="color: red;">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- CNPJ -->
+                <div id="cnpjField" style="display: none;">
+                    <label class="block text-sm font-medium text-gray-700">CNPJ:</label>
+                    <input type="text" name="cnpj" oninput="formatCNPJ(this)" maxlength="18" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                </div>
+
+                <!-- Contato -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Contato:</label>
+                    <input type="text" name="contato" oninput="formatContato(this)" maxlength="15" class="mt-1 p-2 block w-full border border-gray-300 rounded text-sm">
+                </div>
+            </div>
+            <button class="mt-6 w-full py-3 px-4 bg-violet-600 font-bold text-white rounded hover:bg-violet-700 p-3">Cadastrar</button>
+        </form>
     </div>
+
+</div>
+
+<footer class="bg-violet-600 text-white py-4 fixed bottom-0 w-full">
+    <div class="container mx-auto text-center">
+        <p class="text-sm">© 2024 Sistema de Venda de Veículos. Todos os direitos reservados.</p>
+    </div>
+</footer>
+
 </body>
 
 <script>
@@ -325,6 +352,23 @@
         }
     }
 }
+
+function toggleCPF_CNPJ() {
+        const tipoCliente = document.getElementById('tipoCliente').value;
+        const cpfField = document.getElementById('cpfField');
+        const cnpjField = document.getElementById('cnpjField');
+
+        if (tipoCliente === 'fisica') {
+            cpfField.style.display = 'block';
+            cnpjField.style.display = 'none';
+        } else if (tipoCliente === 'juridica') {
+            cpfField.style.display = 'none';
+            cnpjField.style.display = 'block';
+        } else {
+            cpfField.style.display = 'none';
+            cnpjField.style.display = 'none';
+        }
+    }
 
 </script>
 

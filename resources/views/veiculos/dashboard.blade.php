@@ -197,6 +197,11 @@
     </div>
 </div>
 
+<footer class="bg-violet-600 text-white py-4 mt-6">
+    <div class="container mx-auto text-center">
+        <p class="text-sm">© 2024 Sistema de Venda de Veículos. Todos os direitos reservados.</p>
+    </div>
+</footer>
 
     <script>
         function searchVehicles() {

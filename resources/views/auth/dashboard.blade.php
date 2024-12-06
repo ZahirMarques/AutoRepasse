@@ -108,7 +108,7 @@
 
         <!-- Todas as Vendas -->
         <div class="bg-white shadow-md rounded-lg p-4">
-            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center">Vendas</h1>
+            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center hover:text-sky-700 transition cursor-pointer" onclick="window.location.href='/vendas/dashboard'">Vendas</h1>
             <div class="mb-4">
                 <!-- Barra de Pesquisa para Vendas -->
                 <input type="text" id="searchVendas" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Pesquisar por veículo, comprador..." onkeyup="filterList('vendas')">
@@ -116,7 +116,7 @@
             <div class="h-[32rem] overflow-y-auto">
                 <ul id="vendasList">
                     @foreach ($vendas as $venda)
-                    <li class="mb-4 p-4 bg-white rounded-lg border-2 border-sky-600 hover:shadow-xl transition cursor-pointer" onclick="window.location.href='/vendas/dashboard'">
+                    <li class="mb-4 p-4 bg-white rounded-lg border-2 border-sky-600 hover:shadow-xl transition cursor-pointer" onclick="window.location.href='/vendas/show/{{$venda->id}}'">
                         <p><strong>{{ $venda->veiculo->marca }} {{ $venda->veiculo->modelo }}</p></strong>
                         <p><strong>Comprador:</strong> {{ $venda->cliente->nome }}</p>
                         <p><strong>ID da Venda:</strong> {{ $venda->id }}</p>
@@ -129,7 +129,7 @@
 
         <!-- Todos os Veículos -->
         <div class="bg-white shadow-md rounded-lg p-4">
-            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center">Veículos Disponíveis</h1>
+            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center hover:text-sky-700 transition cursor-pointer" onclick="window.location.href='/veiculos/dashboard'">Veículos Disponíveis</h1>
             <div class="mb-4">
                 <!-- Barra de Pesquisa para Veículos -->
                 <input type="text" id="searchVeiculos" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Pesquisar por modelo, marca..." onkeyup="filterList('veiculos')">
@@ -151,7 +151,7 @@
 
         <!-- Todos os Clientes -->
         <div class="bg-white shadow-md rounded-lg p-4">
-            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center">Clientes</h1>
+            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center hover:text-sky-700 transition cursor-pointer" onclick="window.location.href='/clientes/dashboard'">Clientes</h1>
             <div class="mb-4">
                 <!-- Barra de Pesquisa para Clientes -->
                 <input type="text" id="searchClientes" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Pesquisar por nome, cidade..." onkeyup="filterList('clientes')">
@@ -171,6 +171,12 @@
         </div>
     </div>
 </main>
+
+<footer class="bg-violet-600 text-white py-4 fixed bottom-0 w-full">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">© 2024 Sistema de Venda de Veículos. Todos os direitos reservados.</p>
+        </div>
+    </footer>
 
     <script>
         (function() {
