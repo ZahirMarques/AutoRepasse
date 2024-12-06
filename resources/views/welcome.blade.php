@@ -66,7 +66,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <!-- Left Section -->
                 <div class="text-center space-y-6">
-                    <img src="{{ asset('img/autorepasse.png') }}" alt="Imagem AutoRepasse" class="mx-auto w-10/12">
+                    <img src="{{ asset('img/auto.png') }}" alt="Imagem AutoRepasse" class="mx-auto w-10/12">
                     <p class="text-sg font-semibold leading-snug text-gray-800">
                         Cadastre-se agora na AutoRepasse e transforme sua concessionária com a melhor solução em gestão de vendas automotivas, garantindo eficiência, produtividade e agilidade na busca de informações.
                     </p>

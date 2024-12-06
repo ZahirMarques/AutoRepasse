@@ -104,14 +104,19 @@
                     </div>
                 </div>
 
-
                 <!-- Logout Button -->
-                <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 ml-4">
+                <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 ml-4" onsubmit="return confirmLogout()">
                     @csrf
                     <button class="text-gray-700 text-sm hover:text-red-500">
                         Sair
                     </button>
                 </form>
+
+                <script>
+                    function confirmLogout() {
+                        return confirm("Tem certeza que deseja sair?");
+                    }
+                </script>
             </div>
 
             <!-- Mobile Menu Toggle -->
