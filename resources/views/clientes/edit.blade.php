@@ -70,58 +70,57 @@
         <div class="container mx-auto px-4 flex flex-wrap items-center justify-center">
             <!-- Logo -->
             <div class="flex items-center absolute left-4">
-                <img src="{{ asset('img/autorepasse.png') }}" alt="Imagem AutoRepasse" class="w-26 h-8">
+                <img src="{{ asset('img/auto.png') }}" alt="Imagem AutoRepasse" class="w-20 h-12">
             </div>
 
             <!-- Navigation Links (Desktop) -->
             <div class="flex items-center space-x-8 text-base font-semibold text-gray-700 md:flex hidden">
-                <a href="{{ url('/dashboard') }}" 
-                   class="{{ request()->is('dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                <a href="{{ url('/dashboard') }}"
+                   class="{{ request()->is('dashboard') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                    Dashboard
                 </a>
 
                 <!-- Veículos Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/veiculos/dashboard') }}" 
-                       class="{{ request()->is('veiculos/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    <a href="{{ url('/veiculos/dashboard') }}"
+                       class="{{ request()->is('veiculos/*') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                        Veículos
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="dropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/veiculos/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Veículos Cadastrados</a>
-                        <a href="{{ url('/veiculos/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Veículo</a>
+                        <a href="{{ url('/veiculos/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Veículos Cadastrados</a>
+                        <a href="{{ url('/veiculos/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Cadastrar Veículo</a>
                     </div>
                 </div>
 
-                <!-- Vendas Dropdown -->
+                <!-- Dropdown Menu -->
                 <div class="group relative">
-                    <a href="{{ url('/vendas/dashboard') }}" 
-                    class="{{ request()->is('vendas/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    <a href="{{ url('/vendas/dashboard') }}"
+                    class="{{ request()->is('vendas/*') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                     Vendas
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="vendasDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/vendas/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Vendas Cadastradas</a>
-                        <a href="{{ url('/vendas/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Venda</a>
+                        <a href="{{ url('/vendas/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Vendas Cadastradas</a>
+                        <a href="{{ url('/vendas/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Cadastrar Venda</a>
                     </div>
                 </div>
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
-                    <a href="{{ url('/clientes/dashboard') }}" 
-                    class="{{ request()->is('clientes/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    <a href="{{ url('/clientes/dashboard') }}"
+                    class="{{ request()->is('clientes/*') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                     Clientes
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
-                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
+                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Clientes Cadastrados</a>
+                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Cadastrar Cliente</a>
                     </div>
                 </div>
-
 
                 <!-- Logout Button -->
                 <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 ml-4" onsubmit="return confirmLogout()">
@@ -150,10 +149,10 @@
 
         <!-- Mobile Dropdown Menu -->
         <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
-            <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
-            <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
-            <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
-            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Dashboard</a>
+            <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Veículos</a>
+            <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-[#5277ff]">Vendas</a>
+            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Clientes</a>
             <!-- Logout Button -->
             <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
                 @csrf

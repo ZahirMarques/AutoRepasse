@@ -10,59 +10,60 @@
 <body class="bg-gray-100">
 
     <!-- Navbar -->
-    <nav class="bg-white shadow-md py-6 border-b-2 fixed top-0 left-0 w-full z-10">
+<!-- Navbar -->
+<nav class="bg-white shadow-md py-6 border-b-2 fixed top-0 left-0 w-full z-10">
         <div class="container mx-auto px-4 flex flex-wrap items-center justify-center">
             <!-- Logo -->
             <div class="flex items-center absolute left-4">
-                <img src="{{ asset('img/autorepasse.png') }}" alt="Imagem AutoRepasse" class="w-26 h-8">
+                <img src="{{ asset('img/auto.png') }}" alt="Imagem AutoRepasse" class="w-20 h-12">
             </div>
 
             <!-- Navigation Links (Desktop) -->
             <div class="flex items-center space-x-8 text-base font-semibold text-gray-700 md:flex hidden">
                 <a href="{{ url('/dashboard') }}"
-                   class="{{ request()->is('dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                   class="{{ request()->is('dashboard') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                    Dashboard
                 </a>
 
                 <!-- Veículos Dropdown -->
                 <div class="group relative">
                     <a href="{{ url('/veiculos/dashboard') }}"
-                       class="{{ request()->is('veiculos/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                       class="{{ request()->is('veiculos/dashboard') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                        Veículos
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="dropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/veiculos/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Veículos Cadastrados</a>
-                        <a href="{{ url('/veiculos/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Veículo</a>
+                        <a href="{{ url('/veiculos/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Veículos Cadastrados</a>
+                        <a href="{{ url('/veiculos/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Cadastrar Veículo</a>
                     </div>
                 </div>
 
-                <!-- Vendas Dropdown -->
+                <!-- Dropdown Menu -->
                 <div class="group relative">
                     <a href="{{ url('/vendas/dashboard') }}"
-                    class="{{ request()->is('vendas/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    class="{{ request()->is('vendas/*') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                     Vendas
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="vendasDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/vendas/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Vendas Cadastradas</a>
-                        <a href="{{ url('/vendas/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Venda</a>
+                        <a href="{{ url('/vendas/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Vendas Cadastradas</a>
+                        <a href="{{ url('/vendas/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Cadastrar Venda</a>
                     </div>
                 </div>
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
                     <a href="{{ url('/clientes/dashboard') }}"
-                    class="{{ request()->is('clientes/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    class="{{ request()->is('clientes/*') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                     Clientes
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
-                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
+                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Clientes Cadastrados</a>
+                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Cadastrar Cliente</a>
                     </div>
                 </div>
 
@@ -93,10 +94,10 @@
 
         <!-- Mobile Dropdown Menu -->
         <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
-            <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
-            <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
-            <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
-            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Dashboard</a>
+            <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Veículos</a>
+            <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-[#5277ff]">Vendas</a>
+            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Clientes</a>
             <!-- Logout Button -->
             <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
                 @csrf
@@ -111,22 +112,22 @@
     <div class="pt-24 min-h-screen flex justify-center items-start">
     <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg w-full lg:w-2/3">
 
-        <h1 class="text-2xl font-bold text-center text-violet-600 mb-8">Clientes Cadastrados</h1>
+        <h1 class="text-2xl font-bold text-center text-[#5277ff] mb-8">Clientes Cadastrados</h1>
 
         <!-- Botão Cadastrar Novo Cliente e Barra de Pesquisa -->
         <div class="flex justify-between items-center mb-6">
             <button onclick="window.location.href='/clientes/create'"
-                    class="px-6 py-2 bg-violet-600 text-white font-bold rounded-lg shadow-lg hover:bg-violet-700">
+                    class="px-6 py-2 bg-[#5277ff] text-white font-bold rounded-lg shadow-lg hover:bg-[#3253CB]">
                 Cadastrar Novo Cliente
             </button>
 
             <button onclick="window.print()"
-                    class="px-6 py-2 border-2 border-violet-600 text-violet-600 font-bold rounded-lg shadow-lg hover:bg-gray-100 ml-2"> <!-- Adicionada margem à esquerda -->
+                    class="px-6 py-2 border-2 border-[#5277ff] text-[#5277ff] font-bold rounded-lg shadow-lg hover:bg-gray-100 ml-2"> <!-- Adicionada margem à esquerda -->
                 Imprimir
             </button>
 
             <div class="relative w-2/3"> <!-- Aumentando a largura da barra de pesquisa -->
-                <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600"
+                <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#5277ff]"
                     placeholder="Pesquisar por cliente..." onkeyup="searchClients()">
             </div>
         </div>
@@ -148,7 +149,7 @@
             <ul class="list-none p-0">
                 @if (isset($clientes) && count($clientes) > 0)
                     @foreach ($clientes as $cliente)
-                        <li class="mb-6 p-6 bg-white rounded-lg border-2 border-blue-500 hover:shadow-xl transition client-item">
+                        <li class="mb-6 p-6 bg-white rounded-lg border-2 border-[#5277ff] hover:shadow-xl transition client-item">
                             <div class="flex items-center space-x-6">
                                 <div class="flex-1 cursor-pointer" onclick="window.location.href='/clientes/show/{{$cliente->id}}'">
                                     <p class="text-xl font-semibold text-gray-700"><strong>{{ $cliente->nome }}</strong></p>
@@ -161,7 +162,7 @@
                                     <form action="/clientes/edit/{{ $cliente->id }}" method="get" class="inline">
                                         @csrf
                                         <button type="submit"
-                                                class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
+                                                class="px-4 py-2 bg-[#5277ff] text-white font-bold rounded-lg hover:bg-[#3253CB] transition">
                                             Editar
                                         </button>
                                     </form>
@@ -185,7 +186,7 @@
     </div>
 </div>
 
-<footer class="bg-violet-600 text-white py-4 mt-6">
+<footer class="bg-white border-t-2 border-gray-300 text-black py-4 mt-6">
     <div class="container mx-auto text-center">
         <p class="text-sm">© 2024 Sistema de Venda de Veículos. Todos os direitos reservados.</p>
     </div>

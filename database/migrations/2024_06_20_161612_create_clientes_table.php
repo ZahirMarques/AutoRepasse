@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('nome', 45)->nullable(false);
             $table->string('cidade', 45)->nullable(false);
             $table->string('estado', 2)->nullable(false);
-            $table->string('cpf', 14)->nullable(true); // Alterado para 14 caracteres
+            $table->string('cpf', 14)->nullable(true); 
             $table->string('cnpj', 18)->nullable(true);
-            $table->string('contato', 15)->nullable(true); // Corrigido "nullabe" para "nullable"
+            $table->string('contato', 15)->nullable(true);
             $table->timestamps();
         });
     }

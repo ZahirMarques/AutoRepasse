@@ -14,55 +14,55 @@
         <div class="container mx-auto px-4 flex flex-wrap items-center justify-center">
             <!-- Logo -->
             <div class="flex items-center absolute left-4">
-                <img src="{{ asset('img/autorepasse.png') }}" alt="Imagem AutoRepasse" class="w-26 h-8">
+                <img src="{{ asset('img/auto.png') }}" alt="Imagem AutoRepasse" class="w-20 h-12">
             </div>
 
             <!-- Navigation Links (Desktop) -->
             <div class="flex items-center space-x-8 text-base font-semibold text-gray-700 md:flex hidden">
                 <a href="{{ url('/dashboard') }}"
-                   class="{{ request()->is('dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                   class="{{ request()->is('dashboard') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                    Dashboard
                 </a>
 
                 <!-- Veículos Dropdown -->
                 <div class="group relative">
                     <a href="{{ url('/veiculos/dashboard') }}"
-                       class="{{ request()->is('veiculos/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                       class="{{ request()->is('veiculos/dashboard') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                        Veículos
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="dropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/veiculos/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Veículos Cadastrados</a>
-                        <a href="{{ url('/veiculos/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Veículo</a>
+                        <a href="{{ url('/veiculos/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Veículos Cadastrados</a>
+                        <a href="{{ url('/veiculos/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Cadastrar Veículo</a>
                     </div>
                 </div>
 
                 <!-- Dropdown Menu -->
                 <div class="group relative">
                     <a href="{{ url('/vendas/dashboard') }}"
-                    class="{{ request()->is('vendas/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    class="{{ request()->is('vendas/*') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                     Vendas
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="vendasDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/vendas/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Vendas Cadastradas</a>
-                        <a href="{{ url('/vendas/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Venda</a>
+                        <a href="{{ url('/vendas/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Vendas Cadastradas</a>
+                        <a href="{{ url('/vendas/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Cadastrar Venda</a>
                     </div>
                 </div>
 
                 <!-- Clientes Dropdown -->
                 <div class="group relative">
                     <a href="{{ url('/clientes/dashboard') }}"
-                    class="{{ request()->is('clientes/dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                    class="{{ request()->is('clientes/dashboard') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                     Clientes
                     </a>
 
                     <!-- Dropdown Menu -->
                     <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
-                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
+                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Clientes Cadastrados</a>
+                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Cadastrar Cliente</a>
                     </div>
                 </div>
 
@@ -93,10 +93,10 @@
 
         <!-- Mobile Dropdown Menu -->
         <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
-            <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
-            <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
-            <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
-            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Dashboard</a>
+            <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Veículos</a>
+            <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-[#5277ff]">Vendas</a>
+            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Clientes</a>
             <!-- Logout Button -->
             <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
                 @csrf
@@ -113,15 +113,15 @@
 
         <!-- Todas as Vendas -->
         <div class="bg-white shadow-md rounded-lg p-4">
-            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center hover:text-sky-700 transition cursor-pointer" onclick="window.location.href='/vendas/dashboard'">Vendas</h1>
+            <h1 class="text-2xl font-bold text-[#5277ff] mb-3 text-center hover:text-[#3253CB] transition cursor-pointer" onclick="window.location.href='/vendas/dashboard'">Vendas</h1>
             <div class="mb-4">
                 <!-- Barra de Pesquisa para Vendas -->
-                <input type="text" id="searchVendas" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Pesquisar por veículo, comprador..." onkeyup="filterList('vendas')">
+                <input type="text" id="searchVendas" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#5277ff]" placeholder="Pesquisar por veículo, comprador..." onkeyup="filterList('vendas')">
             </div>
             <div class="h-[32rem] overflow-y-auto">
                 <ul id="vendasList">
                     @foreach ($vendas as $venda)
-                    <li class="mb-4 p-4 bg-white rounded-lg border-2 border-sky-600 hover:shadow-xl transition cursor-pointer" onclick="window.location.href='/vendas/show/{{$venda->id}}'">
+                    <li class="mb-4 p-4 bg-white rounded-lg border-2 border-[#5277ff] hover:shadow-xl transition cursor-pointer" onclick="window.location.href='/vendas/show/{{$venda->id}}'">
                         <p><strong>{{ $venda->veiculo->marca }} {{ $venda->veiculo->modelo }}</p></strong>
                         <p><strong>Comprador:</strong> {{ $venda->cliente->nome }}</p>
                         <p><strong>ID da Venda:</strong> {{ $venda->id }}</p>
@@ -134,15 +134,15 @@
 
         <!-- Todos os Veículos -->
         <div class="bg-white shadow-md rounded-lg p-4">
-            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center hover:text-sky-700 transition cursor-pointer" onclick="window.location.href='/veiculos/dashboard'">Veículos Disponíveis</h1>
+            <h1 class="text-2xl font-bold text-[#5277ff] mb-3 text-center hover:text-[#3253CB] transition cursor-pointer" onclick="window.location.href='/veiculos/dashboard'">Veículos Disponíveis</h1>
             <div class="mb-4">
                 <!-- Barra de Pesquisa para Veículos -->
-                <input type="text" id="searchVeiculos" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Pesquisar por modelo, marca..." onkeyup="filterList('veiculos')">
+                <input type="text" id="searchVeiculos" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#5277ff]" placeholder="Pesquisar por modelo, marca..." onkeyup="filterList('veiculos')">
             </div>
             <div class="h-[32rem] overflow-y-auto">
                 <ul id="veiculosList">
                     @foreach ($veiculos as $veiculo)
-                    <li class="mb-4 p-4 bg-white border-2 border-sky-600 rounded-lg hover:shadow-xl transition cursor-pointer" onclick="window.location.href='/veiculos/show/{{$veiculo->id}}'">
+                    <li class="mb-4 p-4 bg-white border-2 border-[#5277ff] rounded-lg hover:shadow-xl transition cursor-pointer" onclick="window.location.href='/veiculos/show/{{$veiculo->id}}'">
                         <p><strong>{{ $veiculo->marca }} {{ $veiculo->modelo }} </strong></p>
                         <p><strong>Ano/Modelo: </strong> {{ $veiculo->ano_modelo }}</p>
                         <p><strong>Placa: </strong>{{ $veiculo->placa }}</p>
@@ -156,10 +156,10 @@
 
         <!-- Todos os Clientes -->
         <div class="bg-white shadow-md rounded-lg p-4">
-            <h1 class="text-2xl font-bold text-sky-600 mb-3 text-center hover:text-sky-700 transition cursor-pointer" onclick="window.location.href='/clientes/dashboard'">Clientes</h1>
+            <h1 class="text-2xl font-bold text-[#5277ff] mb-3 text-center hover:text-[#3253CB] transition cursor-pointer" onclick="window.location.href='/clientes/dashboard'">Clientes</h1>
             <div class="mb-4">
                 <!-- Barra de Pesquisa para Clientes -->
-                <input type="text" id="searchClientes" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-600" placeholder="Pesquisar por nome, cidade..." onkeyup="filterList('clientes')">
+                <input type="text" id="searchClientes" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#5277ff]" placeholder="Pesquisar por nome, cidade..." onkeyup="filterList('clientes')">
             </div>
             <div class="h-[32rem] overflow-y-auto">
                 <ul id="clientesList">
@@ -177,7 +177,7 @@
     </div>
 </main>
 
-<footer class="bg-violet-600 text-white py-4 fixed bottom-0 w-full">
+<footer class="border-t-2 border-gray-300 bg-white text-black py-4 fixed bottom-0 w-full">
         <div class="container mx-auto text-center">
             <p class="text-sm">© 2024 Sistema de Venda de Veículos. Todos os direitos reservados.</p>
         </div>
