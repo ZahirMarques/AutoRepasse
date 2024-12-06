@@ -12,57 +12,63 @@
 
 <!-- Navbar -->
 <nav class="bg-white shadow-md py-6 border-b-2 fixed top-0 left-0 w-full z-10">
-    <div class="container mx-auto px-4 flex flex-wrap items-center justify-center">
-        <!-- Logo -->
-        <div class="flex items-center absolute left-4">
-            <img src="{{ asset('img/autorepasse.png') }}" alt="Imagem AutoRepasse" class="w-26 h-8">
-        </div>
-
-        <!-- Navigation Links (Desktop) -->
-        <div class="flex items-center space-x-8 text-base font-semibold text-gray-700 md:flex hidden">
-            <a href="{{ url('/dashboard') }}" 
-               class="{{ request()->is('dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
-               Dashboard
-            </a>
-
-            <div class="group relative">
-                <a href="{{ url('/veiculos/dashboard') }}" 
-                   class="{{ request()->is('veiculos/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
-                   Veículos
-                </a>
-                <div id="dropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                    <a href="{{ url('/veiculos/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Veículos Cadastrados</a>
-                    <a href="{{ url('/veiculos/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Veículo</a>
-                </div>
+        <div class="container mx-auto px-4 flex flex-wrap items-center justify-center">
+            <!-- Logo -->
+            <div class="flex items-center absolute left-4">
+                <img src="{{ asset('img/auto.png') }}" alt="Imagem AutoRepasse" class="w-20 h-12">
             </div>
 
-            <!-- Vendas Dropdown -->
-            <div class="group relative">
-                <a href="{{ url('/vendas/dashboard') }}" 
-                class="{{ request()->is('vendas/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
-                Vendas
+            <!-- Navigation Links (Desktop) -->
+            <div class="flex items-center space-x-8 text-base font-semibold text-gray-700 md:flex hidden">
+                <a href="{{ url('/dashboard') }}"
+                   class="{{ request()->is('dashboard') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
+                   Dashboard
                 </a>
+
+                <!-- Veículos Dropdown -->
+                <div class="group relative">
+                    <a href="{{ url('/veiculos/dashboard') }}"
+                       class="{{ request()->is('veiculos/*') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
+                       Veículos
+                    </a>
+
+                    <!-- Dropdown Menu -->
+                    <div id="dropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
+                        <a href="{{ url('/veiculos/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Veículos Cadastrados</a>
+                        <a href="{{ url('/veiculos/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Cadastrar Veículo</a>
+                    </div>
+                </div>
 
                 <!-- Dropdown Menu -->
-                <div id="vendasDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                    <a href="{{ url('/vendas/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Vendas Cadastradas</a>
-                    <a href="{{ url('/vendas/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Venda</a>
-                </div>
-            </div>
+                <div class="group relative">
+                    <a href="{{ url('/vendas/dashboard') }}"
+                    class="{{ request()->is('vendas/*') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
+                    Vendas
+                    </a>
 
-            <div class="group relative">
-                <a href="{{ url('/clientes/dashboard') }}" 
-                   class="{{ request()->is('clientes/*') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
-                   Clientes
-                </a>
-                <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
-                    <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Clientes Cadastrados</a>
-                    <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-indigo-600">Cadastrar Cliente</a>
+                    <!-- Dropdown Menu -->
+                    <div id="vendasDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
+                        <a href="{{ url('/vendas/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Vendas Cadastradas</a>
+                        <a href="{{ url('/vendas/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Cadastrar Venda</a>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Logout Button -->
-            <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 ml-4" onsubmit="return confirmLogout()">
+                <!-- Clientes Dropdown -->
+                <div class="group relative">
+                    <a href="{{ url('/clientes/dashboard') }}"
+                    class="{{ request()->is('clientes/*') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
+                    Clientes
+                    </a>
+
+                    <!-- Dropdown Menu -->
+                    <div id="clientesDropdownMenu" class="absolute left-0 hidden mt-2 space-y-2 bg-white border border-gray-300 rounded-lg shadow-lg opacity-0 transition-opacity duration-200">
+                        <a href="{{ url('/clientes/dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Clientes Cadastrados</a>
+                        <a href="{{ url('/clientes/create') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-[#5277ff]">Cadastrar Cliente</a>
+                    </div>
+                </div>
+
+                <!-- Logout Button -->
+                <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 ml-4" onsubmit="return confirmLogout()">
                     @csrf
                     <button class="text-gray-700 text-sm hover:text-red-500">
                         Sair
@@ -74,38 +80,38 @@
                         return confirm("Tem certeza que deseja sair?");
                     }
                 </script>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="md:hidden flex items-center ml-auto">
+                <button id="menuToggle" class="text-gray-700 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
         </div>
 
-        <!-- Mobile Menu Toggle -->
-        <div class="md:hidden flex items-center ml-auto">
-            <button id="menuToggle" class="text-gray-700 focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
+            <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Dashboard</a>
+            <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Veículos</a>
+            <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-[#5277ff]">Vendas</a>
+            <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Clientes</a>
+            <!-- Logout Button -->
+            <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
+                @csrf
+                <button class="text-gray-700 text-sm hover:text-red-500">
+                    Sair
+                </button>
+            </form>
         </div>
-    </div>
-
-    <!-- Mobile Dropdown Menu -->
-    <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
-        <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
-        <a href="{{ url('/veiculos/dashboard') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
-        <a href="{{ url('/vendas/create') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
-        <a href="{{ url('/clientes/dashboard') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
-        <!-- Logout Button -->
-        <form action="{{ url('/logout') }}" method="post" class="flex items-center space-x-2 mt-4">
-            @csrf
-            <button class="text-gray-700 text-sm hover:text-red-500">
-                Sair
-            </button>
-        </form>
-    </div>
-</nav>
+    </nav>
 
 <!-- Main Content -->
 <div class="bg-cover grid place-items-center min-h-screen pt-24 from-white">
     <div class="max-w-3xl w-full px-6 py-4 bg-white rounded-lg shadow-xl">
-        <h1 class="text-2xl font-bold text-center text-violet-600 mb-6">Informações do Cliente</h1>
+        <h1 class="text-2xl font-bold text-center text-[#5277ff] mb-6">Informações do Cliente</h1>
         <h2 class="text-lg font-bold text-gray-700 mb-4">Nome: {{$cliente->nome}}</h2>
         <p><b>Cidade: </b> {{$cliente->cidade}}</p>
         <p><b>Estado:</b> {{$cliente->estado}}</p>
@@ -114,14 +120,14 @@
         <p><b>Contato:</b> {{$cliente->contato}}</p>
 
         <div class="mt-6">
-            <a href="{{ url('/clientes/dashboard') }}" class="py-2 px-4 bg-violet-600 text-white font-bold rounded hover:bg-violet-700">
+            <a href="{{ url('/clientes/dashboard') }}" class="py-2 px-4 bg-[#5277ff] text-white font-bold rounded hover:bg-[#3253CB]">
                 Voltar
             </a>
         </div>
     </div>
 </div>
 
-<footer class="bg-violet-600 text-white py-4 fixed bottom-0 w-full">
+<footer class="bg-white border-t-2 border-gray-300 text-black py-4 fixed bottom-0 w-full">
     <div class="container mx-auto text-center">
         <p class="text-sm">© 2024 Sistema de Venda de Veículos. Todos os direitos reservados.</p>
     </div>

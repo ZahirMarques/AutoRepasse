@@ -16,25 +16,25 @@
         <div class="container mx-auto px-4 flex flex-wrap items-center justify-center">
             <!-- Logo -->
             <div class="flex items-center absolute left-4">
-                <img src="{{ asset('img/autorepasse.png') }}" alt="Imagem AutoRepasse" class="w-26 h-8">
+                <img src="{{ asset('img/auto.png') }}" alt="Imagem AutoRepasse" class="w-20 h-12">
             </div>
 
             <!-- Navigation Links -->
             <div class="flex items-center space-x-8 text-base font-semibold text-gray-700 md:flex hidden">
                 <a href="{{ url('/dashboard') }}" 
-                   class="{{ request()->is('dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                   class="{{ request()->is('dashboard') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                    Dashboard
                 </a>
-                <a href="{{ url('/veiculos') }}" 
-                   class="{{ request()->is('veiculos') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                <a href="{{ url('/veiculos/dashboard') }}" 
+                   class="{{ request()->is('veiculos') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                    Veículos
                 </a>
-                <a href="{{ url('/vendas') }}" 
-                   class="{{ request()->is('vendas') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                <a href="{{ url('/vendas/dashboard') }}" 
+                   class="{{ request()->is('vendas') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                    Vendas
                 </a>
-                <a href="{{ url('/clientes') }}" 
-                   class="{{ request()->is('clientes') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                <a href="{{ url('/clientes/dashboard') }}" 
+                   class="{{ request()->is('clientes') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                    Clientes
                 </a>
             </div>
@@ -62,23 +62,35 @@
     <div class="flex-grow flex items-center justify-center px-4 pt-28"> <!-- pt-28 para compensar a navbar fixa -->
         <div class="bg-white shadow-2xl rounded-lg max-w-6xl w-full mx-4 p-8 flex flex-col space-y-8">
 
+                            @if (session('message'))
+                    <div id="alert" class="alert alert-warning bg-yellow-100 text-yellow-700 border border-yellow-300 p-4 mb-4 rounded flex justify-between items-center">
+                        {{ session('message') }}
+                    </div>
+
+                    <script>
+                        // Fazer a mensagem desaparecer automaticamente após 10 segundos
+                        setTimeout(function() {
+                            document.getElementById('alert').style.display = 'none';
+                        }, 5000);
+                    </script>
+                @endif
             <!-- Content Section -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <!-- Left Section -->
                 <div class="text-center space-y-6">
-                    <img src="{{ asset('img/auto.png') }}" alt="Imagem AutoRepasse" class="mx-auto w-10/12">
+                    <img src="{{ asset('img/auto.png') }}" alt="Imagem AutoRepasse" class="mx-auto w-8/12">
                     <p class="text-sg font-semibold leading-snug text-gray-800">
                         Cadastre-se agora na AutoRepasse e transforme sua concessionária com a melhor solução em gestão de vendas automotivas, garantindo eficiência, produtividade e agilidade na busca de informações.
                     </p>
-                    <button class="px-6 py-3 bg-violet-500 text-white font-bold rounded-lg hover:bg-violet-700 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onclick="window.location.href='/register'">
+                    <button class="px-6 py-3 bg-[#5277ff] text-white font-bold rounded-lg hover:bg-[#3253CB]" onclick="window.location.href='/register'">
                         Cadastre-se
                     </button>
                 </div>
 
                 <!-- Right Section -->
                 <div class="flex flex-col items-center border-l-2 border-gray-300 px-8">
-                    <h1 class="text-3xl font-bold text-violet-500 mb-8">Já possui uma conta?</h1>
-                    <div class="w-full max-w-sm bg-white border-2 border-violet-500 rounded-lg px-6 py-6 shadow-xl">
+                    <h1 class="text-3xl font-bold text-[#5277ff] mb-8">Já possui uma conta?</h1>
+                    <div class="w-full max-w-sm bg-white border-2 border-[#3253CB] rounded-lg px-6 py-6 shadow-xl">
                         <form action="{{url('/login')}}" method="POST" class="space-y-4">
                             @csrf
                             <!-- Email Field -->
@@ -100,7 +112,7 @@
                             </div>
 
                             <!-- Login Button -->
-                            <button class="w-full bg-violet-500 text-white py-2 font-bold rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                            <button class="w-full bg-[#5277ff] text-white py-2 font-bold rounded hover:bg-[#3253CB]">
                                 Login
                             </button>
                         </form>
@@ -111,7 +123,7 @@
         </div>
     </div>
 
-    <footer class="bg-violet-600 text-white py-4 fixed bottom-0 w-full">
+    <footer class="border-t-2 border-gray-300 bg-white text-black py-4 fixed bottom-0 w-full">
         <div class="container mx-auto text-center">
             <p class="text-sm">© 2024 Sistema de Venda de Veículos. Todos os direitos reservados.</p>
         </div>

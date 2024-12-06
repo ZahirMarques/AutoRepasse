@@ -16,25 +16,25 @@
         <div class="container mx-auto px-4 flex flex-wrap items-center justify-center">
             <!-- Logo -->
             <div class="flex items-center absolute left-4">
-                <img src="{{ asset('img/autorepasse.png') }}" alt="Imagem AutoRepasse" class="w-26 h-8">
+                <img src="{{ asset('img/auto.png') }}" alt="Imagem AutoRepasse" class="w-20 h-12">
             </div>
 
             <!-- Navigation Links -->
             <div class="flex items-center space-x-8 text-base font-semibold text-gray-700 md:flex hidden">
                 <a href="{{ url('/dashboard') }}" 
-                   class="{{ request()->is('dashboard') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                   class="{{ request()->is('dashboard') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                    Dashboard
                 </a>
-                <a href="{{ url('/veiculos') }}" 
-                   class="{{ request()->is('veiculos') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                <a href="{{ url('/veiculos/dashboard') }}" 
+                   class="{{ request()->is('veiculos') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                    Veículos
                 </a>
-                <a href="{{ url('/vendas') }}" 
-                   class="{{ request()->is('vendas') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                <a href="{{ url('/vendas/dashboard') }}" 
+                   class="{{ request()->is('vendas') ? 'text-[#5277ff]0 text-lg' : 'text-gray-500 text-sm' }} hover:text-[#5277ff]">
                    Vendas
                 </a>
-                <a href="{{ url('/clientes') }}" 
-                   class="{{ request()->is('clientes') ? 'text-blue-500 text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
+                <a href="{{ url('/clientes/dashboard') }}" 
+                   class="{{ request()->is('clientes') ? 'text-[#5277ff] text-lg' : 'text-gray-500 text-sm' }} hover:text-violet-500">
                    Clientes
                 </a>
             </div>
@@ -51,10 +51,10 @@
 
         <!-- Mobile Dropdown Menu -->
         <div id="mobileMenu" class="hidden md:hidden flex flex-col mt-4 space-y-4 bg-white px-4 py-2">
-            <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-violet-500">Dashboard</a>
-            <a href="{{ url('/veiculos') }}" class="text-gray-700 hover:text-violet-500">Veículos</a>
-            <a href="{{ url('/vendas') }}" class="text-gray-700 hover:text-violet-500">Vendas</a>
-            <a href="{{ url('/clientes') }}" class="text-gray-700 hover:text-violet-500">Clientes</a>
+            <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-[#5277ff]">Dashboard</a>
+            <a href="{{ url('/veiculos') }}" class="text-gray-700 hover:text-[#5277ff]">Veículos</a>
+            <a href="{{ url('/vendas') }}" class="text-gray-700 hover:text-[#5277ff]">Vendas</a>
+            <a href="{{ url('/clientes') }}" class="text-gray-700 hover:text-[#5277ff]">Clientes</a>
         </div>
     </nav>
 
@@ -66,19 +66,19 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <!-- Left Section -->
                 <div class="text-center space-y-6">
-                    <img src="{{ asset('img/autorepasse.png') }}" alt="Imagem AutoRepasse" class="mx-auto w-10/12">
+                    <img src="{{ asset('img/auto.png') }}" alt="Imagem AutoRepasse" class="mx-auto w-8/12">
                     <p class="text-sg font-semibold leading-snug text-gray-800">
                         Encontre o veículo dos seus sonhos na AutoRepasse! Controle total de vendas com a garantia de qualidade e confiança que você merece.
                     </p>
-                    <button class="px-6 py-3 bg-violet-500 text-white font-bold rounded-lg hover:bg-violet-700 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onclick="window.location.href='/'">
+                    <button class="px-6 py-3 bg-[#5277ff] text-white font-bold rounded-lg hover:bg-[#3253CB]" onclick="window.location.href='/'">
                         Voltar
                     </button>
                 </div>
 
                 <!-- Right Section -->
                 <div class="flex flex-col items-center border-l-2 border-gray-300 px-8">
-                    <h1 class="text-3xl font-bold text-violet-500 mb-8">Cadastre-se</h1>
-                    <div class="w-full max-w-sm bg-white border-2 border-violet-500 rounded-lg px-6 py-6 shadow-xl">
+                    <h1 class="text-3xl font-bold text-[#5277ff] mb-8">Cadastre-se</h1>
+                    <div class="w-full max-w-sm bg-white border-2 border-[#5277ff] rounded-lg px-6 py-6 shadow-xl">
                         <form action="{{url('/register')}}" method="POST" class="space-y-2">
                             @csrf
                             <!-- Name Field -->
@@ -109,7 +109,7 @@
                             </div>
 
                             <!-- Submit Button -->
-                            <button class="w-full bg-violet-500 text-white py-2 font-bold rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                            <button class="w-full bg-[#5277ff] text-white py-2 font-bold rounded hover:bg-[#3253CB]">
                                 Enviar
                             </button>
                         </form>
@@ -120,7 +120,7 @@
         </div>
     </div>
 
-    <footer class="bg-violet-600 text-white py-4 fixed bottom-0 w-full">
+    <footer class="border-t-2 border-gray-300 bg-white text-black py-4 fixed bottom-0 w-full">
         <div class="container mx-auto text-center">
             <p class="text-sm">© 2024 Sistema de Venda de Veículos. Todos os direitos reservados.</p>
         </div>
