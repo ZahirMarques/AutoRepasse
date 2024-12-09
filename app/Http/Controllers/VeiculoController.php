@@ -112,6 +112,9 @@ class VeiculoController extends Controller
             $query->where('situacao', $request->situacao);
         }
     }
+    if ($request->has('ocultar_vendidos')) {
+        $query->where('situacao', 'À venda');
+    }
 
     $veiculo = $query->get();
 

@@ -164,7 +164,7 @@
             <div class="h-[32rem] overflow-y-auto">
                 <ul id="clientesList">
                     @foreach ($clientes as $cliente)
-                    <li class="mb-4 p-4 bg-white rounded-lg border-2 border-sky-600 hover:shadow-xl transition cursor-pointer" onclick="window.location.href='/clientes/show/{{$cliente->id}}'">
+                    <li class="mb-4 p-4 bg-white rounded-lg border-2 border-[#5277ff] hover:shadow-xl transition cursor-pointer" onclick="window.location.href='/clientes/show/{{$cliente->id}}'">
                         <p><strong>Nome:</strong> {{ $cliente->nome }}</p>
                         <p><strong>ID:</strong> {{ $cliente->id }}</p>
                         <p><strong>Telefone:</strong> {{ $cliente->contato }}</p>

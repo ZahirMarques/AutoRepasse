@@ -130,6 +130,16 @@
                 <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#5277ff]"
                     placeholder="Pesquisar por veículo..." onkeyup="searchVehicles()">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h9" />
+
+                    <form id="filterForm" action="{{route('veiculos.dashboard')}}" method="GET">
+                        <label>
+                            <label>
+                                <input type="checkbox" name="ocultar_vendidos" value="1" 
+                                    {{ request('ocultar_vendidos') ? 'checked' : '' }}
+                                    onchange="document.getElementById('filterForm').submit()">
+                                <strong class= "text-gray-700"> Ocultar veículos vendidos </strong>
+                            </label>
+                    </form>
                 </svg>
             </div>
         </div>
